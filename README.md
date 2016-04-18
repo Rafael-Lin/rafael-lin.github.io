@@ -1,1 +1,1 @@
-*[My Portfolio Website]( ttp://rafael-lin.github.io/)*
+*[My Portfolio Website]( http://rafael-lin.github.io/)*
