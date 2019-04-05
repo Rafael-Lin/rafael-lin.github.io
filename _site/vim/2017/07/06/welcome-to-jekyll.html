@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.0 -->
+<title>vim fugitive | Rafael Lin’s blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="vim fugitive" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="vim－Fugitive" />
+<meta property="og:description" content="vim－Fugitive" />
+<link rel="canonical" href="http://localhost:4000/vim/2017/07/06/welcome-to-jekyll.html" />
+<meta property="og:url" content="http://localhost:4000/vim/2017/07/06/welcome-to-jekyll.html" />
+<meta property="og:site_name" content="Rafael Lin’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-07-06T19:20:07+08:00" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/vim/2017/07/06/welcome-to-jekyll.html","headline":"vim fugitive","description":"vim－Fugitive","dateModified":"2017-07-06T19:20:07+08:00","datePublished":"2017-07-06T19:20:07+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/vim/2017/07/06/welcome-to-jekyll.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Rafael Lin's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Rafael Lin&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">vim fugitive</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-07-06T19:20:07+08:00" itemprop="datePublished">Jul 6, 2017
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="vimfugitive">vim－Fugitive</h1>
+
+<p>use git quickly in vim</p>
+
+<p>https://github.com/tpope/vim-fugitive</p>
+
+<h2 id="basic-">basic :</h2>
+
+<ol>
+  <li><code class="highlighter-rouge">Git add %</code> : git add current file</li>
+  <li><code class="highlighter-rouge">Git checkout</code> / <code class="highlighter-rouge">Gread</code> : roll back</li>
+  <li><code class="highlighter-rouge">Git rm %</code> / <code class="highlighter-rouge">Gremove</code> : delete current file from repository</li>
+  <li><code class="highlighter-rouge">Git mv %</code>/ <code class="highlighter-rouge">Gmove</code> : rename the current buffer</li>
+  <li><code class="highlighter-rouge">Git Commit</code>/ <code class="highlighter-rouge">Gcommit</code> : commit</li>
+  <li><code class="highlighter-rouge">Git blame</code>/ <code class="highlighter-rouge">Gblame</code> : check who contribute each code previously</li>
+</ol>
+
+<h2 id="gstatus">Gstatus</h2>
+
+<p>open one <code class="highlighter-rouge">git status</code> windows, and you could use below command.</p>
+<ol>
+  <li><code class="highlighter-rouge">ctrl+ p/n</code> : check update</li>
+  <li><code class="highlighter-rouge">-</code> : add/reset that file</li>
+  <li><code class="highlighter-rouge">enter</code> : open that file</li>
+  <li><code class="highlighter-rouge">p</code> : run =git add -patch=</li>
+  <li><code class="highlighter-rouge">C</code> : git commit</li>
+</ol>
+
+<h2 id="gdiff">Gdiff</h2>
+<ol>
+  <li>left : buffer</li>
+  <li>right : current edited conent</li>
+  <li><code class="highlighter-rouge">:diffget</code> : pull the difference into current buffer  (do)</li>
+  <li><code class="highlighter-rouge">:diffput</code>: put the diff to another buffer (dp)</li>
+</ol>
+
+<h2 id="diff-for-solving-conflict">diff for solving conflict</h2>
+
+<p>打开冲突文件后使用Gdiff命令，可以看到三个窗口，其中中间的窗口是带冲突标记的文件，左边的是被并入的分支，也就是target分支，右边的是将要并入target的分支，即merge分支。</p>
+
+<p>为了区别三个buffer，fugitive用//2标记最左边的buffer，用//3标记最右边的窗口，而中间的窗口用其文件名标记。</p>
+
+<p>之后如果我们要接受左边buffer的更改，只需要执行:diffget //2就可以了。</p>
+
+<p>如果要从左边提交到中间窗口则需要运行:diffput 文件名。</p>
+
+<p>更改完成后，我们需要更新buffer，可以使用:diffupdate。</p>
+
+<p>关闭target和merge的buffer只需要运行:only就可以了。</p>
+
+<p>为了更加方便的使用:diffget和:diffput，do和dp作为get和put的缩写。</p>
+
+<p>浏览Git的对象数据库</p>
+
+<p>英文官方视频教程：http://vimcasts.org/episodes/fugitive-vim-browsing-the-git-object-database/</p>
+
+<p>允许你浏览其他分支文件的当前状态。</p>
+
+<p>假如我要浏览feature分支下的config.json文件的当前状态，可以执行如下：</p>
+
+<p>:Gedit feature:config.json
+之后可以继续执行:Gdiff来看看修改在哪里。</p>
+
+<p>Gedit命令允许你查看任何git对象下的任何文件，对于Git来说有4中对象：</p>
+
+<p>blobs - correspond to the content of a file
+trees - correspond to a directory on the filesystem, representing a list of blobs and trees
+commits - can reference a tree and one or more parent commits
+tags - refer to a particular commit by name
+这一节内容比较晦涩，建议观看视频。</p>
+
+<p>探索Git仓库的历史记录</p>
+
+<p>英文官方视频教程：http://vimcasts.org/episodes/fugitive-vim-exploring-the-history-of-a-git-repository/</p>
+
+<p>这一节主要讲解fugitive的:Ggrep和:Glog命令。</p>
+
+<p>:Glog load all previous revisions of the current file into the quickfix list</p>
+
+<p>:Glog -10 load the last ten previous revisions of the current file into the quickfix list</p>
+
+<p>:Glog -10 –reverse load the first ten revisions of the current file into the quickfix list (in reverse chronological order)</p>
+
+<p>:Glog -1 –until=yesterday load the last version of the current file that was checked in before midnight last night</p>
+
+<p>:Glog – load all ancestral commit objects into the quickfix list</p>
+
+<p>:Glog – % load all ancestral commit objects that touched the current file into the quickfix list</p>
+
+<p>:Ggrep findme tagname search for ‘findme’ in tag ‘tagname’</p>
+
+<p>git log –grep=findme find commit messages containing the text ‘findme’</p>
+
+<h2 id="spfvim13">spfvim13</h2>
+<p>set <code class="highlighter-rouge">&lt;leader&gt;</code> as <code class="highlighter-rouge">,</code>
+<code class="highlighter-rouge">nnoremap gs :Gstatus</code>
+<code class="highlighter-rouge">nnoremap gd :Gdiff</code>
+<code class="highlighter-rouge">nnoremap gc :Gcommit</code>
+<code class="highlighter-rouge">nnoremap gb :Gblame</code>
+<code class="highlighter-rouge">nnoremap gl :Glog</code>
+<code class="highlighter-rouge">nnoremap gp :Git push</code>
+<code class="highlighter-rouge">nnoremap gr :Gread</code>
+<code class="highlighter-rouge">nnoremap gw :Gwrite</code>
+<code class="highlighter-rouge">nnoremap ge :Gedit</code>
+<code class="highlighter-rouge">nnoremap gi :Git add -p %</code>
+<code class="highlighter-rouge">nnoremap gg :SignifyToggle</code></p>
+
+  </div><a class="u-url" href="/vim/2017/07/06/welcome-to-jekyll.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Rafael Lin&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Rafael Lin&#39;s blog</li><li><a class="u-email" href="mailto:kwang997@gmail.com">kwang997@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/Rafael-Lin"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">Rafael-Lin</span></a></li><li><a href="https://www.twitter.com/RafaelLin0310"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">RafaelLin0310</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a blog related to some technical data in case I forget it. # Write an awesome description for your new site here. You can edit this # line in _config.yml. It will appear in your document head meta (for # Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
