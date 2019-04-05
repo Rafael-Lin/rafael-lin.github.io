@@ -1,0 +1,1833 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-03-30 六 21:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="raflin" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6c203e3">1. design pattern</a>
+<ul>
+<li><a href="#orgdb0c686">1.1. OnStudioOperation : the op done by ds&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orge1f4014">1.1.1. code</a></li>
+<li><a href="#org3e71b2b">1.1.2. code</a></li>
+</ul>
+</li>
+<li><a href="#org5a57619">1.2. get notice from OperationEvent to change the UI status in dashboard&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgfe3172b">1.2.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org3e858f7">1.3. UIEventService&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org8785665">1.3.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org6c43ffb">1.4. delegate event function&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org12652b6">1.4.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgb2a5044">1.5. method invoker&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org81956c2">1.5.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org255c6c9">1.6. StudioEventService&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org3056eec">1.6.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgeec4da4">1.7. get InvocationList&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org44a3bd9">1.7.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org0e9d2ef">1.8. get resources from resource manager&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orga953ab9">1.8.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org0abad56">1.9. get/set F11Touchpad in solutionFacade&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org96da5c8">1.9.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org6f0602b">1.10. gethashcode template&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org82021f7">1.10.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgc9d6b5d">1.11. restore layout from xml file&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgb04f3ee">1.11.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org52a9c54">1.12. save layout&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgdf137cf">1.12.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgb28e0f1">1.13. list firstOrDefault&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgde0917e">1.13.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orge62256e">1.14. serrialize&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgea183d0">1.14.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org4c00333">1.15. sort csv by list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org029d919">1.15.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org3f16bf5">1.16. get flash identify value in dashboard&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org8f73e6e">1.16.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgfb762d2">1.17. throw exception in func&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org8c4da7c">1.17.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org02ce7ed">1.18. singleton&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgb0345dd">1.18.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org667ceff">1.19. read interrupt status&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org1d3ff6d">1.19.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org08f160f">1.20. mvc, controller get data from RMIFacade&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org64b6c0a">1.20.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orge3b2033">1.21. mvc, view : get notice from observer and get value from controller&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgf068f58">1.21.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org603db8e">1.22. launch one UIservice to notify other UI&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org01c3f26">1.22.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgfd8a981">1.23. another way to read resiter by _deviceHelper&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org8132279">1.23.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org09757ca">1.24. RunTimeState : get status update from OnStudioOperation&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org6ef0f57">1.24.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgace47a6">1.25. RMIFunctionFacade, helper from solution.instance.registermap&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org4d124bc">1.25.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org57fff8b">1.26. RMIFunctionFacade from device&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org470acbb">1.26.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org624ebed">1.27. fire Studio Operation example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgbaae38c">1.27.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgdad4f7b">1.28. Ilist example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgeb07de1">1.28.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgb6c9883">1.29. Ilist example : sortby&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgc17e47b">1.29.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org4066a86">1.30. list find&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org3b8df8e">1.30.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgba37aec">1.31. ctor&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgf612cae">1.31.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orged0f113">1.32. copy ctor : copy one instance into this&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org820a1bf">1.32.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org787a8dd">1.33. Clone for RegisterMap&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org52557ab">1.33.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orga0ff168">1.34. list where and select&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgfc91c81">1.34.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgf6f1aa4">1.35. KeyValuePair&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org0ffd6f7">1.35.1. code</a></li>
+</ul>
+</li>
+<li><a href="#org679a9d2">1.36. get Enumerator&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org6c8fd8b">1.36.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orged3a0fc">1.37. enumerator&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orga378cc3">1.37.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgf2edb39">1.38. dispose example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orga5cc65a">1.38.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgdc31055">1.39. InterruptService : how to get int from dev&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org13b6dc1">1.39.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgb2bd255">1.40. get data from device.instance&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org85d85f7">1.40.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgbb77672">1.41. read interrupt by _deviceHelper&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org4a3f16c">1.41.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orga6acefc">1.42. open external log&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org1627504">1.42.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orge54a8ca">1.43. instance lock&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#orgcae69af">1.43.1. code</a></li>
+</ul>
+</li>
+<li><a href="#orgd00762c">1.44. method invoker&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></a>
+<ul>
+<li><a href="#org3b8eace">1.44.1. code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6c203e3" class="outline-2">
+<h2 id="org6c203e3"><span class="section-number-2">1</span> design pattern</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgdb0c686" class="outline-3">
+<h3 id="orgdb0c686"><span class="section-number-3">1.1</span> OnStudioOperation : the op done by ds&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>note : someone launch operation event and let it be affected</li>
+</ul>
+</div>
+
+<div id="outline-container-orge1f4014" class="outline-4">
+<h4 id="orge1f4014"><span class="section-number-4">1.1.1</span> code</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<div class="org-src-container">
+<pre class="src src-org">private void SubscribeToEvents()
+{
+    DsEvents.Instance().OnStudioOperation += InterruptServices_OnStudioOperation;
+}
+
+private void InterruptServices_OnStudioOperation(object sender, StudioOperationArgs args)
+{
+    switch (args.Operation)
+    {
+        case StudioSpecialOperation.HID_FINGER_MODE:
+            if (args.State == StudioOperationState.STARTED)
+            {
+                enableDisableUIDuringHIDFingerMode(false);
+            }
+            else if (args.State == StudioOperationState.FINISHED)
+            {
+                enableDisableUIDuringHIDFingerMode(true);
+            }
+            break;
+    }
+}
+
+</pre>
+</div>
+
+<p>
+<b>sudo apt-get install font-manager</b> if it's called from main stream to update the ui                   :drill:
+</p>
+<p>
+:DATE:     <span class="timestamp-wrapper"><span class="timestamp">[2017-09-23 六 22:24]</span></span>
+</p>
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3e71b2b" class="outline-4">
+<h4 id="org3e71b2b"><span class="section-number-4">1.1.2</span> code</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<div class="org-src-container">
+<pre class="src src-org">private void enableDisableUIDuringHIDFingerMode(bool enable)
+{
+    if (this.InvokeRequired)
+    {
+        BeginInvoke(new Action&lt;bool&gt;(enableDisableUIDuringHIDFingerMode), enable);
+        return;
+    }
+
+    //todo: port when need 
+    //this.splitContainer1.Panel2Collapsed = !enable;
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5a57619" class="outline-3">
+<h3 id="org5a57619"><span class="section-number-3">1.2</span> get notice from OperationEvent to change the UI status in dashboard&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgfe3172b" class="outline-4">
+<h4 id="orgfe3172b"><span class="section-number-4">1.2.1</span> code</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<div class="org-src-container">
+<pre class="src src-org">private void OnStudioOperation(object sender, StudioOperationArgs args)
+{
+    if (args.Operation == StudioSpecialOperation.FLASH)
+    {
+        if (args.State == StudioOperationState.STARTED)
+        {
+            EnableMe(false);
+        }
+        else if (args.State == StudioOperationState.FINISHED)
+        {
+            EnableMe(true);
+        }
+        else if (args.State == StudioOperationState.ERROR)
+        {
+            EnableMe(true);
+        }
+    }
+    else if (args.Operation == StudioSpecialOperation.TUNING)
+    {
+        if ((args.Category <span style="color: #4f97d7;">== StudioOperationCategory.PENTUNING) &amp;&amp; (args.State ==</span> StudioOperationState.STARTED))
+        {
+            EnableMe(false);
+        }
+        else if ((args.Category <span style="color: #4f97d7;">== StudioOperationCategory.PENTUNING) &amp;&amp; (args.State ==</span> StudioOperationState.FINISHED))
+        {
+            EnableMe(true);
+        }
+    }
+    else if (args.Operation == StudioSpecialOperation.PREPRODUCTION)
+    {
+        if (args.State == StudioOperationState.STARTED)
+        {
+            EnableMe(false);
+        }
+        else if (args.State == StudioOperationState.FINISHED)
+        {
+            EnableMe(true);
+        }
+    }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3e858f7" class="outline-3">
+<h3 id="org3e858f7"><span class="section-number-3">1.3</span> UIEventService&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+<p>
+the para of delegate function must be 
+</p>
+<ol class="org-ol">
+<li>object sender</li>
+<li>ToolEventArgs e</li>
+</ol>
+</div>
+<div id="outline-container-org8785665" class="outline-4">
+<h4 id="org8785665"><span class="section-number-4">1.3.1</span> code</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<div class="org-src-container">
+<pre class="src src-org">public delegate void ToolValueChangedEvent(ToolEventArgs e);
+public delegate void ToolClickEvent(ToolClickEventArgs e);
+public delegate void RegisterValueChangedEvent(object sender, RegisterType type);
+
+public delegate void ReadAllRegistersNeededEvent(object sender);
+public delegate void DoNotReportNextFwResetEvent(object sender);
+
+public delegate void SolutionFileSelectionChangedEvent(object sender);
+public delegate void ActivityWindowSelectionChangedEvent(object sender, bool hasSelection);
+public delegate void StatusTextUpdateEvent(string msg, Color msgClr);
+public delegate void ProgressBarEvent(bool start);
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6c43ffb" class="outline-3">
+<h3 id="org6c43ffb"><span class="section-number-3">1.4</span> delegate event function&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org12652b6" class="outline-4">
+<h4 id="org12652b6"><span class="section-number-4">1.4.1</span> code</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<div class="org-src-container">
+<pre class="src src-org">public delegate void ToolValueChangedEvent(ToolEventArgs e);
+public static event ToolValueChangedEvent OnToolValueChanged;
+
+public static void FireToolValueChanged(ToolEventArgs e)
+{
+    if (OnToolValueChanged != null)
+    {
+        OnToolValueChanged(e);
+    }
+}
+
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-csharp">// usage
+// studiomain.cs
+UIEventsService.FireToolValueChanged(e);
+// what things it would do?
+// see what function is +to the delegate function
+UIEventsService.ToolValueChangedEvent += xxx
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb2a5044" class="outline-3">
+<h3 id="orgb2a5044"><span class="section-number-3">1.5</span> method invoker&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org81956c2" class="outline-4">
+<h4 id="org81956c2"><span class="section-number-4">1.5.1</span> code</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<div class="org-src-container">
+<pre class="src src-org">public static event MethodInvoker OnSolutionOpen;
+
+public static event MethodInvoker OnSolutionClosing;
+
+public static event MethodInvoker OnSolutionClosed;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org255c6c9" class="outline-3">
+<h3 id="org255c6c9"><span class="section-number-3">1.6</span> StudioEventService&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org3056eec" class="outline-4">
+<h4 id="org3056eec"><span class="section-number-4">1.6.1</span> code</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<div class="org-src-container">
+<pre class="src src-org">public static IAsyncResult FireConnectionModeChanged(object sender, StatusEnum state)
+{
+    ConnectionModeEvent connectionModeDelegate = FireSyncConnectionModeChanged;
+    return connectionModeDelegate.BeginInvoke(sender, state, null, null);
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeec4da4" class="outline-3">
+<h3 id="orgeec4da4"><span class="section-number-3">1.7</span> get InvocationList&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org44a3bd9" class="outline-4">
+<h4 id="org44a3bd9"><span class="section-number-4">1.7.1</span> code</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<div class="org-src-container">
+<pre class="src src-org">public static void FireSyncConnectionModeChanged(object sender, StatusEnum state)
+{
+    L12n.UseInvariantCulture();
+
+    ConnectionModeEvent handler = OnConnectionModeChanged;
+    if (handler != null)
+    {
+        foreach (ConnectionModeEvent f in handler.GetInvocationList())
+        {
+            try
+            {
+                f(sender, state);
+            }
+            catch (Exception ex)
+            {
+                DsMessage.FireOnMessage(StudioPackageType.Biz, StudioMessageType.Error,
+                    "FireConnectionModeEvent" + ":" + ex.Message);
+                Logger.WriteError("FireConnectionModeEvent" + ": " + ex.Message + " : " + ex.StackTrace);
+            }
+        }
+    }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0e9d2ef" class="outline-3">
+<h3 id="org0e9d2ef"><span class="section-number-3">1.8</span> get resources from resource manager&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orga953ab9" class="outline-4">
+<h4 id="orga953ab9"><span class="section-number-4">1.8.1</span> code</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<div class="org-src-container">
+<pre class="src src-org">_resMgr = new ResMan("Synaptics.DSNG.UI.Res", Assembly.GetExecutingAssembly());
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0abad56" class="outline-3">
+<h3 id="org0abad56"><span class="section-number-3">1.9</span> get/set F11Touchpad in solutionFacade&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org96da5c8" class="outline-4">
+<h4 id="org96da5c8"><span class="section-number-4">1.9.1</span> code</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<div class="org-src-container">
+<pre class="src src-org">// dp : fly weight
+        [XmlElement("Touchpads", typeof(F11TouchpadItem))]
+        public List&lt;F11TouchpadItem&gt; Touchpads { get; set; }
+
+         public F11TouchpadItem GetTouchpad()
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             if (layout.Touchpads.Count() == 0)
+             {
+                 layout.Touchpads.Add(new F11TouchpadItem());
+             }
+             return layout.Touchpads[0];
+         }
+
+         public F11TouchpadItem GetTouchpad(string name)
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             F11TouchpadItem result = layout.Touchpads.FirstOrDefault(item <span style="color: #4f97d7;">=&gt; item.ItemName.Equals(name));</span>
+<span style="color: #4f97d7;">             if (result ==</span> null)
+             {
+                 result = new F11TouchpadItem { ItemName = name };
+                 layout.Touchpads.Add(result);
+             }
+             return result;
+         }
+
+         public void SetTouchpad(F11TouchpadItem item)
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             layout.Touchpads.RemoveAll(x <span style="color: #4f97d7;">=&gt; x.ItemName ==</span> item.ItemName);
+             layout.Touchpads.Add(item);
+         }
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6f0602b" class="outline-3">
+<h3 id="org6f0602b"><span class="section-number-3">1.10</span> gethashcode template&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org82021f7" class="outline-4">
+<h4 id="org82021f7"><span class="section-number-4">1.10.1</span> code</h4>
+<div class="outline-text-4" id="text-1-10-1">
+<div class="org-src-container">
+<pre class="src src-org">public override int GetHashCode()
+{
+    unchecked
+    {
+        int result = base.GetHashCode();
+        result = (result * 397) ^ (XSensorMap != null ? CollectionIdentity.GetHashCode(XSensorMap) : 0);
+        result = (result * 397) ^ (YSensorMap != null ? CollectionIdentity.GetHashCode(YSensorMap) : 0);
+        result = (result * 397) ^ (XSensitivities != null ? CollectionIdentity.GetHashCode(XSensitivities) : 0);
+        result = (result * 397) ^ (YSensitivities != null ? CollectionIdentity.GetHashCode(YSensitivities) : 0);
+        result = (result * 397) ^ VisualFeedback.GetHashCode();
+        result = (result * 397) ^ Orientation.GetHashCode();
+        result = (result * 397) ^ Origin.GetHashCode();
+        result = (result * 397) ^ FingerDimension.GetHashCode();
+        result = (result * 397) ^ XScalingFactor.GetHashCode();
+        result = (result * 397) ^ YScalingFactor.GetHashCode();
+        result = (result * 397) ^ TouchPadScale.GetHashCode();
+        result = (result * 397) ^ ActivePenInkingWidth.GetHashCode();
+        return result;
+    }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc9d6b5d" class="outline-3">
+<h3 id="orgc9d6b5d"><span class="section-number-3">1.11</span> restore layout from xml file&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-11">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgb04f3ee" class="outline-4">
+<h4 id="orgb04f3ee"><span class="section-number-4">1.11.1</span> code</h4>
+<div class="outline-text-4" id="text-1-11-1">
+<div class="org-src-container">
+<pre class="src src-org">public void RestoreLayout()
+{
+    try
+    {
+        if (File.Exists(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+        {
+            using (var reader = new StreamReader(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+            {
+                var gp = (GroupProperty)new XmlSerializer(typeof(GroupProperty)).Deserialize(reader);
+                this.ultraExplorerBarDashboard.NavigationMaxGroupHeaders = gp.MaxGroupHeaderValue;
+                foreach (GroupValue gv in gp.GroupSetting)
+                {
+                    int grpId = this.ultraExplorerBarDashboard.Groups.IndexOf(gv.Name);
+                    if (0 &lt;= grpId)
+                    {
+                        UltraExplorerBarGroup g =
+                            this.ultraExplorerBarDashboard.Groups[gv.Name];
+                        if (g != null)
+                        {
+                            g.Visible = gv.Visible;
+                        }
+                    }
+                }
+                IComparer myComparer = new myReverserClass(gp.GroupSetting);
+                this.ultraExplorerBarDashboard.Groups.Sort(myComparer);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error, "Dashboard: " + ex.Message);
+    }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org52a9c54" class="outline-3">
+<h3 id="org52a9c54"><span class="section-number-3">1.12</span> save layout&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-12">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgdf137cf" class="outline-4">
+<h4 id="orgdf137cf"><span class="section-number-4">1.12.1</span> code</h4>
+<div class="outline-text-4" id="text-1-12-1">
+<div class="org-src-container">
+<pre class="src src-org">public void SaveLayout()
+{
+    try
+    {
+        using (StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+        {
+            GroupProperty gp = new GroupProperty();
+            gp.MaxGroupHeaderValue = this.ultraExplorerBarDashboard.NavigationMaxGroupHeaders;
+            foreach (UltraExplorerBarGroup group in this.ultraExplorerBarDashboard.Groups)
+            {
+                gp.GroupSetting.Add(new GroupValue(group.Key, group.Index, group.Visible));
+            }
+            new XmlSerializer(typeof(GroupProperty)).Serialize(writer, gp);
+        }
+    }
+    catch
+    {
+        DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error,
+            "Can't save the Dashboard layout.");
+    }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb28e0f1" class="outline-3">
+<h3 id="orgb28e0f1"><span class="section-number-3">1.13</span> list firstOrDefault&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-13">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgde0917e" class="outline-4">
+<h4 id="orgde0917e"><span class="section-number-4">1.13.1</span> code</h4>
+<div class="outline-text-4" id="text-1-13-1">
+<div class="org-src-container">
+<pre class="src src-org">xIndex = _GroupValueList.FirstOrDefault(g <span style="color: #4f97d7;">=&gt; g.Name </span><span style="color: #4f97d7;">==</span><span style="color: #4f97d7;"> ((UltraExplorerBarGroup)x).Key).Index;</span>
+<span style="color: #4f97d7;">yIndex = _GroupValueList.FirstOrDefault(g </span><span style="color: #4f97d7;">=&gt; g.Name ==</span> ((UltraExplorerBarGroup)y).Key).Index; ;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge62256e" class="outline-3">
+<h3 id="orge62256e"><span class="section-number-3">1.14</span> serrialize&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-14">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgea183d0" class="outline-4">
+<h4 id="orgea183d0"><span class="section-number-4">1.14.1</span> code</h4>
+<div class="outline-text-4" id="text-1-14-1">
+<div class="org-src-container">
+<pre class="src src-org">[Serializable]
+public class GroupValue
+{
+    [XmlElement("Name")]
+    public string Name;
+    [XmlElement("Index")]
+    public int Index;
+    [XmlElement("Visible")]
+    public bool Visible;
+
+    public GroupValue()
+    {
+    }
+
+    public GroupValue(string name, int index, bool visible)
+    {
+        Name = name;
+        Index = index;
+        Visible = visible;
+    }
+}
+
+[Serializable]
+[XmlInclude(typeof(GroupValue))]
+public class GroupProperty
+{
+    private List&lt;GroupValue&gt; _groupsetting = new List&lt;GroupValue&gt;();
+    public int MaxGroupHeaderValue { get; set; }
+
+    [XmlElement("GroupSetting")]
+    public List&lt;GroupValue&gt; GroupSetting
+    {
+        get { return _groupsetting; }
+        set { _groupsetting = value; }
+    }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4c00333" class="outline-3">
+<h3 id="org4c00333"><span class="section-number-3">1.15</span> sort csv by list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-15">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org029d919" class="outline-4">
+<h4 id="org029d919"><span class="section-number-4">1.15.1</span> code</h4>
+<div class="outline-text-4" id="text-1-15-1">
+<div class="org-src-container">
+<pre class="src src-org">private string SortCsv(string csv)
+{
+    List&lt;string&gt; items = new List&lt;string&gt;();
+
+    string[] strTokens = csv.Split(new char[] { ',' });
+    foreach (string item in strTokens)
+    {
+        items.Add(item);
+    }
+    items.Sort();
+
+    string output = string.Empty;
+    foreach (string item in items)
+    {
+        output += item + ",";
+    }
+
+    if (output != string.Empty)
+    {
+        // Remove the trailing ","
+        output = output.Substring(0, output.Length - 1);
+    }
+    return output;
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f16bf5" class="outline-3">
+<h3 id="org3f16bf5"><span class="section-number-3">1.16</span> get flash identify value in dashboard&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-16">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org8f73e6e" class="outline-4">
+<h4 id="org8f73e6e"><span class="section-number-4">1.16.1</span> code</h4>
+<div class="outline-text-4" id="text-1-16-1">
+<div class="org-src-container">
+<pre class="src src-org">ReflashParameters reflashParam = new ReflashParameters(
+    SolutionDataFacade.Instance.GetDeviceProtocol(),
+    SolutionDataFacade.Instance.GetHostInfo());
+
+reflashParam.MPCSerialNumber = serial;
+
+touchModuleInfo tInfo = null;
+
+Dictionary&lt;ReflashInfoBase.InfoKey, string&gt; touchModInfo =
+    FWMamager.Instance().FirmwareInfo(reflashParam);
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb762d2" class="outline-3">
+<h3 id="orgfb762d2"><span class="section-number-3">1.17</span> throw exception in func&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-17">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org8c4da7c" class="outline-4">
+<h4 id="org8c4da7c"><span class="section-number-4">1.17.1</span> code</h4>
+<div class="outline-text-4" id="text-1-17-1">
+<div class="org-src-container">
+<pre class="src src-org">if (serialNumber == "")
+    throw new Exception("Can't find Serial Number of MPC");
+else
+    throw new Exception(string.Format("Can't find MPC of serial number {0}", serialNumber));
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org02ce7ed" class="outline-3">
+<h3 id="org02ce7ed"><span class="section-number-3">1.18</span> singleton&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-18">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgb0345dd" class="outline-4">
+<h4 id="orgb0345dd"><span class="section-number-4">1.18.1</span> code</h4>
+<div class="outline-text-4" id="text-1-18-1">
+<div class="org-src-container">
+<pre class="src src-org">public static DashBoardController GetInstance()
+{
+    if (theCtrler == null)
+    {
+        theCtrler = new DashBoardController();
+    }
+    return theCtrler;
+}
+
+private static DashBoardController theCtrler = null;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org667ceff" class="outline-3">
+<h3 id="org667ceff"><span class="section-number-3">1.19</span> read interrupt status&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-19">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org1d3ff6d" class="outline-4">
+<h4 id="org1d3ff6d"><span class="section-number-4">1.19.1</span> code</h4>
+<div class="outline-text-4" id="text-1-19-1">
+<div class="org-src-container">
+<pre class="src src-org">public ulong CommandReadInterruptStatus()
+{
+    try
+    {
+        var f01Helper = RMIFunctionFacade.Instance._helpersFromDevi.GetF01Helper();
+        if (f01Helper != null)
+        {
+            return f01Helper.GetInterrupt(true);
+        }
+    }
+    catch (DsException ex)
+    {
+        DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error, "Dashboard: " + ex.Message);
+    }
+    return ulong.MaxValue;
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org08f160f" class="outline-3">
+<h3 id="org08f160f"><span class="section-number-3">1.20</span> mvc, controller get data from RMIFacade&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-20">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org64b6c0a" class="outline-4">
+<h4 id="org64b6c0a"><span class="section-number-4">1.20.1</span> code</h4>
+<div class="outline-text-4" id="text-1-20-1">
+<div class="org-src-container">
+<pre class="src src-org">public byte GetSleepMode()
+{
+    return RMIFunctionFacade.Instance.GetSleepMode();
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge3b2033" class="outline-3">
+<h3 id="orge3b2033"><span class="section-number-3">1.21</span> mvc, view : get notice from observer and get value from controller&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-21">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgf068f58" class="outline-4">
+<h4 id="orgf068f58"><span class="section-number-4">1.21.1</span> code</h4>
+<div class="outline-text-4" id="text-1-21-1">
+<div class="org-src-container">
+<pre class="src src-org">private void UpdateControlRegisterValues()
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org603db8e" class="outline-3">
+<h3 id="org603db8e"><span class="section-number-3">1.22</span> launch one UIservice to notify other UI&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-22">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org01c3f26" class="outline-4">
+<h4 id="org01c3f26"><span class="section-number-4">1.22.1</span> code</h4>
+<div class="outline-text-4" id="text-1-22-1">
+<div class="org-src-container">
+<pre class="src src-org">private void ButtonForceUpdateClick(object sender, EventArgs e)
+{
+    buttonForceUpdate.Enabled = false;
+    _Controller.SetForceUpdate();
+    buttonForceUpdate.Enabled = true;
+    // Bring back input focus, otherwise, the input focus go to the next control in the tab order.
+    buttonForceUpdate.Focus();
+    UIEventsService.FireExecuteDashboardCommandDuringDiagnostic();
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfd8a981" class="outline-3">
+<h3 id="orgfd8a981"><span class="section-number-3">1.23</span> another way to read resiter by _deviceHelper&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-23">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org8132279" class="outline-4">
+<h4 id="org8132279"><span class="section-number-4">1.23.1</span> code</h4>
+<div class="outline-text-4" id="text-1-23-1">
+<div class="org-src-container">
+<pre class="src src-org">_DeviceHelper.Read(0x1, RegisterTypeEnum.Data, 0, GetData(0x1));
+return _F01.GetInterrupt(false);
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org09757ca" class="outline-3">
+<h3 id="org09757ca"><span class="section-number-3">1.24</span> RunTimeState : get status update from OnStudioOperation&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-24">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org6ef0f57" class="outline-4">
+<h4 id="org6ef0f57"><span class="section-number-4">1.24.1</span> code</h4>
+<div class="outline-text-4" id="text-1-24-1">
+<div class="org-src-container">
+<pre class="src src-org">private void OnStudioOperation(object sender, StudioOperationArgs args)
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgace47a6" class="outline-3">
+<h3 id="orgace47a6"><span class="section-number-3">1.25</span> RMIFunctionFacade, helper from solution.instance.registermap&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-25">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org4d124bc" class="outline-4">
+<h4 id="org4d124bc"><span class="section-number-4">1.25.1</span> code</h4>
+<div class="outline-text-4" id="text-1-25-1">
+<div class="org-src-container">
+<pre class="src src-org">_helpersFromSoln = new HelpersFromSolution();
+_f01Hlpr = new RMIFunction01Helper(StudioSolutionManager.Instance.RegisterMap);
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org57fff8b" class="outline-3">
+<h3 id="org57fff8b"><span class="section-number-3">1.26</span> RMIFunctionFacade from device&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-26">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org470acbb" class="outline-4">
+<h4 id="org470acbb"><span class="section-number-4">1.26.1</span> code</h4>
+<div class="outline-text-4" id="text-1-26-1">
+<div class="org-src-container">
+<pre class="src src-org">_helpersFromDevi = new HelpersFromDevice();
+_f21Helper = new RMIFunction21Helper();
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org624ebed" class="outline-3">
+<h3 id="org624ebed"><span class="section-number-3">1.27</span> fire Studio Operation example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-27">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgbaae38c" class="outline-4">
+<h4 id="orgbaae38c"><span class="section-number-4">1.27.1</span> code</h4>
+<div class="outline-text-4" id="text-1-27-1">
+<div class="org-src-container">
+<pre class="src src-org">DsEvents.Instance().FireStudioOperation(this, new StudioOperationArgs(StudioSpecialOperation.RAMUNLOCK, StudioOperationState.STARTED));
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdad4f7b" class="outline-3">
+<h3 id="orgdad4f7b"><span class="section-number-3">1.28</span> Ilist example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-28">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgeb07de1" class="outline-4">
+<h4 id="orgeb07de1"><span class="section-number-4">1.28.1</span> code</h4>
+<div class="outline-text-4" id="text-1-28-1">
+<div class="org-src-container">
+<pre class="src src-org">public IList&lt;RegisterInfo&gt; FindRegistersByAddr(IList&lt;ushort&gt; addrList)
+{
+    Debug.Assert(addrList != null);
+    RegisterMap map = GetCurrentRegisterMap();
+    if (map == null)
+    {
+        return null;
+    }
+    RegisterMapHelper helper = new RegisterMapHelper(map);
+    return addrList.Select(addr =&gt; helper.FindByAddress(addr)).ToList();
+}
+
+public IList&lt;RegisterInfo&gt; GetAllControlRegisters()
+{
+    return _RegisterMap.AllRegisters.Where(reg <span style="color: #4f97d7;">=&gt; reg.Type ==</span> RegisterTypeEnum.Control).ToList();
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb6c9883" class="outline-3">
+<h3 id="orgb6c9883"><span class="section-number-3">1.29</span> Ilist example : sortby&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-29">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgc17e47b" class="outline-4">
+<h4 id="orgc17e47b"><span class="section-number-4">1.29.1</span> code</h4>
+<div class="outline-text-4" id="text-1-29-1">
+<div class="org-src-container">
+<pre class="src src-org">List&lt;RegisterInfo&gt; regs = map.AllRegisters.Where(x <span style="color: #4f97d7;">=&gt; x.Type ==</span> RegisterTypeEnum.Control).OrderBy(x =&gt; x.Address).ToList();
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4066a86" class="outline-3">
+<h3 id="org4066a86"><span class="section-number-3">1.30</span> list find&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-30">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org3b8df8e" class="outline-4">
+<h4 id="org3b8df8e"><span class="section-number-4">1.30.1</span> code</h4>
+<div class="outline-text-4" id="text-1-30-1">
+<div class="org-src-container">
+<pre class="src src-org">public SolutionFileInfo Find(string name)
+{
+    return All.Find(e <span style="color: #4f97d7;">=&gt; e.Name ==</span> name);
+}
+
+public SolutionFileInfo FindFileName(string name)
+{
+
+    return All.Find(e <span style="color: #4f97d7;">=&gt; (e.LinkFileInfo !=</span> null) &amp;&amp; (e.LinkFileInfo.Name == name));
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgba37aec" class="outline-3">
+<h3 id="orgba37aec"><span class="section-number-3">1.31</span> ctor&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-31">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgf612cae" class="outline-4">
+<h4 id="orgf612cae"><span class="section-number-4">1.31.1</span> code</h4>
+<div class="outline-text-4" id="text-1-31-1">
+<div class="org-src-container">
+<pre class="src src-org">public StudioSolution(StudioProject project)
+{
+    Project = project;
+    Files = new SolutionFiles();
+    FwReqDataChanged = false;
+}
+
+public StudioSolution() : this(null)
+{
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged0f113" class="outline-3">
+<h3 id="orged0f113"><span class="section-number-3">1.32</span> copy ctor : copy one instance into this&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-32">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org820a1bf" class="outline-4">
+<h4 id="org820a1bf"><span class="section-number-4">1.32.1</span> code</h4>
+<div class="outline-text-4" id="text-1-32-1">
+<div class="org-src-container">
+<pre class="src src-org"><span style="font-style: italic;">///</span> &lt;summary&gt;
+<span style="font-style: italic;">///</span> Copy constructor
+<span style="font-style: italic;">///</span> &lt;/summary&gt;
+<span style="font-style: italic;">///</span> &lt;param name="src"&gt;&lt;/param&gt;
+public RegisterMap(RegisterMap src)
+    <span style="color: #28def0;">: this(src.Name)</span>
+{
+    Copy(src);
+}
+
+private void Copy(RegisterMap src)
+{
+    foreach (RegisterInfo registerInfo in src.AllRegisters)
+    {
+        PacketRegisterInfo packet = registerInfo as PacketRegisterInfo;
+        if (packet != null)
+        {
+            AllRegisters.Add(new PacketRegisterInfo(packet));
+        }
+        else
+        {
+            AllRegisters.Add(new RegisterInfo(registerInfo));
+        }
+    }
+    InterruptMasks.Clear();
+    foreach (KeyValuePair&lt;byte, ulong&gt; interruptMask in src.InterruptMasks)
+    {
+        InterruptMasks.Add(interruptMask.Key, interruptMask.Value);
+    }
+    FunctionRevisions.Clear();
+    foreach (KeyValuePair&lt;byte, byte&gt; functionRevision in src.FunctionRevisions)
+    {
+        FunctionRevisions.Add(functionRevision.Key, functionRevision.Value);
+    }
+    IsFunctionPublicFlags.Clear();
+    foreach (KeyValuePair&lt;byte, bool&gt; pubflag in src.IsFunctionPublicFlags)
+    {
+        IsFunctionPublicFlags.Add(pubflag.Key, pubflag.Value);
+    }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org787a8dd" class="outline-3">
+<h3 id="org787a8dd"><span class="section-number-3">1.33</span> Clone for RegisterMap&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-33">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org52557ab" class="outline-4">
+<h4 id="org52557ab"><span class="section-number-4">1.33.1</span> code</h4>
+<div class="outline-text-4" id="text-1-33-1">
+<div class="org-src-container">
+<pre class="src src-org"><span style="font-style: italic;">///</span> &lt;summary&gt;
+<span style="font-style: italic;">///</span> Default constructor
+<span style="font-style: italic;">///</span> &lt;/summary&gt;
+public RegisterMap()
+    <span style="color: #28def0;">: this("Master")</span>
+{
+}
+
+public RegisterMap Clone()
+{
+    return new RegisterMap(this);
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga0ff168" class="outline-3">
+<h3 id="orga0ff168"><span class="section-number-3">1.34</span> list where and select&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-34">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orgfc91c81" class="outline-4">
+<h4 id="orgfc91c81"><span class="section-number-4">1.34.1</span> code</h4>
+<div class="outline-text-4" id="text-1-34-1">
+<div class="org-src-container">
+<pre class="src src-org"><span style="font-style: italic;">///</span> &lt;summary&gt;
+<span style="font-style: italic;">///</span> All packet registers
+<span style="font-style: italic;">///</span> &lt;/summary&gt;
+[XmlIgnore]
+public List&lt;PacketRegisterInfo&gt; PacketRegisters
+{
+    get { return AllRegisters.Where(x =&gt; x is PacketRegisterInfo).Select(x =&gt; (PacketRegisterInfo)x).ToList(); }
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf6f1aa4" class="outline-3">
+<h3 id="orgf6f1aa4"><span class="section-number-3">1.35</span> KeyValuePair&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-35">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org0ffd6f7" class="outline-4">
+<h4 id="org0ffd6f7"><span class="section-number-4">1.35.1</span> code</h4>
+<div class="outline-text-4" id="text-1-35-1">
+<div class="org-src-container">
+<pre class="src src-org">foreach (KeyValuePair&lt;byte, ulong&gt; inter in interrupts)
+{
+    InterruptMasks.Add(inter.Key, inter.Value);
+}
+foreach (KeyValuePair&lt;byte, byte&gt; revision in functionRevision)
+{
+    FunctionRevisions.Add(revision.Key, revision.Value);
+}
+foreach (KeyValuePair&lt;byte, bool&gt; isPubFlag in functionPublicFlags)
+{
+    IsFunctionPublicFlags.Add(isPubFlag.Key, isPubFlag.Value);
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org679a9d2" class="outline-3">
+<h3 id="org679a9d2"><span class="section-number-3">1.36</span> get Enumerator&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-36">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org6c8fd8b" class="outline-4">
+<h4 id="org6c8fd8b"><span class="section-number-4">1.36.1</span> code</h4>
+<div class="outline-text-4" id="text-1-36-1">
+<div class="org-src-container">
+<pre class="src src-org">var e = registersInfo.Values.GetEnumerator();
+e.MoveNext();
+return e.Current;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged3a0fc" class="outline-3">
+<h3 id="orged3a0fc"><span class="section-number-3">1.37</span> enumerator&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-37">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orga378cc3" class="outline-4">
+<h4 id="orga378cc3"><span class="section-number-4">1.37.1</span> code</h4>
+<div class="outline-text-4" id="text-1-37-1">
+<div class="org-src-container">
+<pre class="src src-org">var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf2edb39" class="outline-3">
+<h3 id="orgf2edb39"><span class="section-number-3">1.38</span> dispose example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-38">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-orga5cc65a" class="outline-4">
+<h4 id="orga5cc65a"><span class="section-number-4">1.38.1</span> code</h4>
+<div class="outline-text-4" id="text-1-38-1">
+<div class="org-src-container">
+<pre class="src src-org">var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdc31055" class="outline-3">
+<h3 id="orgdc31055"><span class="section-number-3">1.39</span> InterruptService : how to get int from dev&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-39">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org13b6dc1" class="outline-4">
+<h4 id="org13b6dc1"><span class="section-number-4">1.39.1</span> code</h4>
+<div class="outline-text-4" id="text-1-39-1">
+<div class="org-src-container">
+<pre class="src src-org">var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb2bd255" class="outline-3">
+<h3 id="orgb2bd255"><span class="section-number-3">1.40</span> get data from device.instance&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-40">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org85d85f7" class="outline-4">
+<h4 id="org85d85f7"><span class="section-number-4">1.40.1</span> code</h4>
+<div class="outline-text-4" id="text-1-40-1">
+<div class="org-src-container">
+<pre class="src src-org">var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbb77672" class="outline-3">
+<h3 id="orgbb77672"><span class="section-number-3">1.41</span> read interrupt by _deviceHelper&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-41">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org4a3f16c" class="outline-4">
+<h4 id="org4a3f16c"><span class="section-number-4">1.41.1</span> code</h4>
+<div class="outline-text-4" id="text-1-41-1">
+<div class="org-src-container">
+<pre class="src src-org">var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga6acefc" class="outline-3">
+<h3 id="orga6acefc"><span class="section-number-3">1.42</span> open external log&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-42">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org1627504" class="outline-4">
+<h4 id="org1627504"><span class="section-number-4">1.42.1</span> code</h4>
+<div class="outline-text-4" id="text-1-42-1">
+<div class="org-src-container">
+<pre class="src src-org">var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge54a8ca" class="outline-3">
+<h3 id="orge54a8ca"><span class="section-number-3">1.43</span> instance lock&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-43">
+<ul class="org-ul">
+<li>note :</li>
+<li><a href="https://dotblogs.com.tw/yc421206/2011/01/07/20624">https://dotblogs.com.tw/yc421206/2011/01/07/20624</a></li>
+</ul>
+</div>
+<div id="outline-container-orgcae69af" class="outline-4">
+<h4 id="orgcae69af"><span class="section-number-4">1.43.1</span> code</h4>
+<div class="outline-text-4" id="text-1-43-1">
+<div class="org-src-container">
+<pre class="src src-org">var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd00762c" class="outline-3">
+<h3 id="orgd00762c"><span class="section-number-3">1.44</span> method invoker&#xa0;&#xa0;&#xa0;<span class="tag"><span class="drill">drill</span></span></h3>
+<div class="outline-text-3" id="text-1-44">
+<ul class="org-ul">
+<li>note :</li>
+</ul>
+</div>
+<div id="outline-container-org3b8eace" class="outline-4">
+<h4 id="org3b8eace"><span class="section-number-4">1.44.1</span> code</h4>
+<div class="outline-text-4" id="text-1-44-1">
+<div class="org-src-container">
+<pre class="src src-org">internal void ChangeStartStop()
+{
+    MethodInvoker f;
+    if (IsRunning)
+    {
+        f = Stop;
+    }
+    else
+    {
+        PreProcessForStart();
+        f = () =&gt; Start(false);
+    }
+    f.BeginInvoke(null, null);
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: raflin</p>
+<p class="date">Created: 2019-03-30 六 21:21</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
