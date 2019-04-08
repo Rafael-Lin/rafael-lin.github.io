@@ -18,3 +18,7 @@ so overall it cost 5.58/1000 fee
 KGI ?
 
 (goose168)[https://goose168.com/]
+
+## tsmc 
+(goodinfo)[https://goodinfo.tw/StockInfo/StockDividendSchedule.asp?STOCK_ID=2330]
+todo :: read mouse video about what the time is 
