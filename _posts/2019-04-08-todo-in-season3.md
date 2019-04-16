@@ -16,6 +16,8 @@
 - TODO : do the push-up at first, then cycling
 - 04-10 mid : 28level/30mins, push-up 30
 - TODO : push up need more trained 
+- 04-15 early : run 1:13/13km
+- TODO : try running in the gym 
 
 # todo list : 
 ## 1915.2/0409
