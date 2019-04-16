@@ -1,95 +1,304 @@
-** [2017-08-30 Wed]
-*** Note taken on [2017-08-30 Wed 15:01] \\
-     + what do you think about oa?
-       + it tried to make me
-         + feel nervous
-         + make mistakes easily
-         + make a lot of error and consume my time
-       + a lot of description consume a lot of time
-       + resource :
-         + time
-         + clearness
-         + nervousness
-         + intuition just consume your time
-         + need to come up with the optimal at the first time
-         + debug skill
-       + what should I do in the test?
-         + stay calm
-         + review 3 times before submit
-         + wrong answer just waste time
-         + the best thing in life is to get accepted for one time
-*** Note taken on [2017-08-30 Wed 14:26] \\
-     + what habit did you need to develop from today?
-       + english speaking ability 21 days
-       + stop drinking for 20 days
-       + keep early hours for 21 days
-       + work regularly for 21 days
-         + morning : 4 hours
-         + noon : 4 hours
-         + night : 3 hours
-       + keep track the time management by using clock skill
-       + keep clear mindset
-       + get rid of the time leech and allurement of
-         + 1. sex/pretty girl
-         + 2. sleep late and do nothing meaningful
-         + 3. alcohol
-         + 4. woman body
-         + 5. meaningless youtube video
-       + what you persist in doing matters.
-*** Note taken on [2017-08-30 Wed 14:17] \\
-     + Daily Reflection :
-       + What do I work hard on?
-       + What should I work hard on?
-       + keep a record of everyday's resource, time and money
-       + keep a record of work hard level for each item.
-     + write your own word
-       + organize the material with your own word and thoughts
-       + the biggest treasure lies between your ears
-*** Note taken on [2017-08-30 Wed 11:38] \\
-     + Goal for Sep :
-       + interview to 3 company
-       + keep in mind about
-         + money saving
-         + build up muscle
-         + leetcode training
-         + focus on the training/process instead of the result
-         + keep regular hours
-         + keep good habit
-         + massive actions
-       + fight the old bad habit
-         + need to write down from scratch as a reminder of what I really want
-         + fight the negative thoughts
-         + fight the depression and stress
-         + ask about the meaning of some behaviours
-         + my life is all about a memory game, I need to train my capability of memorizing things
-          
-*** Note taken on [2017-08-30 Wed 10:37] \\
-     + Monthly Review :
-       + Time
-         + still weak on the time management.
-         + need to remember that I am the one who focus on the university entry exam
-         + my focus is drifted easily when I get home. I easily waste time on browsing the internet and youtube video
-         + need to plan at home, watch the clock and do the planning after getting home
-         + I get annoyed easily when I lived in Taipei.
-         + I need to think about my goal all the time, no matter where I am and what time it is
-       + Career/Work
-       + Exercise
-         + need to work out recently, otherwise
-         + the muscle is shrinking/weaken
-         + I hate the oa, it made me can't keep training
-       + Social
-       + Bad Habit
-         + Quit Drinking for 15 days, but still fail in the end
-         + Need to get rid of the negative emotion
-         + by using meditation, focus on the breathing
-         + need to write more word to release the pressure
-       + 我現在只跟她說，把練習的東西發揮出來就好，不要打一場會讓自己後悔的比賽。
-          
-*** Note taken on [2017-08-30 Wed 10:07] \\
-     + 加油加油，邁向世界第一，其他台灣人都可以你可行
-     + 成功是看多個條件，把握時間，把握機會，不輕易放棄
-     + 戴資穎都早上練球三小時，下午三小時，我也應該這麼作
-     + 早上四小時，下午四小時
-     + 需要開始調整作息，六點半/七點起床開始作事，堅持四小時作事
-     + 要也再開始戒酒了，
-     + 
+* Syna info : 
+** address & wifi
+台北市內湖區基湖路 18 號 4 樓
+0287520566
+
+wify
+1814-1879
+
+
+* syna work
+** 0D FW :: 2657986
+PR2648608 (s1308_r_i2c_A1.cfg)
+PR2648612 (s1308_r_spi_A1.cfg)
+
+
+
+
+
+* vim
+
+** multi-cursor                                                      :drill:
+SCHEDULED: <2017-10-08 Sun>
+:PROPERTIES:
+:ID:       132854f2-5e7e-4f96-800a-c6fa6e8d6202
+:DRILL_LAST_INTERVAL: 9.046
+:DRILL_REPEATS_SINCE_FAIL: 3
+:DRILL_TOTAL_REPEATS: 2
+:DRILL_FAILURE_COUNT: 0
+:DRILL_AVERAGE_QUALITY: 3.0
+:DRILL_EASE: 2.22
+:DRILL_LAST_QUALITY: 3
+:DRILL_LAST_REVIEWED: [2017-09-29 Fri 11:27]
+:END:
+:LOGBOOK:
+:DATE: [2017-09-22 Fri 16:19]
+:END:
+- note
+*** Answer 
+https://github.com/terryma/vim-multiple-cursors
+http://www.jianshu.com/p/c5cc672aae63
+http://onetracy.com/2016/03/02/vim_code_refactoring/
+
+
+* graphviz
+ds6
+
+https://confluence.synaptics.com/pages/viewpage.action?spaceKey=SDDF&title=DS6+Bootstrap
+cpp : http://ot-note.logdown.com/posts/735388/c-11-prints-now-use-chrono-localtime-s-put-time-generic-in-chart
+https://www.openfoundry.org/tw/foss-programs/8820-graphviz-
+http://graphs.grevian.org/graph/5206201298059264
+https://read01.com/zh-tw/38o8Q.html#.Wci5i7IjGHs
+
+
+https://coldnew.github.io/787b7d73/
+https://github.com/theodorewiles/org-mind-map
+#+BEGIN_SRC dot :file graphviz-example.png :exports results
+#+END_SRC
+
+* Windows : 
+** vs setting 
+vs 2012
+%VS120COMNTOOLS% %VS100COMNTOOLS%
+** search file
+#+BEGIN_EXAMPLE
+dir /s *foo* searches in current folder and sub folders.
+#+END_EXAMPLE
+
+
+** iterate each file and do conversion
+#+BEGIN_SRC shell 
+  for /r %%i in (*.mp4) do ffmpeg -i "%%~ni.mp4" "%%~ni.mp3"
+#+END_SRC
+** web disk 
+#+BEGIN_SRC shell
+net use X: \\us-filer-2a\HHTool\Installer\Development
+#+END_SRC
+** remove hiberfil.sys
+https://support.microsoft.com/zh-tw/help/2682013
+#+BEGIN_EXAMPLE
+  接下來，請輸入 powercfg -h off ，完成之後按一下鍵盤上的 Enter 鍵，關閉休眠功能。
+  （如果您以後還需要開啟休眠功能，請輸入 powercfg -h on）
+#+END_EXAMPLE
+
+
+* git
+** gc
+#+BEGIN_EXAMPLE
+git gc --aggressive --prune
+#+END_EXAMPLE
+
+https://www.tutorialspoint.com/cplusplus/cpp_multithreading.htm
+
+* books
+  :PROPERTIES:
+  :ARCHIVE:  track-books.org::* Read books
+  :COLUMNS:  %8TODO(Todo) %30ITEM(Book) %15GENRE(Genre) %5PAGES(Pages) %7RATING(Rating) %7RANK(Rank)
+  :END:
+** SOMEDAY Vitor - Men search for meaning
+  :PROPERTIES:
+  :PAGES: 200
+  :GENRE: meaning
+  :RATING:   +++
+  :RANK:     awesome
+  :ID:       c2f8a1e5-3543-405c-8d5e-7343c7cb566f
+  :END:
+  - Recommended by fight
+  :LOGBOOK:
+  - Added: [2017-08-12 Sat 11:17]
+  :END:
+** SOMEDAY fight - rich dad & poor dad
+  :PROPERTIES:
+  :PAGES: 300
+  :GENRE: financial
+  :RATING:   ++++
+  :ID:       b426bc32-a04f-4c09-b650-b0787f839790
+  :END:
+  - Recommended by fight
+  :LOGBOOK:
+  - Added: [2017-08-12 Sat 11:18]
+  :END:
+
+** SOMEDAY Elements of programming interviews
+:PROPERTIES:
+:GENRE:    computer
+:ID:       8e2552f9-d548-432b-8b18-bc64a89e5ed4
+:END:
+
+
+** SOMEDAY 七年就是一輩子
+:PROPERTIES:
+:GENRE:    financial
+:ID:       5beb27d3-6dbd-42f8-9462-bf2792e0c260
+:END:
+
+** SOMEDAY Rich Dad Poor Dad
+:PROPERTIES:
+:ID:       ccda77ef-4794-466e-b612-3525300faa61
+:END:
+
+** SOMEDAY The 4-Hour Workweek
+:PROPERTIES:
+:ID:       89993d9a-2cfc-4ac8-8f6e-63bc98099e5a
+:END:
+
+** SOMEDAY How to Win Friends and Influence People
+:PROPERTIES:
+:ID:       30854521-bf14-4059-929c-43b7e5adceb1
+:END:
+
+** SOMEDAY The 48 Laws of Power
+:PROPERTIES:
+:ID:       b88503cb-2c76-42bf-9917-71aab8fdb72a
+:END:
+
+** SOMEDAY The Way of the Superior Man
+:PROPERTIES:
+:ID:       e3b12d6a-0328-4576-97b0-a57fc491dbb6
+:END:
+
+** SOMEDAY Man's Search for Meaning
+:PROPERTIES:
+:ID:       1746220e-9ff4-429b-831a-f085ccbecfec
+:END:
+
+** SOMEDAY Mastery
+:PROPERTIES:
+:ID:       62da298a-e856-4c75-baea-5f13cc464208
+:END:
+
+** SOMEDAY Mindfulness for Beginners
+:PROPERTIES:
+:ID:       961617ed-33ac-4cfa-9f4b-24708b5bd132
+:END:
+
+** SOMEDAY The Obstacle is the Way
+:PROPERTIES:
+:ID:       c70aa4ea-9bc9-48fb-b7c8-d4f1c15fb775
+:END:
+** SOMEDAY N - 每天只要 30 分鐘
+  :PROPERTIES:
+  :PAGES: -
+  :GENRE: Time Management
+  :ID:       2d3c1e4e-0c23-4de0-b5a0-dbaca9850e65
+  :END:
+  - Recommended by web
+  :LOGBOOK:
+  - Added: [2017-08-14 Mon 16:34]
+  :END:
+** SOMEDAY n - 圖解版早上十點以前搞定工作
+  :PROPERTIES:
+  :PAGES: -
+  :GENRE: time
+  :ID:       b1639183-0ebd-485a-9eb4-6d7d5c4c885d
+  :END:
+  - Recommended by web
+  :LOGBOOK:
+  - Added: [2017-08-14 Mon 16:36]
+  :END:
+** SOMEDAY n - 暗時間
+  :PROPERTIES:
+  :PAGES: -
+  :GENRE: time
+  :ID:       0c258f84-8127-4c53-8d51-b4caf9320104
+  :END:
+  - Recommended by web
+  :LOGBOOK:
+  - Added: [2017-08-14 Mon 16:38]
+  :END:
+
+
+
+** 醫學院高材生才知道的驚人「記憶術」 
+** 讀書別靠意志力
+** 會念書的狠角色才能生存
+** 一分鐘記憶法
+** K書高手
+** 全腦學習
+
+
+* marry :
+** TODO some notes :
+:PROPERTIES:
+:ID:       c9442ff8-567d-4c4b-8361-9dc65e5243be
+:END:
+
+男 : 甲子年 二月八號 寅時
+女 : 甲子年 一月六號 午時
+吳記/舊永瑞真/舊振南/錦福
+訂結同一天 行程
+迎聚  吃茶 在家
+吃茶親戚誰要在場
+吃茶場地布置
+禮車 伴郎
+
+下周回來 : 床墊 被
+
+金飾 自家處理
+
+
+
+
+* English                                                            :ATTACH:
+:PROPERTIES:
+:Attachments: american_science_script
+:ID:       7a20d1e1-de69-42b0-a89c-8822d97aa50c
+:END:
+
+
+* running
+:PROPERTIES:
+:ID:       e26849f3-24e5-4eae-a1ae-20c69ddb902b
+:END:
+** Recipe : 
+- [[https://keep.google.com/u/0/#NOTE/1484302624398.1582813244][google keep]]
+*** 週末中長跑 16~32k, 平日跑三天 基本上都長間歇
+6 K : 
+  1k x 6
+  2k x 3
+  3k x 2
+  1k + 2k + 3k
+  4k x 2
+1k - 4 分整吧
+跑 4min 休 4min
+1k x 6
+然後最好跑 1 休 1 或是你要每天跑 強度隔天就跑輕鬆跑
+*** 400 間歇
+400 x 12 
+跑 80 s, 休 80 s
+
+*** 我要練到 3'30 全馬 今年目標
+
+*** 亞索800
+舉例而言，如果你的馬拉松目標是3小時30分，在比賽日前2個月開始用每趟3分30秒的時間
+跑亞索800（3:30'/800m，相當於105'/400m，或是4:22'/km），每趟之間慢跑恢復3分30秒；
+從4趟開始，每週加一趟，若有定期安排長距離練跑，並在賽前兩週可以跑完十趟3:30'的亞
+索800，則你就具備了3小時30分跑完馬拉松的能力。
+
+| total duration | yaso 800 speed | speed on marathon |
+| 5H             |           5:00 |              4:56 |
+| 4H30M          |           4:30 |              4:28 |
+| 4H00M          |           4:00 |              3:58 |
+| 3H30M          |           3:30 |              3:28 |
+| 3H15M          |           3:15 |              3:12 |
+| 3H00M          |           3:00 |              3:00 |
+| 2H45M          |           2:45 |              2:44 |
+| 2H30M          |           2:30 |              2:30 |
+
+
+** Weight train : 
+- [[http://collice2004.pixnet.net/blog/post/99996149-%25E6%258F%2590%25E5%258D%2587%25E8%25B7%2591%25E6%25AD%25A5%25E7%25B6%2593%25E6%25BF%259F%25E6%2580%25A7-%25E8%25B7%2591%25E8%2580%2585%25E7%259A%2584%25E9%2587%258D%25E9%2587%258F%25E8%25A8%2593%25E7%25B7%25B4%25E7%259A%2584%25E5%2585%25A7%25E5%25AE%25B9][weight training]]
+
+
+** Done [2017-08-12 Sat 20:14]
+  :PROPERTIES:
+  :DURATION: 1:00
+  :MILES: 8
+  :DATEADDED: [2017-08-12 Sat 20:14]
+  :NOTE: feel bad because I become weak again.
+  :END:
+
+
+* 反省文 : 
+定一下每天為自己的夢想花了幾小時。
+

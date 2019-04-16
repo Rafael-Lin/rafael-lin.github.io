@@ -16,6 +16,8 @@
 - TODO : do the push-up at first, then cycling
 - 04-10 mid : 28level/30mins, push-up 30
 - TODO : push up need more trained 
+- 04-14 mid : 28level/35mins, push-up 30x2, fore-handx60, 
+- TODO : 
 - 04-15 early : run 1:13/13km
 - TODO : try running in the gym 
 
@@ -77,6 +79,13 @@ item 6) Alignment meeting : 1 hrs left
 6) 這三天不能喝酒，這一季要把酒錢和書錢一比一放出去。
 
 7) 
+
+## 1915.6/0413
+1) tax paid already : 27240, total income in 2018 : 1065714, redution : -24 + -20 + -13.2 + -8.8*2
+2) 
+## 1916.1/0415
+1) concur : trip from Hsinchu to Taipei, $650
+2) NHI supplementation : 2XXX $
 
 # Stock 
 ## bank 
@@ -366,7 +375,7 @@ Elements of Programming
 C Interfaces and Implementation C Interfaces and Implementation
 1000萬人都說有效的輕鬆戒菸法
 
-
+# 陳橋弘
 本夢比 : 公司護利，但股價持續高漲
 高成長股票，本益比向來不低
 ex : 佳格（1227），美利達（9914），儒鴻（1476），寶雅（5904），葡萄王（1707），頂翰（3611），豐泰（9910）
@@ -516,7 +525,8 @@ check 每個董事長的人品、不上新聞
 
 
 Extension reading
-投資者的修練 : 呂宗耀
+投資者的修練 
+: 呂宗耀
 窮查理的普通常識
 智慧型股票投資人
 證卷心理學
