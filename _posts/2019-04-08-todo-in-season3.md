@@ -20,6 +20,9 @@
 - TODO : 
 - 04-15 early : run 1:13/13km
 - TODO : try running in the gym 
+- 04-16 : do nothing 
+- 04-17 : do nothing
+- 04-18 : need to do something today. 
 
 # todo list : 
 ## 1915.2/0409
@@ -83,9 +86,72 @@ item 6) Alignment meeting : 1 hrs left
 ## 1915.6/0413
 1) tax paid already : 27240, total income in 2018 : 1065714, redution : -24 + -20 + -13.2 + -8.8*2
 2) 
-## 1916.1/0415
-1) concur : trip from Hsinchu to Taipei, $650
-2) NHI supplementation : 2XXX $
+## 1916
+### 1916.1/0415
+1) concur : trip from Hsinchu to Taipei, $650 (done)
+2) NHI supplementation : 2XXX -> 二代健保?$
+### 1916.2/0416
+### 1916.3/0417
+### 1916.4/0418
+## 1917
+### 1917.1/0422
+1) 
+
+
+### ice land
+六	D0	倫敦	
+日	D1	倫敦-冰島KEF	
+一	D2	"辛格維利爾
+
+國家公園"	"黄金圈 - Thingvellir/Þingvellir National Park
+1. 史費拉裂縫 (Silfra)浮潛 or 騎馬
+2. Haukadalur地熱小鎮，蓋歇爾(Geysir)間歇泉
+3. 黃金瀑布(Gullfoss)"
+
+二	D3	"瓦特納冰川國家公園
+Vik"	"南岸 - 瓦特納冰川國家公園
+塞里雅蘭瀑布(Seljalandsfoss), 斯科加瀑布(Skógafoss 森林/彩虹瀑布,可登頂)
+索爾黑馬冰川(Sólheimajökull) - 冰川健行
+Reynisfjara 黑沙灘, 雷尼斯德蘭格Reynisdrangar玄武岩石柱群
+Wrecked DC-3 Plane on Sólheimasandur (飛機殘骸)
+optional 米達冰川卡特拉冰洞"
+
+三	D4	赫本 Höfn	"羽毛峽谷(Fjaðrárgljúfur)
+草皮屋(Núpsstaður)
+斯卡夫塔山/瓦特納冰川國家公園
+玄武岩瀑布(Svartifoss)
+冰川健行 (如果沒去索爾黑馬冰川)
+傑古沙龍冰河湖 Glacier Lagoon, 鑽石沙灘
+赫本-冰島龍蝦"
+
+四	D5	埃伊爾斯塔濟 Egilsstaðir	東部峽灣 - 蝙蝠山
+
+五	D6	"雷恰利茲
+Reykjahlíð"	"米湖溫泉
+Námaskarð地熱區、Skútustaðagígar假火山口、Dimmuborgir黑色城堡火山岩群、Krafla火山, 密的温泉岩洞Grjótagjá (天然,無換衣間)"
+
+六	D7	"阿克雷里
+Akureyri"	黛提瀑布 - Ásbyrgi峽谷 - 胡薩維克
+
+日	D8	"格倫達菲厄澤
+Grundarfjörður"	
+
+一	D9	Snæfellsjökull National Park	火山口 Saxhóll Crater, 教堂山 Kirkjufell, 黑教堂 Búðakirkja
+
+二	D10	"雷克雅維克
+Reykjavík"	"Laugavegur 購物街, 博物館, Lava Tunnel
+太陽航行者solfario
+音樂廳Harpa
+哈爾格林母教堂Hallgrimskirkja
+珍珠樓perlan夜景
+托寧湖Tjornin散步
+燈塔Grótta Island Lighthouse"
+三	D11		"藍湖溫泉 7:00 – 23:00 
+https://puwulife.com/blue-lagoon/
+https://www.bluelagoon.com/"
+四	D12		
+五	D13		
+六	D14		
 
 # Stock 
 ## bank 

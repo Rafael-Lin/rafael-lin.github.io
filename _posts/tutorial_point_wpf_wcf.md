@@ -1,3 +1,365 @@
+# XAML overview
+
+One of the first things you will encounter while working with WPF is XAML. XAML
+stands for Extensible Application Markup Language. It’s a simple and declarative
+language based on XML.
+
+In XAML, it very easy to create, initialize, and set properties of objects with
+hierarchical relations.
+
+It is mainly used for designing GUIs, however it can be used for other purposes
+as well, e.g., to declare workflow in Workflow Foundation.
+
+Basic Syntax
+When you create your new WPF project, you will encounter some of the XAML code by default in MainWindow.xaml as shown below.
+
+<Window x:Class = "Resources.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+   Title = "MainWindow" Height = "350" Width = "525"> 
+	
+   <Grid> 
+         
+   </Grid> 
+	
+</Window>
+
+Example of object element with some attributes
+<Button Content = "Click Me" Height = "30" Width = "60" /> 
+==> Height ==> attributes
+
+Example of an alternate syntax do define properties (Property element syntax)
+<Button> 
+   <Button.Content>Click Me</Button.Content> 
+   <Button.Height>30</Button.Height> 
+   <Button.Width>60</Button.Width> 
+</Button> 
+Example of Object with Child Element: StackPanel contains Textblock as child element
+<StackPanel Orientation = "Horizontal"> 
+   <TextBlock Text = "Hello"/> 
+</StackPanel> 
+
+Why XAML in WPF
+
+XAML is not only the most widely known feature of WPF, but it's also one of the
+most misunderstood features. If you have exposure to WPF, then you must have
+heard of XAML; but take a note of the following two less known facts about XAML
+−
+
+WPF doesn't need XAML
+XAML doesn't need WPF
+They are in fact separable pieces of technology. To understand how that can be,
+let's look at a simple example in which a button is created with some properties
+in XAML.
+
+<Window x:Class = "WPFXAMLOverview.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+   Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <StackPanel> 
+      <Button x:Name = "button" Content = "Click Me" HorizontalAlignment = "Left"  
+         Margin = "150" VerticalAlignment = "Top" Width = "75" /> 
+   </StackPanel> 
+	
+</Window> 
+
+In case you choose not to use XAML in WPF, then you can achieve the same GUI
+result with procedural language as well. Let’s have a look at the same example,
+but this time, we will create a button in C#.
+```
+using System.Windows; 
+using System.Windows.Controls;  
+
+namespace WPFXAMLOverview { 
+   /// <summary> 
+      /// Interaction logic for MainWindow.xaml 
+   /// </summary> 
+	
+   public partial class MainWindow : Window { 
+	
+      public MainWindow() { 
+         InitializeComponent(); 
+			
+         // Create the StackPanel 
+         StackPanel stackPanel = new StackPanel(); 
+         this.Content = stackPanel; 
+			
+         // Create the Button 
+         Button button = new Button();
+         button.Content = "Click Me"; 
+         button.HorizontalAlignment = HorizontalAlignment.Left; 
+         button.Margin = new Thickness(150); 
+         button.VerticalAlignment = VerticalAlignment.Top; 
+         button.Width = 75; 
+         stackPanel.Children.Add(button);  
+      } 
+   } 
+} 
+```
+
+When you compile and execute either the XAML code or the C# code, you will see the same output as shown below.
+
+XAML Output
+From the above example, it is clear that what you can do in XAML to create, initialize, and set properties of objects, the same tasks can also be done using code.
+
+XAML is just another simple and easy way to design UI elements.
+
+With XAML, it doesn’t mean that what you can do to design UI elements is the only way. You can either declare the objects in XAML or define them using code.
+
+XAML is optional, but despite this, it is at the heart of WPF design.
+
+The goal of XAML is to enable visual designers to create user interface elements directly.
+
+WPF aims to make it possible to control all visual aspects of the user interface from mark-up.
+
+
+# Elements Tree
+There are many technologies where the elements and components are ordered in a
+tree structure so that the programmers can easily handle the object and change
+the behavior of an application. Windows Presentation Foundation (WPF) has a
+comprehensive tree structure in the form of objects. In WPF, there are two ways
+that a complete object tree is conceptualized −
+
+1) Logical Tree Structure
+2) Visual Tree Structure
+
+With the help of these tree structures, you can easily create and identify the
+relationship between UI elements. Mostly, WPF developers and designers either
+use procedural language to create an application or design the UI part of the
+application in XAML keeping in mind the object tree structure.
+
+## Logical Tree Structure
+In WPF applications, the structure of the UI elements in XAML represents the
+logical tree structure. In XAML, the basic elements of UI are declared by the
+developer. The logical tree in WPF defines the following −
+
+1) Dependency properties
+2) Static and dynamic resources
+3) Binding the elements on its name etc.
+
+Let’s have a look at the following example in which a button and a list box are created.
+
+<Window x:Class = "WPFElementsTree.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+   Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <StackPanel> 
+      <Button x:Name = "button" Height = "30" Width = "70" Content = "OK" Margin = "20" /> 
+		
+      <ListBox x:Name = "listBox" Height = "100" Width = "100" Margin = "20"> 
+         <ListBoxItem Content = "Item 1" /> 
+         <ListBoxItem Content = "Item 2" /> 
+         <ListBoxItem Content = "Item 3" /> 
+      </ListBox> 
+		
+   </StackPanel> 
+	
+</Window> 
+If you look at the XAML code, you will observe a tree structure, i.e. the root
+node is the Window and inside the root node, there is only one child, that is
+StackPanel. But StackPanel contains two child elements, button and list box.
+List box has three more child list box items.
+
+## Visual Tree Structure 
+In WPF, the concept of the visual tree describes the
+structure of visual objects, as represented by the Visual Base Class. It
+signifies all the UI elements which are rendered to the output screen.
+
+When a programmer wants to create a template for a particular control, he is
+actually rendering the visual tree of that control. The visual tree is also very
+useful for those who want to draw lower level controls for performance and
+optimization reasons.
+
+In WPF applications, visual tree is used for −
+
+1) Rendering the visual objects.
+2) Rendering the layouts.
+3) The routed events mostly travel along the visual tree, not the logical tree. To
+
+see the visual tree of the above simple application which contains a button and
+a list box, let’s compile and execute the XAML code and you will see the
+following window.
+
+Visual Tree Structure When the application is running, you can see the visual
+tree of the running application in Live Visual Tree window which shows the
+complete hierarchy of this application, as shown below.
+
+logical_tree The visual tree is typically a superset of the logical tree. You
+can see here that all the logical elements are also present in the visual tree.
+So these two trees are really just two different views of the same set of
+objects that make up the UI.
+
+The logical tree leaves out a lot of detail enabling you to focus on the core
+structure of the user interface and to ignore the details of exactly how it has
+been presented.
+
+The logical tree is what you use to create the basic structure of the user
+interface.
+
+The visual tree will be of interest if you're focusing on the presentation. For
+example, if you wish to customize the appearance of any UI element, you will
+need to use the visual tree.
+
+# Dependency Properties
+
+ 
+In WPF applications, dependency property is a specific type of property which
+extends the CLR property. It takes the advantage of specific functionalities
+available in the WPF property system.
+
+A class which defines a dependency property must be inherited from the
+DependencyObject class. Many of the UI controls class which are used in XAML are
+derived from the DependencyObject class and they support dependency properties,
+e.g. Button class supports the IsMouseOver dependency property.
+
+The following XAML code creates a button with some properties.
+
+<Window x:Class = "WPFDependencyProperty.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:local = "clr-namespace:WPFDependencyProperty"
+   Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <Grid> 
+      <Button  Height = "40" Width = "175" Margin = "10" Content = "Dependency Property"> 
+         <Button.Style> 
+            <Style TargetType = "{x:Type Button}"> 
+               <Style.Triggers> 
+					
+                  <Trigger Property = "IsMouseOver" Value = "True"> 
+                     <Setter Property = "Foreground" Value = "Red" /> 
+                  </Trigger>
+						
+               </Style.Triggers>
+            </Style> 
+         </Button.Style> 
+      </Button> 
+   </Grid> 
+	
+</Window> 
+
+The x:Type markup extension in XAML has a similar functionality like typeof() in
+C#. It is used when attributes are specified which take the type of the object
+such as <Style TargetType = "{x:Type Button}">
+
+When the above code is compiled and executed, you would get the following
+MainWindow. When the mouse is over the button, it will change the foreground
+color of a button. When the mouse leaves the button, it changes back to its
+original color.
+
+### Dependency Property
+Why We Need Dependency Properties
+Dependency property gives you all kinds of benefits when you use it in your
+application. Dependency Property can used over a CLR property in the following
+scenarios −
+
+If you want to set the style
+If you want data binding
+If you want to set with a resource (a static or a dynamic resource)
+If you want to support animation
+
+Basically, Dependency Properties offer a lot of functionalities that you won’t
+get by using a CLR property.
+
+The main difference between dependency properties and other CLR properties are
+listed below −
+
+CLR properties can directly read/write from the private member of a class by
+using getter and setter. In contrast, dependency properties are not stored in
+local object.
+
+Dependency properties are stored in a dictionary of key/value pairs which is
+provided by the DependencyObject class. It also saves a lot of memory because it
+stores the property when changed. It can be bound in XAML as well.
+
+Custom Dependency Properties In .NET framework, custom dependency properties can
+also be defined. Follow the steps given below to define custom dependency
+property in C#.
+
+1) Declare and register your dependency property with system call register.
+
+2) Provide the setter and getter for the property.
+
+3) Define a static handler which will handle any changes that occur globally
+
+Define an instance handler which will handle any changes that occur to that
+particular instance.
+
+The following C# code defines a dependency property to set the SetText property
+of the user control.
+```
+using System; 
+using System.Collections.Generic; 
+using System.Linq; 
+using System.Text; 
+using System.Threading.Tasks; 
+
+using System.Windows; 
+using System.Windows.Controls; 
+using System.Windows.Data; 
+using System.Windows.Documents; 
+using System.Windows.Input; 
+using System.Windows.Media; 
+using System.Windows.Media.Imaging; 
+using System.Windows.Navigation; 
+using System.Windows.Shapes;  
+
+namespace WpfApplication3 { 
+   /// <summary> 
+      /// Interaction logic for UserControl1.xaml 
+   /// </summary> 
+	
+   public partial class UserControl1 : UserControl { 
+	
+      public UserControl1() { 
+         InitializeComponent(); 
+      }
+		
+      public static readonly DependencyProperty SetTextProperty = 
+         DependencyProperty.Register("SetText", typeof(string), typeof(UserControl1), new 
+            PropertyMetadata("", new PropertyChangedCallback(OnSetTextChanged))); 
+				
+      public string SetText { 
+         get { return (string)GetValue(SetTextProperty); } 
+         set { SetValue(SetTextProperty, value); } 
+      } 
+		
+      private static void OnSetTextChanged(DependencyObject d,
+         DependencyPropertyChangedEventArgs e) { 
+         UserControl1 UserControl1Control = d as UserControl1; 
+         UserControl1Control.OnSetTextChanged(e); 
+      } 
+		
+      private void OnSetTextChanged(DependencyPropertyChangedEventArgs e) { 
+         tbTest.Text = e.NewValue.ToString(); 
+      }  
+   } 
+
+ ```
+Here is the XAML file in which the TextBlock is defined as a user control and
+the Text property will be assigned to it by the SetText dependency property.
+
+The following XAML code creates a user control and initializes its SetText dependency property.
+``` 
+<Window x:Class = "WpfApplication3.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:views = "clr-namespace:WpfApplication3"
+   Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <Grid> 
+      <views:UserControl1 SetText = "Hellow World"/> 
+   </Grid> 
+	
+</Window> 
+```
+
+Let's run this application. You can immediately observe that in our MainWindow,
+the dependency property for user control has been successfully used as a Text.
+
+
 # routed event
 A routed event is a type of event that can invoke handlers on multiple listeners
 in an element tree rather than just the object that raised the event. It is
@@ -8,24 +370,38 @@ routing strategies which are as follows −
 Direct Event
 Bubbling Event
 Tunnel Event
-Direct Event
-A direct event is similar to events in Windows forms which are raised by the element in which the event is originated.
+## Direct Event
+A direct event is similar to events in Windows forms which are raised by the
+element in which the event is originated.
 
-Unlike a standard CLR event, direct routed events support class handling and they can be used in Event Setters and Event Triggers within your style of your Custom Control.
+Unlike a standard CLR event, direct routed events support class handling and
+they can be used in Event Setters and Event Triggers within your style of your
+Custom Control.
 
 A good example of a direct event would be the MouseEnter event.
 
-Bubbling Event
-A bubbling event begins with the element where the event is originated. Then it travels up the visual tree to the topmost element in the visual tree. So, in WPF, the topmost element is most likely a window.
+## Bubbling Event
 
-Tunnel Event
-Event handlers on the element tree root are invoked and then the event travels down the visual tree to all the children nodes until it reaches the element in which the event originated.
+A bubbling event begins with the element where the event is originated. Then it
+travels up the visual tree to the topmost element in the visual tree. So, in
+WPF, the topmost element is most likely a window.
 
-The difference between a bubbling and a tunneling event is that a tunneling event will always start with a preview.
+## Tunnel Event
+Event handlers on the element tree root are invoked and then the event travels
+down the visual tree to all the children nodes until it reaches the element in
+which the event originated.
 
-In a WPF application, events are often implemented as a tunneling/bubbling pair. So, you'll have a preview MouseDown and then a MouseDown event.
+The difference between a bubbling and a tunneling event is that a tunneling
+event will always start with a preview.
 
-Given below is a simple example of a Routed event in which a button and three text blocks are created with some properties and events.
+tunneling --> always start with a preview
+
+In a WPF application, events are often implemented as a tunneling/bubbling pair.
+So, you'll have a preview MouseDown and then a MouseDown event.
+
+Given below is a simple example of a Routed event in which a button and three
+text blocks are created with some properties and events.
+
 ```
 <Window x:Class = "WPFRoutedEvents.MainWindow" 
    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -98,11 +474,11 @@ click event
 Custom Routed Events
 In .NET framework, custom routed event can also be defined. You need to follow the steps given below to define a custom routed event in C#.
 
-Declare and register your routed event with system call RegisterRoutedEvent.
+0) Declare and register your routed event with system call RegisterRoutedEvent.
 
-Specify the Routing Strategy, i.e. Bubble, Tunnel, or Direct.
+1) Specify the Routing Strategy, i.e. Bubble, Tunnel, or Direct.
 
-Provide the event handler.
+2) Provide the event handler.
 
 Let’s take an example to understand more about custom routed events. Follow the steps given below −
 
@@ -225,6 +601,7 @@ When the above code is compiled and executed, it will produce the following wind
 
 custom control
 When you click on the custom control, it will produce the following message.
+
 
 
 # data binding 
@@ -398,24 +775,39 @@ If you click the Show button now, it will display the updated message.
 Updated Output
 We recommend that you execute the above code with both the cases for a better understanding of the concept.
 
+
 # template 
-A template describes the overall look and visual appearance of a control. For each control, there is a default template associated with it which gives the control its appearance. In WPF applications, you can easily create your own templates when you want to customize the visual behavior and visual appearance of a control.
 
-Connectivity between the logic and the template can be achieved by data binding. The main difference between styles and templates are listed below −
+A template describes the overall look and visual appearance of a control. For
+each control, there is a default template associated with it which gives the
+control its appearance. In WPF applications, you can easily create your own
+templates when you want to customize the visual behavior and visual appearance
+of a control.
 
-Styles can only change the appearance of your control with default properties of that control.
+Connectivity between the logic and the template can be achieved by data binding.
+The main difference between styles and templates are listed below −
 
-With templates, you can access more parts of a control than in styles. You can also specify both existing and new behavior of a control.
+1) Styles can only change the appearance of your control with default properties of
+that control.
+
+2) With templates, you can access more parts of a control than in styles. You can
+also specify both existing and new behavior of a control.
 
 There are two types of templates which are most commonly used −
 
-Control Template
-Data Template
-Control Template
-The Control Template defines the visual appearance of a control. All of the UI elements have some kind of appearance as well as behavior, e.g., Button has an appearance and behavior. Click event or mouse hover event are the behaviors which are fired in response to a click and hover and there is also a default appearance of button which can be changed by the Control template.
+1) Control Template
+2) Data Template
+
+## Control Template
+The Control Template defines the visual appearance of a control. All of the UI
+elements have some kind of appearance as well as behavior, e.g., Button has an
+appearance and behavior. Click event or mouse hover event are the behaviors
+which are fired in response to a click and hover and there is also a default
+appearance of button which can be changed by the Control template.
 
 Example
-Let’s take a simple example. We will create two buttons (one is with template and the other one is the default button) and initialize them with some properties.
+Let’s take a simple example. We will create two buttons (one is with template and 
+the other one is the default button) and initialize them with some properties.
 ```
 <Window x:Class = "TemplateDemo.MainWindow" 
    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -479,17 +871,25 @@ Let’s take a simple example. We will create two buttons (one is with template 
 ```
 When you compile and execute the above code, it will display the following MainWindow.
 
-Control Template
-When you move the mouse over the button with custom template, it will change its color as shown below.
+### Control Template
+
+When you move the mouse over the button with custom template, it will change its
+color as shown below.
 
 Mouse over with control template
-Data Template
-A Data Template defines and specifies the appearance and structure of a collection of data. It provides the flexibility to format and define the presentation of the data on any UI element. It is mostly used on data related Item controls such as ComboBox, ListBox, etc.
+
+### Data Template
+A Data Template defines and specifies the appearance and structure of a
+collection of data. It provides the flexibility to format and define the
+presentation of the data on any UI element. It is mostly used on data related
+Item controls such as ComboBox, ListBox, etc.
 
 Example
-Let’s take a simple example to understand the concept of data template. Create a new WPF project with the name WPFDataTemplates.
+Let’s take a simple example to understand the concept of data template. Create a
+new WPF project with the name WPFDataTemplates.
 
-In the following XAML code, we will create a Data Template as resource to hold labels and textboxes. There is a button and a list box as well which to display the data.
+In the following XAML code, we will create a Data Template as resource to hold labels and textboxes. 
+There is a button and a list box as well which to display the data.
 ```
 <Window x:Class = "WPFDataTemplates.MainWindow" 
    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -588,23 +988,44 @@ namespace WPFDataTemplates {
 	
 }
 ```
-When you compile and execute the above code, it will produce the following window. It contains one list and inside the list box, each list box item contains the Person class object data which are displayed on Labels and Text boxes.
+
+When you compile and execute the above code, it will produce the following
+window. It contains one list and inside the list box, each list box item
+contains the Person class object data which are displayed on Labels and Text
+boxes.
+
+
+
+
 
 
 
 # Chinese WPF
 
+
+
 ## WPF快速入门系列(2)——深入解析依赖属性
 一、引言
 　　感觉最近都颓废了，好久没有学习写博文了，出于负罪感，今天强烈逼迫自己开始更新WPF系列。尽管最近看到一篇WPF技术是否老矣的文章，但是还是不能阻止我系统学习WPF。今天继续分享WPF中一个最重要的知识点——依赖属性。
+
 二、依赖属性的全面解析
-　　听到依赖属性，自然联想到C#中属性的概念。C#中属性是抽象模型的核心部分，而依赖属性是专门基于WPF创建的。在WPF库实现中，依赖属性使用普通的C#属性进行了包装，使得我们可以通过和以前一样的方式来使用依赖属性，但我们必须明确，在WPF中我们大多数都在使用依赖属性，而不是使用属性。依赖属性重要性在于，在WPF核心特性，如动画、数据绑定以及样式中都需要使用到依赖属性。既然WPF引入了依赖属性，也自然有其引入的道理。WPF中的依赖属性主要有以下三个优点：
-依赖属性加入了属性变化通知、限制、验证等功能。这样可以使我们更方便地实现应用，同时大大减少了代码量。许多之前需要写很多代码才能实现的功能，在WPF中可以轻松实现。
+　　听到依赖属性，自然联想到C#中属性的概念。C#中属性是抽象模型的核心部分，而依赖
+属性是专门基于WPF创建的。在WPF库实现中，依赖属性使用普通的C#属性进行了包装，使得
+我们可以通过和以前一样的方式来使用依赖属性，但我们必须明确，在WPF中我们大多数都
+在使用依赖属性，而不是使用属性。依赖属性重要性在于，在WPF核心特性，如动画、数据
+绑定以及样式中都需要使用到依赖属性。既然WPF引入了依赖属性，也自然有其引入的道理。
+WPF中的依赖属性主要有以下三个优点：
+
+依赖属性加入了属性变化通知、限制、验证等功能。这样可以使我们更方便地实现应用，同
+时大大减少了代码量。许多之前需要写很多代码才能实现的功能，在WPF中可以轻松实现。
 节约内存：在WinForm中，每个UI控件的属性都赋予了初始值，这样每个相同的控件在内存中都会保存一份初始值。而WPF依赖属性很好地解决了这个问题，它内部实现使用哈希表存储机制，对多个相同控件的相同属性的值都只保存一份。关于依赖属性如何节约内存的更多内容参考：WPF的依赖属性是怎么节约内存的
+
 支持多种提供对象：可以通过多种方式来设置依赖属性的值。可以配合表达式、样式和绑定来对依赖属性设置值。
 2.1 依赖属性的定义
 
-　　上面介绍了依赖属性所带来的好处，这时候，问题又来了，怎样自己定义一个依赖属性呢？C#属性的定义大家再熟悉不过了。下面通过把C#属性进行改写成依赖属性的方式来介绍依赖属性的定义。下面是一个属性的定义：
+　　上面介绍了依赖属性所带来的好处，这时候，问题又来了，怎样自己定义一个依赖属性
+呢？C#属性的定义大家再熟悉不过了。下面通过把C#属性进行改写成依赖属性的方式来介绍
+依赖属性的定义。下面是一个属性的定义：
 
 ```
 1 public class Person
@@ -618,6 +1039,7 @@ When you compile and execute the above code, it will produce the following windo
 使用public static 声明一个DependencyProperty的变量，该变量就是真正的依赖属性。
 在类型的静态构造函数中通过Register方法完成依赖属性的元数据注册。
 提供一个依赖属性的包装属性，通过这个属性来完成对依赖属性的读写操作。
+
 　　根据上面的四个步骤，下面来把Name属性来改写成一个依赖属性，具体的实现代码如下所示：
 
 ```
@@ -649,7 +1071,12 @@ When you compile and execute the above code, it will produce the following windo
     }
 ```
 
-　　从上面代码可以看出，依赖属性是通过调用DependencyObject的GetValue和SetValue来对依赖属性进行读写的。它使用哈希表来进行存储的，对应的Key就是属性的HashCode值，而值（Value）则是注册的DependencyPropery；而C#中的属性是类私有字段的封装，可以通过对该字段进行操作来对属性进行读写。总结为：属性是字段的包装，WPF中使用属性对依赖属性进行包装。
+　　从上面代码可以看出，依赖属性是通过调用DependencyObject的GetValue和SetValue来
+对依赖属性进行读写的。它使用哈希表来进行存储的，对应的Key就是属性的HashCode值，
+而值（Value）则是注册的DependencyPropery；而C#中的属性是类私有字段的封装，可以通
+过对该字段进行操作来对属性进行读写。总结为：属性是字段的包装，WPF中使用属性对依
+赖属性进行包装。
+
 2.2 依赖属性的优先级
  　　WPF允许在多个地方设置依赖属性的值，则自然就涉及到依赖属性获取值的优先级问题。例如下面XMAL代码，我们在三个地方设置了按钮的背景颜色，那最终按钮会读取那个设置的值呢？是Green、Yellow还是Red？
 
@@ -678,7 +1105,14 @@ When you compile and execute the above code, it will produce the following windo
 
 　　上面按钮的背景颜色是Green。之所以背景色是Green，是因为WPF每访问一个依赖属性，它都会按照下面的顺序由高到底处理该值。具体优先级如下图所示：
 
-　　在上面XAML中，按钮的本地值设置的是Green，自定义Style Trigger设置的为Red，自定义的Style Setter设置的为Yellow，由于这里的本地值的优先级最高，所以按钮的背景色或者的是Green值。如果此时把本地值Green去掉的话，此时按钮的背景颜色是Yellow而不是Red。这里尽管Style Trigger的优先级比Style Setter高，但是由于此时Style Trigger的IsMouseOver属性为false，即鼠标没有移到按钮上，一旦鼠标移到按钮上时，此时按钮的颜色就为Red。此时才会体现出Style Trigger的优先级比Style Setter优先级高。所以上图中优先级是比较理想情况下，很多时候还需要具体分析。
+　　在上面XAML中，按钮的本地值设置的是Green，自定义Style Trigger设置的为Red，自
+定义的Style Setter设置的为Yellow，由于这里的本地值的优先级最高，所以按钮的背景色
+或者的是Green值。如果此时把本地值Green去掉的话，此时按钮的背景颜色是Yellow而不是
+Red。这里尽管Style Trigger的优先级比Style Setter高，但是由于此时Style Trigger的
+IsMouseOver属性为false，即鼠标没有移到按钮上，一旦鼠标移到按钮上时，此时按钮的颜
+色就为Red。此时才会体现出Style Trigger的优先级比Style Setter优先级高。所以上图中
+优先级是比较理想情况下，很多时候还需要具体分析。
+
 2.3 依赖属性的继承
 　　依赖属性是可以被继承的，即父元素的相关设置会自动传递给所有的子元素。下面代码演示了依赖属性的继承。
 
@@ -705,10 +1139,12 @@ When you compile and execute the above code, it will produce the following windo
 
 　　在上面XAML代码中。Window.FontSize设置会影响所有内部子元素字体大小，这就是依赖属性的继承。如第一个Label没有定义FontSize，所以它继承了Window.FontSize值。但一旦子元素提供了显式设置，这种继承就会被打断，所以Window.FontSize值对于第二个Label不再起作用。
 　　这时，你可能已经发现了问题：StatusBar没有显式设置FontSize值，但它的字体大小没有继承Window.FontSize的值，而是保持了系统的默认值。那这是什么原因呢？其实导致这样的问题：并不是所有元素都支持属性值继承的，如StatusBar、Tooptip和Menu控件。另外，StatusBar等控件截获了从父元素继承来的属性，并且该属性也不会影响StatusBar控件的子元素。例如，如果我们在StatusBar中添加一个Button。那么这个Button的FontSize属性也不会发生改变，其值为默认值。
-　　前面介绍了依赖属性的继承，那我们如何把自定义的依赖属性设置为可被其他控件继承呢？通过AddOwer方法可以依赖属性的继承。具体的实现代码如下所示：
+
+　　前面介绍了依赖属性的继承，那我们如何把自定义的依赖属性设置为可被其他控件继承
+呢？通过AddOwer方法可以依赖属性的继承。具体的实现代码如下所示：
 
 ```
-1  public class CustomStackPanel : StackPanel
+ 1  public class CustomStackPanel : StackPanel
  2    {
  3         public static readonly DependencyProperty MinDateProperty;
  4 
@@ -761,10 +1197,20 @@ When you compile and execute the above code, it will produce the following windo
 </Window>
 ```
 
-　　上面XAML代码中，显示设置了CustomStackPanel的MinDate的值，而在CustomButton中却没有显式设置其MinDate值。CustomButton的Content属性的值是通过绑定MinDate属性来进行获取的，关于绑定的更多内容会在后面文章中分享。在这里CustomButton中并没有设置MinDate的值，但是CustomButton的Content的值却是当前的时间，从而可以看出，此时CustomButton的MinDate属性继承了CustomStackPanel的MinDate的值，从而设置了其Content属性。最终的效果如下图所示：
+　　上面XAML代码中，显示设置了CustomStackPanel的MinDate的值，而在CustomButton中
+却没有显式设置其MinDate值。CustomButton的Content属性的值是通过绑定MinDate属性来
+进行获取的，关于绑定的更多内容会在后面文章中分享。在这里CustomButton中并没有设置
+MinDate的值，但是CustomButton的Content的值却是当前的时间，从而可以看出，此时
+CustomButton的MinDate属性继承了CustomStackPanel的MinDate的值，从而设置了其
+Content属性。最终的效果如下图所示：
 
 2.4 只读依赖属性
- 　　在C#属性中，我们可以通过设置只读属性来防止外界恶意更改该属性值，同样，在WPF中也可以设置只读依赖属性。如IsMouseOver就是一个只读依赖属性。那我们如何创建一个只读依赖属性呢？其实只读的依赖属性的定义方式与一般依赖属性的定义方式基本一样。只读依赖属性仅仅是用DependencyProperty.RegisterReadonly替换了DependencyProperty.Register而已。下面代码实现了一个只读依赖属性。
+
+ 　　在C#属性中，我们可以通过设置只读属性来防止外界恶意更改该属性值，同样，在WPF
+ 中也可以设置只读依赖属性。如IsMouseOver就是一个只读依赖属性。那我们如何创建一个
+ 只读依赖属性呢？其实只读的依赖属性的定义方式与一般依赖属性的定义方式基本一样。
+ 只读依赖属性仅仅是用DependencyProperty.RegisterReadonly替换了
+ DependencyProperty.Register而已。下面代码实现了一个只读依赖属性。
 
 ```
 1 public partial class MainWindow : Window
@@ -807,10 +1253,19 @@ When you compile and execute the above code, it will produce the following windo
 </Window>
 ```
 
-　　此时Counter包装的counterKey就是一个只读依赖属性，因为其定义为private的，所以在类外也不能使用DependencyObject.SetValue方法来对其值，而包装的Counter属性又只提供了GetValue方法，所以类外部只能对该依赖属性进行读取，而不能对其赋值。此时运行效果如下图所示。
+　　此时Counter包装的counterKey就是一个只读依赖属性，因为其定义为private的，所以
+在类外也不能使用DependencyObject.SetValue方法来对其值，而包装的Counter属性又只提
+供了GetValue方法，所以类外部只能对该依赖属性进行读取，而不能对其赋值。此时运行效
+果如下图所示。
 
 2.5 附加属性
-　　WPF中还有一类特殊的属性——附加属性。附加是一种特殊的依赖属性。它允许给一个对象添加一个值，而该对象可能对这个值一无所知。附加属性最常见的例子就是布局容器中DockPanel类中的Dock附加属性和Grid类中Row和Column附加属性。那问题又来了，我们怎样在自己的类中定义一个附加属性呢？其实定义附加属性和定义一般的依赖属性一样没什么区别，只是用RegisterAttached方法代替了Register方法罢了。下面代码演示了附加属性的定义。
+
+　　WPF中还有一类特殊的属性——附加属性。附加是一种特殊的依赖属性。它允许给一个对
+象添加一个值，而该对象可能对这个值一无所知。附加属性最常见的例子就是布局容器中
+DockPanel类中的Dock附加属性和Grid类中Row和Column附加属性。那问题又来了，我们怎样
+在自己的类中定义一个附加属性呢？其实定义附加属性和定义一般的依赖属性一样没什么区
+别，只是用RegisterAttached方法代替了Register方法罢了。下面代码演示了附加属性的定
+义。
 
 ```
 public class AttachedPropertyClass
@@ -835,7 +1290,10 @@ public class AttachedPropertyClass
 
 
 
-　　在上面代码中，IsAttached就是一个附加属性，附加属性没有采用CLR属性进行封装，而是使用静态SetIsAttached方法和GetIsAttached方法来存取IsAttached值。这两个静态方法内部一样是调用SetValue和GetValue来对附加属性读写的。
+　　在上面代码中，IsAttached就是一个附加属性，附加属性没有采用CLR属性进行封装，
+而是使用静态SetIsAttached方法和GetIsAttached方法来存取IsAttached值。这两个静态方
+法内部一样是调用SetValue和GetValue来对附加属性读写的。
+
 2.6 依赖属性验证和强制
  　　在定义任何类型的属性时，都需要考虑错误设置属性的可能性。对于传统的CLR属性，可以在属性的设置器中进行属性值的验证，不满足条件的值可以抛出异常。但对于依赖属性来说，这种方法不合适，因为依赖属性通过SetValue方法来直接设置其值的。然而WPF有其代替的方式，WPF中提供了两种方法来用于验证依赖属性的值。
 ValidateValueCallback:该回调函数可以接受或拒绝新值。该值可作为DependencyProperty.Register方法的一个参数。
@@ -847,7 +1305,7 @@ CoerceValueCallback:该回调函数可将新值强制修改为可被接受的值
 　　下面代码演示了基本的流程。
 
 ```
-1 class Program
+ 1 class Program
  2    {
  3         static void Main(string[] args)
  4        {
@@ -941,7 +1399,9 @@ public MainWindow()
 ```
 
 三、总结
- 　　到这里，依赖属性的介绍就结束了。WPF中的依赖属性通过一个静态只读字段进行定义，并且在静态构造函数中进行注册，最后通过.NET传统属性进行包装，使其使用与传统的.NET属性并无两样。在后面一篇文章将分享WPF中新的事件机制——路由事件。
+ 　　到这里，依赖属性的介绍就结束了。WPF中的依赖属性通过一个静态只读字段进行定义，
+ 并且在静态构造函数中进行注册，最后通过.NET传统属性进行包装，使其使用与传统的.NET属
+并无两样。在后面一篇文章将分享WPF中新的事件机制——路由事件。
 
 
 WPF - Dependency Property 深入探討
@@ -1046,12 +1506,24 @@ static void ValidateFontSize(DependencyObject obj,DependencyPropertyChangedEvent
 
 ## WPF快速入门系列(3)——深入解析WPF事件机制
 一、引言
- 　　WPF除了创建了一个新的依赖属性系统之外，还用更高级的路由事件功能替换了普通的.NET事件。
-　　路由事件是具有更强传播能力的事件——它可以在元素树上向上冒泡和向下隧道传播，并且沿着传播路径被事件处理程序处理。与依赖属性一样，可以使用传统的事件方式使用路由事件。尽管路由事件的使用方式与传统的事件一样，但是理解其工作原理还是相当重要的。
+ 　　WPF除了创建了一个新的依赖属性系统之外，还用更高级的路由事件功能替换了普通
+ 的.NET事件。
+
+　　路由事件是具有更强传播能力的事件——它可以在元素树上向上冒泡和向下隧道传播，并
+且沿着传播路径被事件处理程序处理。与依赖属性一样，可以使用传统的事件方式使用路由
+事件。尽管路由事件的使用方式与传统的事件一样，但是理解其工作原理还是相当重要的。
+
 二、路由事件的详细介绍
-　　对于.NET中的事件，大家应该在熟悉不过了。事件指的在某个事情发生时，由对象发送用于通知代码的消息。WPF中的路由事件允许事件可以被传递。例如，路由事件允许一个来自工具栏按钮的单击事件，在被处理之前可以传递到工具栏，然后再传递到包含工具栏的窗口。那么现在问题来了，我怎样在WPF中去定义一个路由事件呢？
+　　对于.NET中的事件，大家应该在熟悉不过了。事件指的在某个事情发生时，由对象发送
+用于通知代码的消息。WPF中的路由事件允许事件可以被传递。例如，路由事件允许一个来
+自工具栏按钮的单击事件，在被处理之前可以传递到工具栏，然后再传递到包含工具栏的窗
+口。那么现在问题来了，我怎样在WPF中去定义一个路由事件呢？
+
 2.1 如何定义路由事件
-　　既然有了问题，自然就要去解决了。在自己定义一个依赖属性之前，首先，我们得学习下WPF框架中是怎么去定义的，然后按照WPF框架中定义的方式去试着自己定义一个依赖属性。下面通过Reflector工具来查看下WPF中Button按钮的Click事件的定义方式。
+　　既然有了问题，自然就要去解决了。在自己定义一个依赖属性之前，首先，我们得学习
+下WPF框架中是怎么去定义的，然后按照WPF框架中定义的方式去试着自己定义一个依赖属性。
+下面通过Reflector工具来查看下WPF中Button按钮的Click事件的定义方式。
+
 　　由于Button按钮的Click事件是继承于ButtonBase基类的，所以我们直接来查看ButtonBase中Click事件的定义。具体的定义代码如下所示：
 
 ```
@@ -1087,9 +1559,16 @@ public abstract class ButtonBase : ContentControl, ICommandSource
 
 
 　　从上面代码可知，路由事件的定义与依赖属性的定义类似，路由事件由只读的静态字段表示，在一个静态构造函数通过EventManager.RegisterRoutedEvent函数注册，并且通过一个.NET事件定义进行包装。
+
 　　现在已经知道了路由事件是如何在WPF框架中定义和实现的了，那要想自己定义一个路由事件也自然不在话下了。
+
 2.2 共享路由事件
-　　与依赖属性一样，可以在类之间共享路由事件的定义。即实现路由事件的继承。例如UIElement类和ContentElement类都使用了MouseUp事件，但MouseUp事件是由System.Windows.Input.Mouse类定义的。UIElement类和ContentElement类只是通过RouteEvent.AddOwner方法重用了MouseUp事件。你可以在UIElement类的静态构造函数找到下面的代码：
+
+　　与依赖属性一样，可以在类之间共享路由事件的定义。即实现路由事件的继承。例如
+UIElement类和ContentElement类都使用了MouseUp事件，但MouseUp事件是由
+System.Windows.Input.Mouse类定义的。UIElement类和ContentElement类只是通过
+RouteEvent.AddOwner方法重用了MouseUp事件。你可以在UIElement类的静态构造函数找到
+下面的代码：
 
 ```
 static UIElement()
@@ -1127,25 +1606,31 @@ static UIElement()
 
 　　对于路由事件的处理，与原来WinForm方式一样，你可以在XAML中直接连接一个事件处理程序，具体实现代码如下所示：
 
+
 ```
 <TextBlock Margin="3" MouseUp="SomethingClick" Name="tbxTest">
     text label
 </TextBlock>
-```
 // 后台cs代码
 private void SomethingClick(object sender, MouseButtonEventArgs e)
 {
 }
 
+
+
 　　同时还可以通过后台代码的方式连接事件处理程序，具体的实现代码如下所示：
    tbxTest.MouseUp += new MouseButtonEventHandler(SomethingClick);
     // 或者省略委托类型
     tbxTest.MouseUp += SomethingClick;
+
+```
+
 三、路由事件其特殊性
 　　路由事件的特殊性在于其传递性，WPF中的路由事件分为三种。
-与普通的.NET事件类似的直接路由事件(Direct event)。它源自一个元素，并且不传递给其他元素。例如，MouseEnter事件(当鼠标移动到一个元素上面时触发)就是一个直接路由事件。
-在包含层次中向上传递的冒泡路由事件(Bubbling event)。例如，MouseDown事件就是一个冒泡路由事件。它首先被单击的元素触发，接下来就是该元素的父元素触发，依此类推，直到WPF到达元素树的顶部为止。
-在包含层次中向下传递的隧道路由事件(Tunneling event)。例如PreviewKeyDown就是一个隧道路由事件。在一个窗口上按下某个键，首先是窗口，然后是更具体的容器，直到到达按下键时具有焦点的元素。
+
+(Direct event):它源自一个元素，并且不传递给其他元素。例如，MouseEnter事件(当鼠标移动到一个元素上面时触发)就是一个直接路由事件。
+(Bubbling event):例如，MouseDown事件就是一个冒泡路由事件。它首先被单击的元素触发，接下来就是该元素的父元素触发，依此类推，直到WPF到达元素树的顶部为止。
+(Tunneling event):例如PreviewKeyDown就是一个隧道路由事件。在一个窗口上按下某个键，首先是窗口，然后是更具体的容器，直到到达按下键时具有焦点的元素。
 　　既然，路由事件有三种表现形式，那我们怎么去区别具体的路由事件是属于哪种呢？辨别的方法在于路由事件的注册方法上，当使用EventManager.RegisterEvent方法注册一个路由事件时，需要传递一个RoutingStrategy枚举值来标识希望应用于事件的事件行为。
 3.1 冒泡路由事件
 　　下面代码演示了事件冒泡过程：
@@ -1182,7 +1667,9 @@ private void SomethingClick(object sender, MouseButtonEventArgs e)
     </Grid>
 </Window>
 ```
+
 　　其后台代码为：
+
 ```
 public partial class MainWindow : Window
 {
@@ -1216,15 +1703,35 @@ public partial class MainWindow : Window
 
 　　单击窗口中的笑脸图像之后，程序的运行结果如下图所示。
 
-　　从上图结果可以发现，MouseUp事件由下向上传递了5级，直到窗口级别结束。另外，如果选择了Handle first event复选框的话，SomethingClicked方法会将RoutedEventArgs.Handled属性设置为true，表示事件已被处理，且该事件将终止向上冒泡。因此，此时列表中只能看到Image的事件，具体运行结果如下图所示：
+　　从上图结果可以发现，MouseUp事件由下向上传递了5级，直到窗口级别结束。另外，如
+果选择了Handle first event复选框的话，SomethingClicked方法会将
+RoutedEventArgs.Handled属性设置为true，表示事件已被处理，且该事件将终止向上冒泡。
+因此，此时列表中只能看到Image的事件，具体运行结果如下图所示：
 
-　　并且在列表框或窗口空白处进行单击，此时也一样只会出现一次MouseUp事件。但单击一个地方例外。当单击Clear List按钮，此时不会引发MouseUp事件。这是因为按钮包含一些特殊的处理代码，这些代码会挂起MouseUp事件（即不会触发MouseUp事件，则相应的事件处理程序也不会被调用），并引发一个更高级的Click事件，同时，Handled标记被设置为true(这里指的在触发Click事件时会把Handled设置为true)，从而阻止MouseUp事件继续向上传递。
-　　通过博友yiifans指出，上面有一点说错了，在设置Handled = true的时候，不管是冒泡还是隧道事件，它还是会继续传播的，只是对应的事件不会再处理了。这里之所以没有删除上面错误解释而是在这里另行说明，是为了强调，因为WPF编程宝典上也是说会阻止传播。如果想继续响应相应事件的话，可以通过AddHandler方法进行注册。此时你可以去掉XAMLStackPanel中MouseUp的注册，而是通过后台代码的方式进行注册MouseUp事件，具体的实现代码如下：
-           // stackpanel1是StackPanel的名称
-            stackpanel1.AddHandler(UIElement.MouseUpEvent, new RoutedEventHandler(SomethingClick), true);
-　　之所以还是会继续上传，其实通过在SomethingClick事件处理程序中设置一个断点就可以发现其调用堆栈，具体的堆栈调用截图如下所示：
+　　并且在列表框或窗口空白处进行单击，此时也一样只会出现一次MouseUp事件。但单击
+一个地方例外。当单击Clear List按钮，此时不会引发MouseUp事件。这是因为按钮包含一
+些特殊的处理代码，这些代码会挂起MouseUp事件（即不会触发MouseUp事件，则相应的事件
+处理程序也不会被调用），并引发一个更高级的Click事件，同时，Handled标记被设置为
+true(这里指的在触发Click事件时会把Handled设置为true)，从而阻止MouseUp事件继续向
+上传递。
+
+　　通过博友yiifans指出，上面有一点说错了，在设置Handled = true的时候，不管是冒
+泡还是隧道事件，它还是会继续传播的，只是对应的事件不会再处理了。这里之所以没有删
+除上面错误解释而是在这里另行说明，是为了强调，因为WPF编程宝典上也是说会阻止传播。
+如果想继续响应相应事件的话，可以通过AddHandler方法进行注册。此时你可以去掉
+XAMLStackPanel中MouseUp的注册，而是通过后台代码的方式进行注册MouseUp事件，具体的
+实现代码如下：
+``` 
+   // stackpanel1是StackPanel的名称
+   stackpanel1.AddHandler(UIElement.MouseUpEvent, new
+   RoutedEventHandler(SomethingClick), true);
+```
+
+　　之所以还是会继续上传，其实通过在SomethingClick事件处理程序中设置一个断点就可
+以发现其调用堆栈，具体的堆栈调用截图如下所示：
 
 　　从上图可以知道SomethingClick调用前都执行了哪些操作，其中RoutedEventHandleInfo.InvokeHandler方法的实现代码就是这个问题的关键所在，下面通过Reflector查看下这个方法的源码，具体查看的源码如下所示：
+
 ```
 internal void InvokeHandler(object target, RoutedEventArgs routedEventArgs)
 {
@@ -1242,11 +1749,32 @@ internal void InvokeHandler(object target, RoutedEventArgs routedEventArgs)
 }
 ```
 
-　　在上面代码中，红色标记的就是解释这个问题的关键代码，每当触发事件处理程序之前，都会检查RoutedEventArgs的Handled属性和handleEventsToo字段。这样我们就彻底明白了，当Handle=true时，其实路由事件一样还是会传递，只是传递到对应事件处理程序中时，只是因为Handle为true和_handleEventsToo为false，从而导致事件处理程序没有运行罢了，如果通过AddHandler（RoutedEvent, Delegate, Boolean）注册事件处理程序的话，此时把_handleEventToo显式设置为true了，所以即使Handle为true，该元素的事件处理程序照样会执行，因为此时if条件一样为true的。
+　　在上面代码中，红色标记的就是解释这个问题的关键代码，每当触发事件处理程序之前，
+都会检查RoutedEventArgs的Handled属性和handleEventsToo字段。这样我们就彻底明白了，
+当Handle=true时，其实路由事件一样还是会传递，只是传递到对应事件处理程序中时，只
+是因为Handle为true和_handleEventsToo为false，从而导致事件处理程序没有运行罢了，
+如果通过AddHandler（RoutedEvent, Delegate, Boolean）注册事件处理程序的话，此时
+把_handleEventToo显式设置为true了，所以即使Handle为true，该元素的事件处理程序照
+样会执行，因为此时if条件一样为true的。
+
 3.2 隧道路由事件
- 　　隧道路由事件与冒泡路由事件的工作方式一样，只是方向相反。即如果上面的例子中，触发的是一个隧道路由事件的话，如果在图像上单击，则首先窗口触发该隧道路由事件，然后才是Grid控件，接下来是StackPanel面板，以此类推，直到到达实际源头，即标签中的图像为止。
-　　看了上面的介绍。隧道路由事件想必是相当好理解吧。它与冒泡路由事件的传递方式相反。但是我们怎样去区别隧道路由事件呢？隧道路由事件的识别相当容易，因为隧道路由事件都是以单词Preview开头。并且，WPF一般都成对地定义冒泡路由事件和隧道路由事件。这意味着如果发现一个冒泡的MouseUp事件，则对应的PreviewMouseUp就是一个隧道路由事件。另外，隧道路由事件总是在冒泡路由事件之前被触发。
-　　另外需要注意的一点是：如果将隧道路由事件标记为已处理的，那么冒泡路由事件就不会发生。这是因为这两个事件共享同一个RoutedEventArgs类的实例。隧道路由事件对于来执行一些预处理操作非常有用，例如，根据键盘上特定的键执行特定操作，或过滤掉特定的鼠标操作等这样的场景都可以在隧道路由事件处理程序中进行处理。下面的示例演示了PreviewKeyDown事件的隧道过程。XAML代码如下所示。
+
+ 　　隧道路由事件与冒泡路由事件的工作方式一样，只是方向相反。即如果上面的例子中，
+ 触发的是一个隧道路由事件的话，如果在图像上单击，则首先窗口触发该隧道路由事件，
+ 然后才是Grid控件，接下来是StackPanel面板，以此类推，直到到达实际源头，即标签中
+ 的图像为止。
+
+　　看了上面的介绍。隧道路由事件想必是相当好理解吧。它与冒泡路由事件的传递方式相
+反。但是我们怎样去区别隧道路由事件呢？隧道路由事件的识别相当容易，因为隧道路由事
+件都是以单词Preview开头。并且，WPF一般都成对地定义冒泡路由事件和隧道路由事件。这
+意味着如果发现一个冒泡的MouseUp事件，则对应的PreviewMouseUp就是一个隧道路由事件。
+另外，隧道路由事件总是在冒泡路由事件之前被触发。
+
+　　另外需要注意的一点是：如果将隧道路由事件标记为已处理的，那么冒泡路由事件就不
+会发生。这是因为这两个事件共享同一个RoutedEventArgs类的实例。隧道路由事件对于来
+执行一些预处理操作非常有用，例如，根据键盘上特定的键执行特定操作，或过滤掉特定的
+鼠标操作等这样的场景都可以在隧道路由事件处理程序中进行处理。下面的示例演示了
+PreviewKeyDown事件的隧道过程。XAML代码如下所示。
 
 ```
 <Window x:Class="TunneleEvent.MainWindow"
@@ -1287,7 +1815,7 @@ internal void InvokeHandler(object target, RoutedEventArgs routedEventArgs)
 
 　　其对应的后台cs代码实现如下所示：
 
-```
+``` cs 
 1 public partial class MainWindow : Window
  2    {
  3         public MainWindow()
