@@ -11,7 +11,8 @@ It is mainly used for designing GUIs, however it can be used for other purposes
 as well, e.g., to declare workflow in Workflow Foundation.
 
 Basic Syntax
-When you create your new WPF project, you will encounter some of the XAML code by default in MainWindow.xaml as shown below.
+When you create your new WPF project, you will encounter some of the XAML code
+by default in MainWindow.xaml as shown below.
 
 <Window x:Class = "Resources.MainWindow" 
    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -41,7 +42,7 @@ Example of Object with Child Element: StackPanel contains Textblock as child ele
 
 Why XAML in WPF
 
-XAML is not only the most widely known feature of WPF, but it's also one of the
+XAML is not only the most widhttps://www.pornhub.com/view_video.php?viewkey=ph5cacd08b4c910ely known feature of WPF, but it's also one of the
 most misunderstood features. If you have exposure to WPF, then you must have
 heard of XAML; but take a note of the following two less known facts about XAML
 −
@@ -98,20 +99,26 @@ namespace WPFXAMLOverview {
 } 
 ```
 
-When you compile and execute either the XAML code or the C# code, you will see the same output as shown below.
+When you compile and execute either the XAML code or the C# code, you will see
+the same output as shown below.
 
-XAML Output
-From the above example, it is clear that what you can do in XAML to create, initialize, and set properties of objects, the same tasks can also be done using code.
+XAML Output From the above example, it is clear that what you can do in XAML to
+create, initialize, and set properties of objects, the same tasks can also be
+done using code.
 
 XAML is just another simple and easy way to design UI elements.
 
-With XAML, it doesn’t mean that what you can do to design UI elements is the only way. You can either declare the objects in XAML or define them using code.
+With XAML, it doesn’t mean that what you can do to design UI elements is the
+only way. You can either declare the objects in XAML or define them using code.
 
 XAML is optional, but despite this, it is at the heart of WPF design.
 
-The goal of XAML is to enable visual designers to create user interface elements directly.
+The goal of XAML is to enable visual designers to create user interface elements
+directly.
 
-WPF aims to make it possible to control all visual aspects of the user interface from mark-up.
+WPF aims to make it possible to control all visual aspects of the user interface
+from mark-up.
+
 
 
 # Elements Tree
@@ -201,6 +208,7 @@ interface.
 The visual tree will be of interest if you're focusing on the presentation. For
 example, if you wish to customize the appearance of any UI element, you will
 need to use the visual tree.
+
 
 # Dependency Properties
 
@@ -358,6 +366,7 @@ The following XAML code creates a user control and initializes its SetText depen
 
 Let's run this application. You can immediately observe that in our MainWindow,
 the dependency property for user control has been successfully used as a Text.
+
 
 
 # routed event
@@ -604,19 +613,32 @@ When you click on the custom control, it will produce the following message.
 
 
 
+
 # data binding 
 
-Data binding is a mechanism in WPF applications that provides a simple and easy way for Windows Runtime apps to display and interact with data. In this mechanism, the management of data is entirely separated from the way data.
+Data binding is a mechanism in WPF applications that provides a simple and easy
+way for Windows Runtime apps to display and interact with data. In this
+mechanism, the management of data is entirely separated from the way data.
 
-Data binding allows the flow of data between UI elements and data object on user interface. When a binding is established and the data or your business model changes, then it reflects the updates automatically to the UI elements and vice versa. It is also possible to bind, not to a standard data source, but to another element on the page.
+Data binding allows the flow of data between UI elements and data object on user
+interface. When a binding is established and the data or your business model
+changes, then it reflects the updates automatically to the UI elements and vice
+versa. It is also possible to bind, not to a standard data source, but to
+another element on the page.
 
 Data binding is of two types − one-way data binding and two-way data binding.
 
-One-Way Data Binding
-In one-way binding, data is bound from its source (that is the object that holds the data) to its target (that is the object that displays the data)
+## One-Way Data Binding 
+In one-way binding, data is bound from its source (that is
+the object that holds the data) to its target (that is the object that displays
+the data)
 
-Let’s take a simple example to understand one-way data binding in detail. First of all, create a new WPF project with the name WPFDataBinding.
-The following XAML code creates two labels, two textboxes, and one button and initializes them with some properties.
+Let’s take a simple example to understand one-way data binding in detail. First
+of all, create a new WPF project with the name WPFDataBinding.
+
+The following XAML code creates two labels, two textboxes, and one button and
+initializes them with some properties.
+
 ```
 <Window x:Class = "WPFDataBinding.MainWindow" 
    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -658,11 +680,14 @@ The following XAML code creates two labels, two textboxes, and one button and in
 ```
 The text properties of both the textboxes bind to “Name” and “Age” which are class variables of Person class which is shown below.
 
-In Person class, we have just two variables Name and Age, and its object is initialized in MainWindow class.
+In Person class, we have just two variables Name and Age, and its object is
+initialized in MainWindow class.
 
-In XAML code, we are binding to a property Name and Age, but we have not selected what object that property belongs to.
+In XAML code, we are binding to a property Name and Age, but we have not
+selected what object that property belongs to.
 
 The easier way is to assign an object to DataContext whose properties we are binding in the following C# code in MainWindowconstructor.
+
 ```
 using System.Windows;  
 namespace WPFDataBinding { 
@@ -706,24 +731,31 @@ namespace WPFDataBinding {
    } 
 } 
 ```
-Let's run this application and you can see immediately in our MainWindow that we have successfully bound to the Name and Age of that Person object.
 
-Output of DataBinding
-When you press the Show button, it will display the name and age on the message box.
+Let's run this application and you can see immediately in our MainWindow that we
+have successfully bound to the Name and Age of that Person object.
 
-when show button is pressed
-Let’s change the Name and Age in the dialog box.
+Output of DataBinding When you press the Show button, it will display the name
+and age on the message box.
 
-Changes made in DataBinding
-If you now click the Show button, it will again display the same message.
+when show button is pressed Let’s change the Name and Age in the dialog box.
 
-Display same Message
-This because data binding mode is set to one-way in the XAML code. To show the updated data, you will need to understand two-way data binding.
+Changes made in DataBinding If you now click the Show button, it will again
+display the same message.
 
-Two-Way Data Binding
-In two-way binding, the user can modify the data through the user interface and have that data updated in the source. If the source changes while the user is looking at the view, you want the view to be updated.
+Display same Message This because data binding mode is set to one-way in the
+XAML code. To show the updated data, you will need to understand two-way data
+binding.
 
-Let’s take the same example but here, we will change the binding mode from One Way to Two Way in the XAML code.
+## Two-Way Data Binding 
+In two-way binding, the user can modify the data through
+the user interface and have that data updated in the source. If the source
+changes while the user is looking at the view, you want the view to be updated.
+
+Let’s take the same example but here, we will change the binding mode from One
+Way to Two Way in the XAML code.
+
+
 ```
 <Window x:Class = "WPFDataBinding.MainWindow" 
    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -763,17 +795,18 @@ Let’s take the same example but here, we will change the binding mode from One
 ```
 Let's run this application again.
 
-Two way DataBinding
-It will produce the same output −
+Two way DataBinding It will produce the same output −
 
-Output of Two way DataBinding
-Let’s now change the Name and Age values −
+Output of Two way DataBinding Let’s now change the Name and Age values −
 
-changes in two way
-If you click the Show button now, it will display the updated message.
+changes in two way If you click the Show button now, it will display the updated
+message.
 
-Updated Output
-We recommend that you execute the above code with both the cases for a better understanding of the concept.
+Updated Output We recommend that you execute the above code with both the cases
+for a better understanding of the concept.
+
+
+
 
 
 # template 
@@ -998,6 +1031,658 @@ boxes.
 
 
 
+
+
+
+
+# Resources
+
+ 
+Resources are normally definitions connected with some object that you just
+anticipate to use more often than once. It is the ability to store data locally
+for controls or for the current window or globally for the entire applications.
+
+Defining an object as a resource allows us to access it from another place. What
+it means is that the object can be reused. Resources are defined in resource
+dictionaries and any object can be defined as a resource effectively making it a
+shareable asset. A unique key is specified to an XAML resource and with that
+key, it can be referenced by using a StaticResource markup extension.
+
+Resources can be of two types −
+
+1) StaticResource 
+2) DynamicResource 
+
+A StaticResource is a onetime lookup, whereas a DynamicResource works more like
+a data binding. It remembers that a property is associated with a particular
+resource key. If the object associated with that key changes, dynamic resource
+will update the target property.
+
+Example Here's a simple application for the SolidColorBrush resource.
+
+Let’s create a new WPF project with the name WPFResouces.
+
+Drag two Rectangles and set their properties as shown in the following XAML
+code.
+``` 
+<Window x:Class = "WPFResources.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:d = "http://schemas.microsoft.com/expression/blend/2008" 
+   xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006" 
+   xmlns:local = "clr-namespace:WPFResources" 
+   mc:Ignorable = "d" Title = "MainWindow" Height = "350" Width = "525"> 
+	
+   <Window.Resources> 
+      <SolidColorBrush x:Key = "brushResource" Color = "Blue" /> 
+   </Window.Resources> 
+	
+   <StackPanel> 
+      <Rectangle Height = "50" Margin = "20" Fill = "{StaticResource brushResource}" /> 
+      <Rectangle Height = "50" Margin = "20" Fill = "{DynamicResource brushResource}" /> 
+      <Button x:Name = "changeResourceButton"
+         Content = "_Change Resource" Click = "changeResourceButton_Click" /> 
+   </StackPanel> 
+	
+</Window> 
+```
+
+In the above XAML code, you can see that one rectangle has StaticResource and
+the other one has DynamicResource and the color of brushResource is Bisque.
+
+When you compile and execute the code, it will produce the following MainWindow.
+
+MainWindow of Resources When you click the "Change Resource" button, you will
+see that the rectangle with DynamicResource will change its color to Red.
+
+Change Resources
+
+Resource Scope
+
+Resources are defined in resource dictionaries, but there are numerous places
+where a resource dictionary can be defined. In the above example, a resource
+dictionary is defined on Window/page level. In what dictionary a resource is
+defined immediately limits the scope of that resource. So the scope, i.e. where
+you can use the resource, depends on where you've defined it.
+
+Define the resource in the resource dictionary of a grid and it's accessible by
+that grid and by its child elements only.
+
+Define it on a window/page and it's accessible by all elements on that
+window/page.
+
+The app root can be found in App.xaml resources dictionary. It's the root of our
+application, so the resources defined here are scoped to the entire application.
+
+As far as the scope of the resource is concerned, the most often are application
+level, page level, and a specific element level like a Grid, StackPanel, etc.
+
+Resource Scope
+
+The above application has resources in its Window/page level.
+
+Resource Dictionaries
+
+Resource dictionaries in XAML apps imply that the resource dictionaries are kept
+in separate files. It is followed in almost all XAML apps. Defining resources in
+separate files can have the following advantages −
+
+Separation between defining resources in the resource dictionary and UI related
+code.
+
+Defining all the resources in a separate file such as App.xaml would make them
+available across the app.
+
+So, how do we define our resources in a resource dictionary in a separate file?
+Well, it is very easy, just add a new resource dictionary through Visual Studio
+by following steps given below −
+
+In your solution, add a new folder and name it ResourceDictionaries.
+
+Right-click on this folder and select Resource Dictionary from Add submenu item
+and name it DictionaryWithBrush.xaml
+
+Example
+
+Let’s now take the same example, but here, we will define the resource dictionary in app level. The XAML code for MainWindow.xaml is as follows −
+
+``` 
+<Window x:Class = "WPFResources.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:d = "http://schemas.microsoft.com/expression/blend/2008" 
+   xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006" 
+   xmlns:local = "clr-namespace:WPFResources" 
+   mc:Ignorable = "d" Title = "MainWindow" Height = "350" Width = "525"> 
+	
+   <StackPanel> 
+      <Rectangle Height = "50" Margin = "20" Fill = "{StaticResource brushResource}" /> 
+      <Rectangle Height = "50" Margin = "20" Fill = "{DynamicResource brushResource}" /> 
+      <Button x:Name = "changeResourceButton"
+         Content = "_Change Resource" Click = "changeResourceButton_Click" /> 
+   </StackPanel> 
+	
+</Window>
+```
+Here is the implementation in DictionaryWithBrush.xaml −
+
+``` 
+<ResourceDictionary xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"> 
+	
+   <SolidColorBrush x:Key = "brushResource" Color = "Blue" /> 
+</ResourceDictionary> 
+Here is the implementation in app.xaml −
+
+<Application x:Class="WPFResources.App" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   StartupUri = "MainWindow.xaml"> 
+	
+
+   <Application.Resources> 
+      <ResourceDictionary Source = " XAMLResources\ResourceDictionaries\DictionaryWithBrush.xaml"/> 
+   </Application.Resources> 
+	
+</Application> 
+```
+
+When the above code is compiled and executed, it will produce the following
+output −
+
+Resource Dictionaries Output When you click the Change Resource button, the
+rectangle will change its color to Red.
+
+Change Resource Dictionaries We recommend that you execute the above code and
+try some more resources (for example, background color).
+
+
+
+
+# Styles
+ 
+The .NET framework provides several strategies to personalize and customize the
+appearance of an application. Styles provide us the flexibility to set some
+properties of an object and reuse these specific settings across multiple
+objects for a consistent look.
+
+In styles, you can set only the existing properties of an object such as Height,
+Width, Font size, etc.
+
+Only default behavior of a control can be specified.
+
+Multiple properties can be added into a single style.
+
+Styles are used to give a uniform look or appearance to a set of controls.
+Implicit styles are used to apply an appearance to all the controls of a given
+type and simplify the application. Imagine three buttons, all of them have to
+look the same, same width and height, same font size, same foreground color,
+etc. We can set all those properties on the button elements themselves and
+that's still quite okay for all of the buttons. Take a look at the following
+diagram.
+
+Styles
+
+But in a real-life applications, you'll typically have a lot more of these that
+need to look exactly the same. And not only buttons of course, you'll typically
+want your text blocks, text boxes, and combo boxes etc. to look the same across
+your application. Surely, there must be a better way to achieve this and it is
+known as styling. You can think of a style as a convenient way to apply a set of
+property values to more than one element. Take a look at the following diagram.
+
+Style is Defined
+Example
+Let’s take a simple example to understand this concept. Start by creating a new WPF project.
+
+Drag three buttons from the toolbox to the design window.
+
+The following XAML code creates three buttons and initializes them with some properties.
+
+``` 
+<Window x:Class = "WPFStyle.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:d = "http://schemas.microsoft.com/expression/blend/2008" 
+   xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006" 
+   xmlns:local = "clr-namespace: WPFStyle" 
+   mc:Ignorable = "d" Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <StackPanel> 
+      <Button Content = "Button1" Height = "30" Width = "80" 
+         Foreground = "Blue" FontSize = "12" Margin = "10"/> 
+      <Button Content = "Button2" Height = "30" Width = "80" 
+         Foreground = "Blue" FontSize = "12" Margin = "10"/> 
+      <Button Content = "Button3" Height = "30" Width = "80" 
+         Foreground = "Blue" FontSize = "12" Margin = "10"/> 
+   </StackPanel> 
+	
+</Window>
+``` 
+
+When you look at the above code, you will see that for all the buttons height,
+width, foreground color, font size and margin properties are same. Now when the
+above code is compiled and executed the following window will be displayed.
+
+Output of three buttons
+Now let’s have a look at the same example, but this time, we will be using style.
+
+```
+<Window x:Class = "XAMLStyle.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:d = "http://schemas.microsoft.com/expression/blend/2008" 
+   xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:local = "clr-namespace:XAMLStyle" 
+   mc:Ignorable = "d" Title = "MainWindow" Height = "350" Width = "604">
+	
+   <Window.Resources> 
+      <Style x:Key = "myButtonStyle" TargetType = "Button"> 
+         <Setter Property = "Height" Value = "30" /> 
+         <Setter Property = "Width" Value = "80" /> 
+         <Setter Property = "Foreground" Value = "Blue" /> 
+         <Setter Property = "FontSize" Value = "12" /> 
+         <Setter Property = "Margin" Value = "10" /> 
+      </Style> 
+   </Window.Resources> 
+	
+   <StackPanel> 
+      <Button Content = "Button1" Style = "{StaticResource myButtonStyle}" /> 
+      <Button Content = "Button2" Style = "{StaticResource myButtonStyle}" /> 
+      <Button Content = "Button3" Style="{StaticResource myButtonStyle}" /> 
+   </StackPanel> 
+	
+</Window> 
+```
+
+Styles are defined in the resource dictionary and each style has a unique key
+identifier and a target type. Inside <style> you can see that multiple setter
+tags are defined for each property which will be included in the style.
+
+In the above example, all of the common properties of each button are now
+defined in style and then the style are assigned to each button with a unique
+key by setting the style property through the StaticResource markup extension.
+
+When you compile and execute the above code, it will display the following
+window (the same output).
+
+Same Output The advantage of doing it like this is immediately obvious, we can
+reuse that style anywhere in its scope; and if we need to change it, we simply
+change it once in the style definition instead of on each element.
+
+In what level a style is defined instantaneously limits the scope of that style.
+So the scope, i.e. where you can use the style, depends on where you've defined
+it. Styles can be defined on the following levels −
+
+Sr.No Levels & Description 1 Control Level Defining a style on control level can
+only be applied to that particular control. Given below is an example of a
+control level where the button and TextBlock have their own style.
+
+2 Layout Level Defining a style on any layout level will make it accessible by
+that layout and its child elements only.
+
+3 Window Level Defining a style on a window level can make it accessible by all
+the elements on that window.
+
+4 Application Level Defining a style on app level can make it accessible
+throughout the entire application. Let’s take the same example, but here, we
+will put the styles in app.xaml file to make it accessible throughout
+application.
+
+
+# Triggers
+A trigger basically enables you to change property values or take actions based
+on the value of a property. So, it allows you to dynamically change the
+appearance and/or behavior of your control without having to create a new one.
+
+Triggers are used to change the value of any given property, when certain
+conditions are satisfied. Triggers are usually defined in a style or in the root
+of a document which are applied to that specific control. There are three types
+of triggers −
+
+1) Property Triggers
+2) Data Triggers
+3) Event Triggers
+4) Property Triggers
+
+In property triggers, when a change occurs in one property, it will bring either
+an immediate or an animated change in another property. For example, you can use
+a property trigger to change the appearance of a button when the mouse hovers
+over the button.
+
+The following example code shows how to change the foreground color of a button when mouse hovers over the button.
+```
+<Window x:Class = "WPFPropertyTriggers.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <Window.Resources> 
+      <Style x:Key = "TriggerStyle" TargetType = "Button"> 
+         <Setter Property = "Foreground" Value = "Blue" /> 
+         <Style.Triggers> 
+            <Trigger Property = "IsMouseOver" Value = "True"> 
+               <Setter Property = "Foreground" Value = "Green" /> 
+            </Trigger> 
+         </Style.Triggers> 
+      </Style> 
+   </Window.Resources> 
+	
+   <Grid> 
+      <Button Width = "100" Height = "70"
+         Style = "{StaticResource TriggerStyle}" Content = "Trigger"/> 
+   </Grid> 
+	
+</Window> 
+```
+
+When you compile and execute the above code, it will produce the following window −
+
+## Property Triggers
+
+When the mouse hovers over the button, its foreground color will change to green.
+
+Color Change in Trigger
+
+## Data Triggers
+
+A data trigger performs some actions when the bound data satisfies some conditions. 
+Let’s have a look at the following XAML code in which a checkbox and a text block are created with some properties. 
+When the checkbox is checked, it will change its foreground color to red.
+
+``` xaml
+<Window x:Class = "WPFDataTrigger.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   Title = "Data Trigger" Height = "350" Width = "604">
+	
+   <StackPanel HorizontalAlignment = "Center"> 
+      <CheckBox x:Name = "redColorCheckBox" 
+         Content = "Set red as foreground color" Margin = "20"/> 
+			
+      <TextBlock Name = "txtblock" VerticalAlignment = "Center" 
+         Text = "Event Trigger" FontSize = "24" Margin = "20"> 
+         <TextBlock.Style> 
+            <Style> 
+               <Style.Triggers> 
+                  <DataTrigger Binding = "{Binding ElementName = redColorCheckBox, Path = IsChecked}" 
+                     Value = "true"> 
+                     <Setter Property = "TextBlock.Foreground" Value = "Red"/> 
+                     <Setter Property = "TextBlock.Cursor" Value = "Hand" /> 
+                  </DataTrigger> 
+               </Style.Triggers> 
+            </Style> 
+         </TextBlock.Style> 
+      </TextBlock> 
+		
+   </StackPanel> 
+	
+</Window>
+```
+
+When the above code is compiled and executed, it will produce the following output −
+
+## Data Trigger
+When you tick the checkbox, the text block will change its foreground color to red.
+
+## Color Change
+## Event Triggers
+
+An event trigger performs some actions when a specific event is fired. It is
+usually used to accomplish some animation on control such DoubleAnumatio,
+ColorAnimation, etc. In the following example, we will create a simple button.
+When the click event is fired, it will expand the button width and height.
+
+```
+
+<Window x:Class = "WPFEventTrigger.MainWindow"
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <Grid> 
+      <Button Content = "Click Me" Width = "60" Height = "30">
+		
+         <Button.Triggers> 
+            <EventTrigger RoutedEvent = "Button.Click"> 
+               <EventTrigger.Actions> 
+                  <BeginStoryboard> 
+                     <Storyboard> 
+							
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty = 
+                           "Width" Duration = "0:0:4"> 
+                           <LinearDoubleKeyFrame Value = "60" KeyTime = "0:0:0"/> 
+                           <LinearDoubleKeyFrame Value = "120" KeyTime = "0:0:1"/> 
+                           <LinearDoubleKeyFrame Value = "200" KeyTime = "0:0:2"/> 
+                           <LinearDoubleKeyFrame Value = "300" KeyTime = "0:0:3"/> 
+                        </DoubleAnimationUsingKeyFrames>
+								
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty = "Height" 
+                           Duration = "0:0:4"> 
+                           <LinearDoubleKeyFrame Value = "30" KeyTime = "0:0:0"/> 
+                           <LinearDoubleKeyFrame Value = "40" KeyTime = "0:0:1"/> 
+                           <LinearDoubleKeyFrame Value = "80" KeyTime = "0:0:2"/> 
+                           <LinearDoubleKeyFrame Value = "150" KeyTime = "0:0:3"/> 
+                        </DoubleAnimationUsingKeyFrames>
+								
+                     </Storyboard> 
+                  </BeginStoryboard> 
+               </EventTrigger.Actions> 
+            </EventTrigger> 
+         </Button.Triggers> 
+			
+      </Button> 
+   </Grid> 
+	
+</Window>
+```
+
+When you compile and execute the above code, it will produce the following window −
+
+Event Trigger
+Upon clicking the button, you will observe that it will start expanding in both dimensions.
+
+Click Button in Event Trigger
+We recommend that you compile and execute the above examples and apply the triggers to other properties as well.
+
+
+
+# Custom Controls 
+
+WPF applications allows to create custom controls which makes it very easy to
+create feature-rich and customizable controls. Custom controls are used when all
+the built-in controls provided by Microsoft are not fulfilling your criteria or
+you don’t want to pay for third-party controls.
+
+In this chapter, you will learn how to create custom controls. Before we start
+taking a look at Custom Controls, let's take a quick look at a User Control
+first.
+
+## User Control
+
+``` 
+<UserControl x:Class = "WPFUserControl.MyUserControl" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"  
+   xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"  
+   mc:Ignorable = "d" d:DesignHeight = "300" d:DesignWidth = "300"> 
+	
+   <Grid> 
+      <TextBox Height = "23"  
+         HorizontalAlignment = "Left"  
+         Margin = "80,49,0,0" Name = "txtBox"  
+         VerticalAlignment = "Top" Width = "200" /> 
+			
+      <Button Content = "Click Me"  
+         Height = "23" HorizontalAlignment = "Left"  
+         Margin = "96,88,0,0" Name = "button"  
+         VerticalAlignment = "Top" Click = "button_Click" />    
+   </Grid>
+	
+</UserControl>
+
+```
+Given below is the C# code for button click event in MyUserControl.cs file which updates the text box.
+
+```
+using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+ 
+namespace WPFUserControl {
+   /// <summary>
+      /// Interaction logic for MyUserControl.xaml 
+   /// </summary> 
+	
+   public partial class MyUserControl : UserControl { 
+	
+      public MyUserControl() { 
+         InitializeComponent(); 
+      }  
+		
+      private void button_Click(object sender, RoutedEventArgs e) { 
+         txtBox.Text = "You have just clicked the button"; 
+      } 
+   } 
+}
+
+```
+Here is the implementation in MainWindow.xaml to add the user control.
+
+
+```
+<Window x:Class = "XAMLUserControl.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:control = "clr-namespace:WPFUserControl" 
+   Title = "MainWindow" Height = "350" Width = "525"> 
+	
+   <Grid> 
+      <control:MyUserControl/> 
+   </Grid> 
+	
+</Window> 
+```
+When you compile and execute the above code, it will produce the following window.
+
+Output of User Control
+Upon clicking the "Click Me" button, you will notice that the text inside the textbox is updated.
+
+Button Clicked in User Control
+
+Custom Controls
+
+A custom control is a class which offers its own style and template which are
+normally defined in generic.xaml. Custom controls are used in the following
+scenarios −
+
+If the control doesn't exist and you have to create it from scratch.
+
+If you want to extend or add functionality to a preexisting control by adding an extra property or an extra functionality to fit your specific scenario.
+
+If your controls need to support theming and styling.
+
+If you want to share your control across applications.
+
+Example
+
+Let’s take an example to understand how custom controls work. Create a new WPF
+project and then right-click on your solution and select Add > New Item...
+
+Custom Controls
+
+It will open the following window. Now select Custom Control (WPF) and name it MyCustomControl.
+
+Add New Item
+
+Click the Add button and you will see that two new files (Themes/Generic.xaml
+and MyCustomControl.cs) will be added in your solution.
+
+Here is the XAML code in which style is set for the custom control in Generic.xaml file.
+``` 
+<ResourceDictionary 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:local = "clr-namespace:WPFCustomControls">  
+	
+   <Style TargetType = "{x:Type local:MyCustomControl}"
+      BasedOn = "{StaticResource {x:Type Button}}"> 
+      <Setter Property = "Background" Value = "LightSalmon" /> 
+      <Setter Property = "Foreground" Value = "Blue"/> 
+   </Style> 
+	
+</ResourceDictionary>
+```
+Here is the C# code for MyCustomControl class which is inherited from the button class and in constructor it overrides the metadata.
+
+
+```
+using System; 
+using System.Windows; 
+using System.Windows.Controls; 
+ 
+namespace WPFCustomControls { 
+
+   public class MyCustomControl : Button { 
+	
+      static MyCustomControl() { 
+         DefaultStyleKeyProperty.OverrideMetadata(typeof(MyCustomControl), new
+            FrameworkPropertyMetadata(typeof(MyCustomControl))); 
+      } 
+		
+   } 
+} 
+
+```
+Here is the custom control click event implementation in C# which updates the text of the text block.
+
+```
+using System; 
+using System.Windows; 
+using System.Windows.Controls;
+
+namespace WPFCustomControls { 
+   /// <summary> 
+      /// Interaction logic for MainWindow.xaml 
+   /// </summary> 
+	
+   public partial class MainWindow : Window { 
+	
+      public MainWindow() { 
+         InitializeComponent(); 
+      }  
+		
+      private void customControl_Click(object sender, RoutedEventArgs e) { 
+         txtBlock.Text = "You have just click your custom control"; 
+      }
+		
+   } 
+}
+```
+Here is implementation in MainWindow.xaml to add the custom control and a TextBlock.
+
+```
+<Window x:Class = "WPFCustomControls.MainWindow" 
+   xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:control = "clr-namespace:WPFCustomControls" 
+   Title = "MainWindow" Height = "350" Width = "604"> 
+	
+   <StackPanel> 
+      <control:MyCustomControl x:Name = "customControl"  
+         Content = "Click Me" Width = "70" 
+         Margin = "10" Click = "customControl_Click"/> 
+			
+      <TextBlock Name = "txtBlock"  
+         Width = "250" Height = "30"/> 
+   </StackPanel>
+	
+</Window> 
+```
+When you compile and execute the above code, it will produce the following window with a custom control which is a customized button.
+
+Output of the Code
+Upon clicking the customized button, you will see that the text inside text block is updated.
 
 
 # Chinese WPF
