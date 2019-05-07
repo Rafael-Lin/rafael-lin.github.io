@@ -1,0 +1,5 @@
+bin\Debug\DoSerialize.exe
+bin\Debug\DoSerialize.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\DoSerialize.exe
+obj\Debug\DoSerialize.pdb

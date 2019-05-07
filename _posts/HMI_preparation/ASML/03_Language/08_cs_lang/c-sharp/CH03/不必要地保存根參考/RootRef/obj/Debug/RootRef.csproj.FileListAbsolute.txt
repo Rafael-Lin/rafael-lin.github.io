@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\不必要地保存根參考\RootRef\bin\Debug\RootRef.exe
+C:\Users\hatelove\Desktop\不必要地保存根參考\RootRef\bin\Debug\RootRef.pdb
+C:\Users\hatelove\Desktop\不必要地保存根參考\RootRef\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\不必要地保存根參考\RootRef\obj\Debug\RootRef.exe
+C:\Users\hatelove\Desktop\不必要地保存根參考\RootRef\obj\Debug\RootRef.pdb

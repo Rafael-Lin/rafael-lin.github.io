@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\例外攔截\CatchException\bin\Debug\CatchException.exe
+C:\Users\hatelove\Desktop\例外攔截\CatchException\bin\Debug\CatchException.pdb
+C:\Users\hatelove\Desktop\例外攔截\CatchException\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\例外攔截\CatchException\obj\Debug\CatchException.exe
+C:\Users\hatelove\Desktop\例外攔截\CatchException\obj\Debug\CatchException.pdb

@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\事件的範例\ConsoleEvent\obj\Debug\ConsoleEvent.exe
+C:\Users\hatelove\Desktop\事件的範例\ConsoleEvent\obj\Debug\ConsoleEvent.pdb
+C:\Users\hatelove\Desktop\事件的範例\ConsoleEvent\bin\Debug\ConsoleEvent.exe
+C:\Users\hatelove\Desktop\事件的範例\ConsoleEvent\bin\Debug\ConsoleEvent.pdb
+C:\Users\hatelove\Desktop\事件的範例\ConsoleEvent\obj\Debug\ResolveAssemblyReference.cache

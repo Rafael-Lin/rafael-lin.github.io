@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\DateTime格式化输出\DateTimeToString\bin\Debug\DateTimeToString.exe
+C:\Users\hatelove\Desktop\DateTime格式化输出\DateTimeToString\bin\Debug\DateTimeToString.pdb
+C:\Users\hatelove\Desktop\DateTime格式化输出\DateTimeToString\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\DateTime格式化输出\DateTimeToString\obj\Debug\DateTimeToString.exe
+C:\Users\hatelove\Desktop\DateTime格式化输出\DateTimeToString\obj\Debug\DateTimeToString.pdb

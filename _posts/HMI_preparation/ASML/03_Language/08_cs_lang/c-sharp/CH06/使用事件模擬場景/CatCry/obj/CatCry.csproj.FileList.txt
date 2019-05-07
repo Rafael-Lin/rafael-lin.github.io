@@ -1,0 +1,5 @@
+bin\Debug\CatCry.exe
+bin\Debug\CatCry.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\CatCry.exe
+obj\Debug\CatCry.pdb

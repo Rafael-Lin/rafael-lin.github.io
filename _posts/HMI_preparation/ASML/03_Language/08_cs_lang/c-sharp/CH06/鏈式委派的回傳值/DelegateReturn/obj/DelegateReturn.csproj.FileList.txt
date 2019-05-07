@@ -1,0 +1,5 @@
+bin\Debug\DelegateReturn.exe
+bin\Debug\DelegateReturn.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\DelegateReturn.exe
+obj\Debug\DelegateReturn.pdb

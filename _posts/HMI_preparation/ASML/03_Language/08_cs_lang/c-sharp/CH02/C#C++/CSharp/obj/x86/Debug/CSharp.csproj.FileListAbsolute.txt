@@ -1,0 +1,7 @@
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Debug\CSharp.exe
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Debug\CSharp.pdb
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Debug\DllFromCPlus.dll
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Debug\DllFromCPlus.pdb
+C:\Users\hatelove\Desktop\Sample\CSharp\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\Sample\CSharp\obj\x86\Debug\CSharp.exe
+C:\Users\hatelove\Desktop\Sample\CSharp\obj\x86\Debug\CSharp.pdb

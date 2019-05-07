@@ -1,0 +1,5 @@
+bin\Debug\ThreadDataSlot.exe
+bin\Debug\ThreadDataSlot.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\ThreadDataSlot.exe
+obj\Debug\ThreadDataSlot.pdb

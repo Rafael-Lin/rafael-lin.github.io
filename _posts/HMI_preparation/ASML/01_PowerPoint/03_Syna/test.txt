@@ -1,0 +1,170 @@
+
+public ConfigurationUI()
+{
+SubscribeToEvents();
+_controller = ConfigController.Instance();
+}
+
+private void SubscribeToEvents()
+{
+UIEventsService.OnToolClick += UIEventsService_OnToolClick;
+SubscribeToOnConnectionModeChanged(true);
+DsEvents.Instance().OnStudioOperation += OnStudioOperation;
+UIEventsService.OnShowDashboardImageDataPane += UIEventsService_OnShowDashboardImageDataPane;
+UIEventsService.OnWriteFromTuning += UIEventsService_OnWrite;
+UIEventsService.OnTurnIntoPubMode += UIEventsService_OnTurnIntoPubMode;
+UIEventsService.OnCtrlBPressed += UIEventsService_OnCtrlBPressed;
+
+UIEventsService.OnUpdateUIAfterFWResetEvent += UIEventsService_OnUpdateUIAfterFWResetEvent;
+}
+
+UIEventsService.OnToolClick 
+: when users click one of the buttons, this tab would do something for that 
+
+
+UIEventsService.OnCtrlBPressed 
+: when users click the Ctrl button 
+
+1. first step
+public delegate void KeyPressedDelegate(ref bool handled);
+// delegate is like function prototype definer, decide the param cnt and type 
+
+2. second step
+// use delegate name as a typedef to define the event 
+
+public static event KeyPressedDelegate OnCtrlFPressed;
+public static event KeyPressedDelegate OnCtrlUpPressed;
+
+3. more complicated ex :: define a type which need event args to transfer
+
+public delegate void ToolValueChangedEvent(ToolEventArgs e);
+public delegate void ToolClickEvent(ToolClickEventArgs e);
+
+4. final stage : 
+a void to fire the invoke list 
+
+public static void FireToolClickEvent(ToolClickEventArgs e)
+{
+    if (OnToolClick != null)
+    {
+        OnToolClick(e);
+    }
+}
+
+
+5. StudioEventsService
+:: indicate what the studio is currently doing 
+
+
+public static event ViewTabChangedEvent OnViewTabChanged;
+public static event StudioLoadingEvent OnStudioLoading;
+public static event StudioClosingEvent OnStudioClosing;
+public static event StudioProjectCloseEvent OnStudioProjectClosed;
+public static event SetDirtyEvent OnDirty;
+
+
+
+StudioOperationArgs :EventArgs 
+:: 
+indicate the current operations of DS5 and the operations's status 
+:: ex : flash, start, flash end 
+:: ex : DIAGNOSTIC start, DIAGNOSTIC, end
+    :: ex : 
+    if diagnostic start, the toolbar should be set as disabled
+:: ex : MPC_PROGRAMMING start, MPC_PROGRAMMING, end
+:: ex : BOOTLOADERMODE start, BOOTLOADERMODE , end
+:: ex : Reset start, Reset, end
+
+
+CdciControllerDescriptor 
+cs file, transfer from swig
+
+singleton
+SolutionDataFacade.Instance.GetHostInfo
+
+
+RMI.Helper : 
+some of the ctrl register are packet registers 
+so we use one class to represent each item of that ctrl register 
+ex : 
+00/00 7:3 : funct 1 
+10/01 3:0 : funct 2
+
+baseRMIFunction 
+
+| readdata    | writedata    |        |           |
+| readcontrol | writecontrol |        |           |
+| readcommand | writecommand |        |           |
+| setbit      | clearbit     | getbit | changebit |
+
+
+F$01 : 
+control, interrupt, sleep info, set interrupt enable/disable/ interrupt status, get/set slave address
+
+static : 
+InterruptServices _Instance;
+core : 
+Device.Instance.OnDeviceEvent += OnCoreDeviceEventHandler;
+
+CallBackEventArgFactory
+
+====
+
+BaseDiagnosticProcessor
+BasePollingDiagnosticProcessor
+LogPlaybackProcessor
+
+ImageGeneratorButtonNumeric
+ImageGeneratorButton2D
+ProfileImageGenerator
+ImageGenerator3D
+
+
+UpdateViewDelegate updateFunc = UpdateView;
+_RefreshGraphAsyncResult.Add(updateFunc.BeginInvoke(view, uvp, null, null));
+
+IProcessor -> IBaseLineProcessor -> BaseProcessor
+
+protected abstract bool ProcessSensorImage(SensorImage data);
+:: let derived to implement how to get the sensorImage
+-> BaseD4Processor 
+    -> FrameLine16Processor
+    -> FrameLine8Processor
+    -> BaseLineProcessor
+    -> BaseF54Processor
+    -> CustomProcessor
+    -> F54BaseLineProcessor
+    -> F54DeltaImageProcessor
+    -> F54HighResistanceProcessor
+    -> F54PixelBaseLineProcessor
+    -> F54ProfileAbsCap
+    -> ProcessSensorImage
+    -> F54ProfileDeltaCap
+    -> F54ProfileHybridAbsDelta
+    -> F54ReceiverOpenProcessor
+    -> F54TagsViewProcessor
+    -> call Funtion54 to get the data
+
+can choose pico farad or 1000 femto-farad
+can choose signed16bit or signed32bit
+
+protected Dictionary<int, BaseProcessor> Processors = new Dictionary<int, BaseProcessor>();
+
+readonly private Semaphore _resourceSemaphore = new Semaphore(1, 1);
+
+BaseDiagnosticProcessor
+    -> ZDataProcessor
+
+IDiagnosticController
+    -> DiagnosticController
+
+MVC 
+V яeсп c 
+c яeсп m 
+
+===
+
+DsEvents.Instance().FireInterruptReceived("InterruptServices", evtArgs);
+
+
+DsEvents.Instance().InterruptReceived += AbsHoverThresholdTuning_InterruptReceived;

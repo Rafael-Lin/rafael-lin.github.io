@@ -1,0 +1,6 @@
+C:\Users\hatelove\Desktop\Base64编码\Base64\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\Base64編碼\Base64\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\Base64編碼\Base64\bin\Debug\Base64.exe
+C:\Users\hatelove\Desktop\Base64編碼\Base64\bin\Debug\Base64.pdb
+C:\Users\hatelove\Desktop\Base64編碼\Base64\obj\Debug\Base64.exe
+C:\Users\hatelove\Desktop\Base64編碼\Base64\obj\Debug\Base64.pdb

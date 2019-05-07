@@ -1,0 +1,5 @@
+bin\Debug\SimpleDelegate.exe
+bin\Debug\SimpleDelegate.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\SimpleDelegate.exe
+obj\Debug\SimpleDelegate.pdb

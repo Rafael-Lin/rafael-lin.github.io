@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\建構式中呼叫虛擬方法\ConstructorVirtualProblem\bin\Debug\ConstructorVirtualProblem.exe
+C:\Users\hatelove\Desktop\建構式中呼叫虛擬方法\ConstructorVirtualProblem\bin\Debug\ConstructorVirtualProblem.pdb
+C:\Users\hatelove\Desktop\建構式中呼叫虛擬方法\ConstructorVirtualProblem\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\建構式中呼叫虛擬方法\ConstructorVirtualProblem\obj\Debug\ConstructorVirtualProblem.exe
+C:\Users\hatelove\Desktop\建構式中呼叫虛擬方法\ConstructorVirtualProblem\obj\Debug\ConstructorVirtualProblem.pdb

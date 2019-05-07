@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\泛型主要約束\GenericPrimaryConstraint\bin\Debug\GenericPrimaryConstraint.exe
+C:\Users\hatelove\Desktop\泛型主要約束\GenericPrimaryConstraint\bin\Debug\GenericPrimaryConstraint.pdb
+C:\Users\hatelove\Desktop\泛型主要約束\GenericPrimaryConstraint\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\泛型主要約束\GenericPrimaryConstraint\obj\Debug\GenericPrimaryConstraint.exe
+C:\Users\hatelove\Desktop\泛型主要約束\GenericPrimaryConstraint\obj\Debug\GenericPrimaryConstraint.pdb

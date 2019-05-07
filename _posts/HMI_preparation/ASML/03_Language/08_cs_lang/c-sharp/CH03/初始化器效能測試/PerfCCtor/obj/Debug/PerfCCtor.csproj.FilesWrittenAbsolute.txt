@@ -1,0 +1,1 @@
+/home/rafael/c-sharp/CH03/初始化器效能測試/PerfCCtor/obj/Debug/PerfCCtor.exe

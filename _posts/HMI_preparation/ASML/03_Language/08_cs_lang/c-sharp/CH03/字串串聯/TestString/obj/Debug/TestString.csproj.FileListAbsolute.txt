@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\字串串聯\TestString\bin\Debug\TestString.exe
+C:\Users\hatelove\Desktop\字串串聯\TestString\bin\Debug\TestString.pdb
+C:\Users\hatelove\Desktop\字串串聯\TestString\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\字串串聯\TestString\obj\Debug\TestString.exe
+C:\Users\hatelove\Desktop\字串串聯\TestString\obj\Debug\TestString.pdb

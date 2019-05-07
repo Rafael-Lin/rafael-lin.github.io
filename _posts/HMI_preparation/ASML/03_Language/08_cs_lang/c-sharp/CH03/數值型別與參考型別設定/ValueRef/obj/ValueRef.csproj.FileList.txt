@@ -1,0 +1,5 @@
+bin\Debug\ValueRef.exe
+bin\Debug\ValueRef.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\ValueRef.exe
+obj\Debug\ValueRef.pdb

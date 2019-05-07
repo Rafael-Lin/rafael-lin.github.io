@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\檔案資訊\UseFileInfo\bin\Debug\UseFileInfo.exe
+C:\Users\hatelove\Desktop\檔案資訊\UseFileInfo\bin\Debug\UseFileInfo.pdb
+C:\Users\hatelove\Desktop\檔案資訊\UseFileInfo\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\檔案資訊\UseFileInfo\obj\Debug\UseFileInfo.exe
+C:\Users\hatelove\Desktop\檔案資訊\UseFileInfo\obj\Debug\UseFileInfo.pdb

@@ -1,0 +1,201 @@
+* Chap 22 template class
+
+** 22.1 vector
+
+int N = 5 ;
+float *V = new float[N] ;
+float *V = new float[N+1];
+delete V ; <--> delete [] V ;
+
+** 22.2 vector template class
+
+template <class T> // T : 還沒決定是哪一個資料型態的 type
+class Vector
+{
+    private :
+	int Size ;
+	T *V ;
+    public :
+    	Vector( int ) ;
+    	Vector( Vector<T> & ) ;
+    	~Vector() ;
+}
+//如果有一個以上的話
+template <class T1, class T2>
+class Vector{...}
+
+//其他場合來使用
+Vector<int> Vi ;
+Vector<double> Vd ;
+
+member function's definition
+
+template <class T>
+Vector<T>::Vector( int N )
+{
+    Size = N ;
+    V = new T[N+1] ;
+    return ;
+}
+destructor :
+template <class T>
+Vector<T>::~Vector()
+{
+    delete [] V ;
+}
+operator+() :
+template<class T>
+Vector<T> Vector<T>::operator + ( const Vector<T> & V2 )
+{
+    Vector<T> Temp(Size);
+    for( int i = 1 ; i <= Size ; i ++ )
+    	Temp.V[i] = V[i] + V2.V[i] ;
+    return Temp ;
+
+}
+template <class T>
+class Vector{
+    friend Vector<T> operator *( const T&, const Vector<T>& ) ;
+    friend Vector<T> operator *( const Vector<T>&, const Vector T& ) ;
+    private :
+	int size;
+	T* V;
+	inline void Create( int ) ;
+    public :
+    	Vector( int ) ;
+    	Vector( Vector <T> & ) ;
+    	~Vector() ;
+    	Vector<T> operator=( const Vector<T> & ) ;
+    	Vector<T> operator+( const Vector<T> & ) ;
+    	Vector<T> operator-( const Vector<T> & ) ;
+    	T operator *(const Vector<T> & ) ;
+    	T & operator[] ( int i )
+	{
+	    ...
+	    	return V[i] ;
+	}
+	void display();
+}
+
+
+page 22-10
+
+* Chap 23 generic programming
+不管容器賽突物件的資料型態為何，都可以用相同的 generic algorithm 進行相同的處理
+
+STL : the standard template library
+
+** 23.2
+container class
+container : string, list , vector, maxtrix, binary tree
+STL : vector, list, deque, stack, queue, set, map
+algorithm
+#include <algorithm>
+	 find(), search(), count(), min(), max()
+    copy(), swap(), replace(), filll(), reverse(), random_shuffle()
+    accumulate(), inner-product(), partial_sum(), adjacent_difference()
+
+iterators
+
+** 23.3 STL vector
+
+vector<float> v1(5);
+vector<char> v2(20);
+definition :
+float A[5] = { ... } ;
+char B[5] = { ... } ;
+vector<float> Vf( A, A+5 ) ;
+vector<char> Bc( B, B+ 5 ) ;
+
+output :
+method 1 :
+for( int i = 0 ; i < Vf.size() ; i ++ )
+    cout << Vf[i] << " " ;
+method 2 :
+ostream_iterator <float> IntOut( cout, " " ) ;
+copy( Vf.begin(), Vf.end(), IntOut ) ;
+
+insert :
+Vf.insert( Vf.begin() + 3 , 1.2 ) ;
+
+set :
+Vf[2] = 2.8 ;
+Vf.at(2) = 9.9 ; // 會自動檢查有沒有超過目前這個 range
+
+sort :
+sort( Vf.begin(), Vf.end() ) ;
+
+shuffle :
+random_shuffle( vf.begin(), vf.end() ) ;
+
+** 23.4 STL for string array
+
+string A[] = { "aa", "bb", "cc", "dd", "ee" } ;
+vector <string> S ( A, A+5 ) ;
+
+using std::copy;
+using std::sort;
+using std.random_shuffle;
+or
+std::copy( S.begin(), s.end(), StringOut ) ;
+...
+...
+
+2).insert
+S.insert( find( S.begin(), S.end(), "Daiana"), "Joanne" ) ;
+remove :
+std::remove( S.begin(), S.end(), "bri" ) ; // return a iterator
+vector <string> :: iterator Last ;
+Last = std::remove( s.begin(), s.end(), "bri" ) ; // 但不會改變其長度，所以需要再 resize func
+S.resize( S.size() - 1 ) ;
+
+4. find
+*find( s.begin(), s.end(), "dia" ) = "william" ;
+
+5. copy and printout
+ostream_iterator< string > StringOut( cout, " " ) ;
+std::copy( s.begin(), s.end(), StringOut ) ;
+
+ ==
+list container class //不能用 index
+list <string> s;
+s.push_front("start");
+s.push_back("end") ;
+
+output :
+list<string>::iterator Index ;
+for( Index = S.begin() ; Index != S.end() ; Index ++ )
+    cout << *Index " " ;
+merge by copy() and ostream_iterator :
+ostream_iterator<string> StringOut( cout, " " ) ;
+copy( s.begin(), s.end(), StringOut) ;
+
+remove :
+s.remove( "member" ) ;
+// not use the std::remove
+// no need to resize
+sort :
+    s.sort()  ;
+    // not use std::sort( s.begin(), s.end() ) ;
+
+** 23.5 complex container to handle ...
+
+#include<complex>
+
+complex<double> Z1( 2.4, 3.7 ) ;
+complex<double> Z2( polar( 2.0, 0,8 )) ;
+
+z1.real() : 實部
+z1.img() : 虛部
+
+abs(), arg(), norm()
+abs : distance
+arg : tangent
+norm : distance ^ 2
+conj : 共軛複數
+
+sin( Z1 );
+cos( Z1 ) ;
+sqrt( Z1 ) ;
+log( Z1 ) ;
+pow( Z1 ) ;

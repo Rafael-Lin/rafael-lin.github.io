@@ -1,0 +1,1 @@
+/home/rafael/c-sharp/CH03/Conditional特性/UseConditional/obj/Debug/UseConditional.exe

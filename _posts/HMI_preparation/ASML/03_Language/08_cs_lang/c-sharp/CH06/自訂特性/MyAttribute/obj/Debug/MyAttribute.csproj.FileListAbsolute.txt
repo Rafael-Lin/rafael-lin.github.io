@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\自訂特性\MyAttribute\obj\Debug\MyAttribute.exe
+C:\Users\hatelove\Desktop\自訂特性\MyAttribute\obj\Debug\MyAttribute.pdb
+C:\Users\hatelove\Desktop\自訂特性\MyAttribute\bin\Debug\MyAttribute.exe
+C:\Users\hatelove\Desktop\自訂特性\MyAttribute\bin\Debug\MyAttribute.pdb
+C:\Users\hatelove\Desktop\自訂特性\MyAttribute\obj\Debug\ResolveAssemblyReference.cache

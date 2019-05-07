@@ -1,0 +1,10 @@
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\Conditional特性\UseConditional\bin\Release\UseConditional.exe
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\Conditional特性\UseConditional\bin\Release\UseConditional.pdb
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\Conditional特性\UseConditional\obj\Release\ResolveAssemblyReference.cache
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\Conditional特性\UseConditional\obj\Release\UseConditional.exe
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\Conditional特性\UseConditional\obj\Release\UseConditional.pdb
+C:\Users\hatelove\Desktop\Conditional特性\UseConditional\obj\Release\UseConditional.exe
+C:\Users\hatelove\Desktop\Conditional特性\UseConditional\obj\Release\UseConditional.pdb
+C:\Users\hatelove\Desktop\Conditional特性\UseConditional\bin\Release\UseConditional.exe
+C:\Users\hatelove\Desktop\Conditional特性\UseConditional\bin\Release\UseConditional.pdb
+C:\Users\hatelove\Desktop\Conditional特性\UseConditional\obj\Release\ResolveAssemblyReference.cache

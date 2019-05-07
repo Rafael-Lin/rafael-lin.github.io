@@ -1,0 +1,7 @@
+C:\Users\hatelove\Desktop\NoAutoInherit\UseNotObject\bin\Debug\UseNotObject.exe
+C:\Users\hatelove\Desktop\NoAutoInherit\UseNotObject\bin\Debug\UseNotObject.pdb
+C:\Users\hatelove\Desktop\NoAutoInherit\UseNotObject\bin\Debug\NotObject.dll
+C:\Users\hatelove\Desktop\NoAutoInherit\UseNotObject\bin\Debug\NotObject.pdb
+C:\Users\hatelove\Desktop\NoAutoInherit\UseNotObject\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\NoAutoInherit\UseNotObject\obj\Debug\UseNotObject.exe
+C:\Users\hatelove\Desktop\NoAutoInherit\UseNotObject\obj\Debug\UseNotObject.pdb

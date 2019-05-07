@@ -1,0 +1,10 @@
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\using\using\bin\Debug\using.exe
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\using\using\bin\Debug\using.pdb
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\using\using\obj\Debug\ResolveAssemblyReference.cache
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\using\using\obj\Debug\using.exe
+I:\MyDropBox\Dropbox\翻譯\original Source Code\第3章\using\using\obj\Debug\using.pdb
+C:\Users\hatelove\Desktop\using\using\obj\Debug\using.exe
+C:\Users\hatelove\Desktop\using\using\obj\Debug\using.pdb
+C:\Users\hatelove\Desktop\using\using\bin\Debug\using.exe
+C:\Users\hatelove\Desktop\using\using\bin\Debug\using.pdb
+C:\Users\hatelove\Desktop\using\using\obj\Debug\ResolveAssemblyReference.cache

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatCry", "CatCry\CatCry.csproj", "{B1EE7BD5-3688-45C3-9919-50427A52474D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1EE7BD5-3688-45C3-9919-50427A52474D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1EE7BD5-3688-45C3-9919-50427A52474D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1EE7BD5-3688-45C3-9919-50427A52474D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1EE7BD5-3688-45C3-9919-50427A52474D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

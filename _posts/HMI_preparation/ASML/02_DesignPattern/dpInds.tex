@@ -1,0 +1,1059 @@
+% Created 2019-03-19 二 21:17
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{raflin}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={raflin},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.2.2 (Org mode 9.1.13)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{design pattern}
+\label{sec:orgb024300}
+
+\subsection{OnStudioOperation : the op done by ds\hfill{}\textsc{drill}}
+\label{sec:orged89243}
+\begin{itemize}
+\item note : someone launch operation event and let it be affected
+\end{itemize}
+
+\subsubsection{code}
+\label{sec:org90231f3}
+\begin{verbatim}
+private void SubscribeToEvents()
+{
+    DsEvents.Instance().OnStudioOperation += InterruptServices_OnStudioOperation;
+}
+
+private void InterruptServices_OnStudioOperation(object sender, StudioOperationArgs args)
+{
+    switch (args.Operation)
+    {
+        case StudioSpecialOperation.HID_FINGER_MODE:
+            if (args.State == StudioOperationState.STARTED)
+            {
+                enableDisableUIDuringHIDFingerMode(false);
+            }
+            else if (args.State == StudioOperationState.FINISHED)
+            {
+                enableDisableUIDuringHIDFingerMode(true);
+            }
+            break;
+    }
+}
+
+\end{verbatim}
+
+\subsection{if it's called from main stream to update the ui\hfill{}\textsc{drill}}
+\label{sec:org00471d6}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org228cd63}
+\begin{verbatim}
+private void enableDisableUIDuringHIDFingerMode(bool enable)
+{
+    if (this.InvokeRequired)
+    {
+        BeginInvoke(new Action<bool>(enableDisableUIDuringHIDFingerMode), enable);
+        return;
+    }
+
+    //todo: port when need 
+    //this.splitContainer1.Panel2Collapsed = !enable;
+}
+
+\end{verbatim}
+
+\subsection{get notice from OperationEvent to change the UI status in dashboard\hfill{}\textsc{drill}}
+\label{sec:org13e71cc}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org93a8f9d}
+\begin{verbatim}
+private void OnStudioOperation(object sender, StudioOperationArgs args)
+{
+    if (args.Operation == StudioSpecialOperation.FLASH)
+    {
+        if (args.State == StudioOperationState.STARTED)
+        {
+            EnableMe(false);
+        }
+        else if (args.State == StudioOperationState.FINISHED)
+        {
+            EnableMe(true);
+        }
+        else if (args.State == StudioOperationState.ERROR)
+        {
+            EnableMe(true);
+        }
+    }
+    else if (args.Operation == StudioSpecialOperation.TUNING)
+    {
+        if ((args.Category == StudioOperationCategory.PENTUNING) && (args.State == StudioOperationState.STARTED))
+        {
+            EnableMe(false);
+        }
+        else if ((args.Category == StudioOperationCategory.PENTUNING) && (args.State == StudioOperationState.FINISHED))
+        {
+            EnableMe(true);
+        }
+    }
+    else if (args.Operation == StudioSpecialOperation.PREPRODUCTION)
+    {
+        if (args.State == StudioOperationState.STARTED)
+        {
+            EnableMe(false);
+        }
+        else if (args.State == StudioOperationState.FINISHED)
+        {
+            EnableMe(true);
+        }
+    }
+}
+
+\end{verbatim}
+
+\subsection{UIEventService\hfill{}\textsc{drill}}
+\label{sec:org779b3cc}
+\begin{itemize}
+\item note :
+\end{itemize}
+the para of delegate function must be 
+\begin{enumerate}
+\item object sender
+\item ToolEventArgs e
+\end{enumerate}
+\subsubsection{code}
+\label{sec:org996746b}
+\begin{verbatim}
+public delegate void ToolValueChangedEvent(ToolEventArgs e);
+public delegate void ToolClickEvent(ToolClickEventArgs e);
+public delegate void RegisterValueChangedEvent(object sender, RegisterType type);
+
+public delegate void ReadAllRegistersNeededEvent(object sender);
+public delegate void DoNotReportNextFwResetEvent(object sender);
+
+public delegate void SolutionFileSelectionChangedEvent(object sender);
+public delegate void ActivityWindowSelectionChangedEvent(object sender, bool hasSelection);
+public delegate void StatusTextUpdateEvent(string msg, Color msgClr);
+public delegate void ProgressBarEvent(bool start);
+
+\end{verbatim}
+
+\subsection{delegate event function\hfill{}\textsc{drill}}
+\label{sec:orgf53dddc}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orge569423}
+\begin{verbatim}
+public delegate void ToolValueChangedEvent(ToolEventArgs e);
+public static event ToolValueChangedEvent OnToolValueChanged;
+
+public static void FireToolValueChanged(ToolEventArgs e)
+{
+    if (OnToolValueChanged != null)
+    {
+        OnToolValueChanged(e);
+    }
+}
+
+\end{verbatim}
+\begin{verbatim}
+// usage
+// studiomain.cs
+UIEventsService.FireToolValueChanged(e);
+// what things it would do?
+// see what function is +to the delegate function
+UIEventsService.ToolValueChangedEvent += xxx
+\end{verbatim}
+
+\subsection{method invoker\hfill{}\textsc{drill}}
+\label{sec:orgd53d5ce}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org27f57b0}
+\begin{verbatim}
+public static event MethodInvoker OnSolutionOpen;
+
+public static event MethodInvoker OnSolutionClosing;
+
+public static event MethodInvoker OnSolutionClosed;
+
+\end{verbatim}
+
+\subsection{StudioEventService\hfill{}\textsc{drill}}
+\label{sec:org0fd6efc}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgb16ec1f}
+\begin{verbatim}
+public static IAsyncResult FireConnectionModeChanged(object sender, StatusEnum state)
+{
+    ConnectionModeEvent connectionModeDelegate = FireSyncConnectionModeChanged;
+    return connectionModeDelegate.BeginInvoke(sender, state, null, null);
+}
+
+\end{verbatim}
+
+\subsection{get InvocationList\hfill{}\textsc{drill}}
+\label{sec:orgfed0143}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org22fae31}
+\begin{verbatim}
+public static void FireSyncConnectionModeChanged(object sender, StatusEnum state)
+{
+    L12n.UseInvariantCulture();
+
+    ConnectionModeEvent handler = OnConnectionModeChanged;
+    if (handler != null)
+    {
+        foreach (ConnectionModeEvent f in handler.GetInvocationList())
+        {
+            try
+            {
+                f(sender, state);
+            }
+            catch (Exception ex)
+            {
+                DsMessage.FireOnMessage(StudioPackageType.Biz, StudioMessageType.Error,
+                    "FireConnectionModeEvent" + ":" + ex.Message);
+                Logger.WriteError("FireConnectionModeEvent" + ": " + ex.Message + " : " + ex.StackTrace);
+            }
+        }
+    }
+}
+
+\end{verbatim}
+
+\subsection{get resources from resource manager\hfill{}\textsc{drill}}
+\label{sec:orga46b606}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org51185a7}
+\begin{verbatim}
+_resMgr = new ResMan("Synaptics.DSNG.UI.Res", Assembly.GetExecutingAssembly());
+
+\end{verbatim}
+
+\subsection{get/set F11Touchpad in solutionFacade\hfill{}\textsc{drill}}
+\label{sec:orgfe7e065}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgde7d22b}
+\begin{verbatim}
+// dp : fly weight
+        [XmlElement("Touchpads", typeof(F11TouchpadItem))]
+        public List<F11TouchpadItem> Touchpads { get; set; }
+
+         public F11TouchpadItem GetTouchpad()
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             if (layout.Touchpads.Count() == 0)
+             {
+                 layout.Touchpads.Add(new F11TouchpadItem());
+             }
+             return layout.Touchpads[0];
+         }
+
+         public F11TouchpadItem GetTouchpad(string name)
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             F11TouchpadItem result = layout.Touchpads.FirstOrDefault(item => item.ItemName.Equals(name));
+             if (result == null)
+             {
+                 result = new F11TouchpadItem { ItemName = name };
+                 layout.Touchpads.Add(result);
+             }
+             return result;
+         }
+
+         public void SetTouchpad(F11TouchpadItem item)
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             layout.Touchpads.RemoveAll(x => x.ItemName == item.ItemName);
+             layout.Touchpads.Add(item);
+         }
+
+\end{verbatim}
+
+\subsection{gethashcode template\hfill{}\textsc{drill}}
+\label{sec:orgf50be20}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org113c4bc}
+\begin{verbatim}
+public override int GetHashCode()
+{
+    unchecked
+    {
+        int result = base.GetHashCode();
+        result = (result * 397) ^ (XSensorMap != null ? CollectionIdentity.GetHashCode(XSensorMap) : 0);
+        result = (result * 397) ^ (YSensorMap != null ? CollectionIdentity.GetHashCode(YSensorMap) : 0);
+        result = (result * 397) ^ (XSensitivities != null ? CollectionIdentity.GetHashCode(XSensitivities) : 0);
+        result = (result * 397) ^ (YSensitivities != null ? CollectionIdentity.GetHashCode(YSensitivities) : 0);
+        result = (result * 397) ^ VisualFeedback.GetHashCode();
+        result = (result * 397) ^ Orientation.GetHashCode();
+        result = (result * 397) ^ Origin.GetHashCode();
+        result = (result * 397) ^ FingerDimension.GetHashCode();
+        result = (result * 397) ^ XScalingFactor.GetHashCode();
+        result = (result * 397) ^ YScalingFactor.GetHashCode();
+        result = (result * 397) ^ TouchPadScale.GetHashCode();
+        result = (result * 397) ^ ActivePenInkingWidth.GetHashCode();
+        return result;
+    }
+}
+
+\end{verbatim}
+
+\subsection{restore layout from xml file\hfill{}\textsc{drill}}
+\label{sec:org4886a5d}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orga2a2c45}
+\begin{verbatim}
+public void RestoreLayout()
+{
+    try
+    {
+        if (File.Exists(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+        {
+            using (var reader = new StreamReader(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+            {
+                var gp = (GroupProperty)new XmlSerializer(typeof(GroupProperty)).Deserialize(reader);
+                this.ultraExplorerBarDashboard.NavigationMaxGroupHeaders = gp.MaxGroupHeaderValue;
+                foreach (GroupValue gv in gp.GroupSetting)
+                {
+                    int grpId = this.ultraExplorerBarDashboard.Groups.IndexOf(gv.Name);
+                    if (0 <= grpId)
+                    {
+                        UltraExplorerBarGroup g =
+                            this.ultraExplorerBarDashboard.Groups[gv.Name];
+                        if (g != null)
+                        {
+                            g.Visible = gv.Visible;
+                        }
+                    }
+                }
+                IComparer myComparer = new myReverserClass(gp.GroupSetting);
+                this.ultraExplorerBarDashboard.Groups.Sort(myComparer);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error, "Dashboard: " + ex.Message);
+    }
+}
+
+\end{verbatim}
+
+\subsection{save layout\hfill{}\textsc{drill}}
+\label{sec:org8231777}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org751bd2d}
+\begin{verbatim}
+public void SaveLayout()
+{
+    try
+    {
+        using (StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+        {
+            GroupProperty gp = new GroupProperty();
+            gp.MaxGroupHeaderValue = this.ultraExplorerBarDashboard.NavigationMaxGroupHeaders;
+            foreach (UltraExplorerBarGroup group in this.ultraExplorerBarDashboard.Groups)
+            {
+                gp.GroupSetting.Add(new GroupValue(group.Key, group.Index, group.Visible));
+            }
+            new XmlSerializer(typeof(GroupProperty)).Serialize(writer, gp);
+        }
+    }
+    catch
+    {
+        DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error,
+            "Can't save the Dashboard layout.");
+    }
+}
+
+\end{verbatim}
+
+\subsection{list firstOrDefault\hfill{}\textsc{drill}}
+\label{sec:org83e259f}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orga8ca8d1}
+\begin{verbatim}
+xIndex = _GroupValueList.FirstOrDefault(g => g.Name == ((UltraExplorerBarGroup)x).Key).Index;
+yIndex = _GroupValueList.FirstOrDefault(g => g.Name == ((UltraExplorerBarGroup)y).Key).Index; ;
+
+\end{verbatim}
+
+\subsection{serrialize\hfill{}\textsc{drill}}
+\label{sec:org43e3967}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgde68976}
+\begin{verbatim}
+[Serializable]
+public class GroupValue
+{
+    [XmlElement("Name")]
+    public string Name;
+    [XmlElement("Index")]
+    public int Index;
+    [XmlElement("Visible")]
+    public bool Visible;
+
+    public GroupValue()
+    {
+    }
+
+    public GroupValue(string name, int index, bool visible)
+    {
+        Name = name;
+        Index = index;
+        Visible = visible;
+    }
+}
+
+[Serializable]
+[XmlInclude(typeof(GroupValue))]
+public class GroupProperty
+{
+    private List<GroupValue> _groupsetting = new List<GroupValue>();
+    public int MaxGroupHeaderValue { get; set; }
+
+    [XmlElement("GroupSetting")]
+    public List<GroupValue> GroupSetting
+    {
+        get { return _groupsetting; }
+        set { _groupsetting = value; }
+    }
+}
+
+\end{verbatim}
+
+\subsection{sort csv by list\hfill{}\textsc{drill}}
+\label{sec:org20635f8}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org1c558af}
+\begin{verbatim}
+private string SortCsv(string csv)
+{
+    List<string> items = new List<string>();
+
+    string[] strTokens = csv.Split(new char[] { ',' });
+    foreach (string item in strTokens)
+    {
+        items.Add(item);
+    }
+    items.Sort();
+
+    string output = string.Empty;
+    foreach (string item in items)
+    {
+        output += item + ",";
+    }
+
+    if (output != string.Empty)
+    {
+        // Remove the trailing ","
+        output = output.Substring(0, output.Length - 1);
+    }
+    return output;
+}
+
+\end{verbatim}
+
+\subsection{get flash identify value in dashboard\hfill{}\textsc{drill}}
+\label{sec:org9cfe80b}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgc8888e0}
+\begin{verbatim}
+ReflashParameters reflashParam = new ReflashParameters(
+    SolutionDataFacade.Instance.GetDeviceProtocol(),
+    SolutionDataFacade.Instance.GetHostInfo());
+
+reflashParam.MPCSerialNumber = serial;
+
+touchModuleInfo tInfo = null;
+
+Dictionary<ReflashInfoBase.InfoKey, string> touchModInfo =
+    FWMamager.Instance().FirmwareInfo(reflashParam);
+
+\end{verbatim}
+
+\subsection{throw exception in func\hfill{}\textsc{drill}}
+\label{sec:org8a8bf04}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org2b2b7c2}
+\begin{verbatim}
+if (serialNumber == "")
+    throw new Exception("Can't find Serial Number of MPC");
+else
+    throw new Exception(string.Format("Can't find MPC of serial number {0}", serialNumber));
+
+\end{verbatim}
+
+\subsection{singleton\hfill{}\textsc{drill}}
+\label{sec:orgbfc4b57}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org39dcb01}
+\begin{verbatim}
+public static DashBoardController GetInstance()
+{
+    if (theCtrler == null)
+    {
+        theCtrler = new DashBoardController();
+    }
+    return theCtrler;
+}
+
+private static DashBoardController theCtrler = null;
+
+\end{verbatim}
+
+\subsection{read interrupt status\hfill{}\textsc{drill}}
+\label{sec:org99a64af}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org183e090}
+\begin{verbatim}
+public ulong CommandReadInterruptStatus()
+{
+    try
+    {
+        var f01Helper = RMIFunctionFacade.Instance._helpersFromDevi.GetF01Helper();
+        if (f01Helper != null)
+        {
+            return f01Helper.GetInterrupt(true);
+        }
+    }
+    catch (DsException ex)
+    {
+        DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error, "Dashboard: " + ex.Message);
+    }
+    return ulong.MaxValue;
+}
+
+\end{verbatim}
+
+\subsection{mvc, controller get data from RMIFacade\hfill{}\textsc{drill}}
+\label{sec:org25e887a}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgd36f386}
+\begin{verbatim}
+public byte GetSleepMode()
+{
+    return RMIFunctionFacade.Instance.GetSleepMode();
+}
+
+\end{verbatim}
+
+\subsection{mvc, view : get notice from observer and get value from controller\hfill{}\textsc{drill}}
+\label{sec:orgb30bc20}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgc67818f}
+\begin{verbatim}
+private void UpdateControlRegisterValues()
+\end{verbatim}
+
+\subsection{launch one UIservice to notify other UI\hfill{}\textsc{drill}}
+\label{sec:org3901b46}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org2e325b9}
+\begin{verbatim}
+private void ButtonForceUpdateClick(object sender, EventArgs e)
+{
+    buttonForceUpdate.Enabled = false;
+    _Controller.SetForceUpdate();
+    buttonForceUpdate.Enabled = true;
+    // Bring back input focus, otherwise, the input focus go to the next control in the tab order.
+    buttonForceUpdate.Focus();
+    UIEventsService.FireExecuteDashboardCommandDuringDiagnostic();
+}
+
+\end{verbatim}
+
+\subsection{another way to read resiter by \_deviceHelper\hfill{}\textsc{drill}}
+\label{sec:org1b41168}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org23779a7}
+\begin{verbatim}
+_DeviceHelper.Read(0x1, RegisterTypeEnum.Data, 0, GetData(0x1));
+return _F01.GetInterrupt(false);
+
+\end{verbatim}
+
+\subsection{RunTimeState : get status update from OnStudioOperation\hfill{}\textsc{drill}}
+\label{sec:org00deafa}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgdc20aa7}
+\begin{verbatim}
+private void OnStudioOperation(object sender, StudioOperationArgs args)
+
+\end{verbatim}
+
+\subsection{RMIFunctionFacade, helper from solution.instance.registermap\hfill{}\textsc{drill}}
+\label{sec:org8fba295}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org93e818a}
+\begin{verbatim}
+_helpersFromSoln = new HelpersFromSolution();
+_f01Hlpr = new RMIFunction01Helper(StudioSolutionManager.Instance.RegisterMap);
+
+\end{verbatim}
+
+\subsection{RMIFunctionFacade from device\hfill{}\textsc{drill}}
+\label{sec:org20725c2}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org60ba616}
+\begin{verbatim}
+_helpersFromDevi = new HelpersFromDevice();
+_f21Helper = new RMIFunction21Helper();
+
+\end{verbatim}
+
+\subsection{fire Studio Operation example\hfill{}\textsc{drill}}
+\label{sec:org2694ee8}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org76b4f45}
+\begin{verbatim}
+DsEvents.Instance().FireStudioOperation(this, new StudioOperationArgs(StudioSpecialOperation.RAMUNLOCK, StudioOperationState.STARTED));
+
+\end{verbatim}
+
+\subsection{Ilist example\hfill{}\textsc{drill}}
+\label{sec:org6120381}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org8cc2104}
+\begin{verbatim}
+public IList<RegisterInfo> FindRegistersByAddr(IList<ushort> addrList)
+{
+    Debug.Assert(addrList != null);
+    RegisterMap map = GetCurrentRegisterMap();
+    if (map == null)
+    {
+        return null;
+    }
+    RegisterMapHelper helper = new RegisterMapHelper(map);
+    return addrList.Select(addr => helper.FindByAddress(addr)).ToList();
+}
+
+public IList<RegisterInfo> GetAllControlRegisters()
+{
+    return _RegisterMap.AllRegisters.Where(reg => reg.Type == RegisterTypeEnum.Control).ToList();
+}
+
+\end{verbatim}
+
+\subsection{Ilist example : sortby\hfill{}\textsc{drill}}
+\label{sec:orgfb1676b}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org794a83a}
+\begin{verbatim}
+List<RegisterInfo> regs = map.AllRegisters.Where(x => x.Type == RegisterTypeEnum.Control).OrderBy(x => x.Address).ToList();
+
+\end{verbatim}
+
+\subsection{list find\hfill{}\textsc{drill}}
+\label{sec:orgf965b92}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org008d263}
+\begin{verbatim}
+public SolutionFileInfo Find(string name)
+{
+    return All.Find(e => e.Name == name);
+}
+
+public SolutionFileInfo FindFileName(string name)
+{
+
+    return All.Find(e => (e.LinkFileInfo != null) && (e.LinkFileInfo.Name == name));
+}
+
+\end{verbatim}
+
+\subsection{ctor\hfill{}\textsc{drill}}
+\label{sec:org9ef499f}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orga6dc128}
+\begin{verbatim}
+public StudioSolution(StudioProject project)
+{
+    Project = project;
+    Files = new SolutionFiles();
+    FwReqDataChanged = false;
+}
+
+public StudioSolution() : this(null)
+{
+}
+
+\end{verbatim}
+
+\subsection{copy ctor : copy one instance into this\hfill{}\textsc{drill}}
+\label{sec:org3e0dc16}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org0d9914c}
+\begin{verbatim}
+/// <summary>
+/// Copy constructor
+/// </summary>
+/// <param name="src"></param>
+public RegisterMap(RegisterMap src)
+    : this(src.Name)
+{
+    Copy(src);
+}
+
+private void Copy(RegisterMap src)
+{
+    foreach (RegisterInfo registerInfo in src.AllRegisters)
+    {
+        PacketRegisterInfo packet = registerInfo as PacketRegisterInfo;
+        if (packet != null)
+        {
+            AllRegisters.Add(new PacketRegisterInfo(packet));
+        }
+        else
+        {
+            AllRegisters.Add(new RegisterInfo(registerInfo));
+        }
+    }
+    InterruptMasks.Clear();
+    foreach (KeyValuePair<byte, ulong> interruptMask in src.InterruptMasks)
+    {
+        InterruptMasks.Add(interruptMask.Key, interruptMask.Value);
+    }
+    FunctionRevisions.Clear();
+    foreach (KeyValuePair<byte, byte> functionRevision in src.FunctionRevisions)
+    {
+        FunctionRevisions.Add(functionRevision.Key, functionRevision.Value);
+    }
+    IsFunctionPublicFlags.Clear();
+    foreach (KeyValuePair<byte, bool> pubflag in src.IsFunctionPublicFlags)
+    {
+        IsFunctionPublicFlags.Add(pubflag.Key, pubflag.Value);
+    }
+}
+
+\end{verbatim}
+
+\subsection{Clone for RegisterMap\hfill{}\textsc{drill}}
+\label{sec:org6f0e972}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org007c421}
+\begin{verbatim}
+/// <summary>
+/// Default constructor
+/// </summary>
+public RegisterMap()
+    : this("Master")
+{
+}
+
+public RegisterMap Clone()
+{
+    return new RegisterMap(this);
+}
+
+\end{verbatim}
+
+\subsection{list where and select\hfill{}\textsc{drill}}
+\label{sec:org58cf0ac}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org9fdfe5c}
+\begin{verbatim}
+/// <summary>
+/// All packet registers
+/// </summary>
+[XmlIgnore]
+public List<PacketRegisterInfo> PacketRegisters
+{
+    get { return AllRegisters.Where(x => x is PacketRegisterInfo).Select(x => (PacketRegisterInfo)x).ToList(); }
+}
+
+\end{verbatim}
+
+\subsection{KeyValuePair\hfill{}\textsc{drill}}
+\label{sec:org0ee50df}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org89800a9}
+\begin{verbatim}
+foreach (KeyValuePair<byte, ulong> inter in interrupts)
+{
+    InterruptMasks.Add(inter.Key, inter.Value);
+}
+foreach (KeyValuePair<byte, byte> revision in functionRevision)
+{
+    FunctionRevisions.Add(revision.Key, revision.Value);
+}
+foreach (KeyValuePair<byte, bool> isPubFlag in functionPublicFlags)
+{
+    IsFunctionPublicFlags.Add(isPubFlag.Key, isPubFlag.Value);
+}
+
+\end{verbatim}
+
+\subsection{get Enumerator\hfill{}\textsc{drill}}
+\label{sec:org364c02a}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgc338452}
+\begin{verbatim}
+var e = registersInfo.Values.GetEnumerator();
+e.MoveNext();
+return e.Current;
+
+\end{verbatim}
+
+\subsection{enumerator\hfill{}\textsc{drill}}
+\label{sec:org37a8e6a}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgf0237e5}
+\begin{verbatim}
+var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+\end{verbatim}
+
+\subsection{dispose example\hfill{}\textsc{drill}}
+\label{sec:org703f744}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org73f0736}
+\begin{verbatim}
+var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+\end{verbatim}
+
+\subsection{InterruptService : how to get int from dev\hfill{}\textsc{drill}}
+\label{sec:orgb6d9909}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org7723626}
+\begin{verbatim}
+var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+\end{verbatim}
+
+\subsection{get data from device.instance\hfill{}\textsc{drill}}
+\label{sec:org396d1eb}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgec638a7}
+\begin{verbatim}
+var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+\end{verbatim}
+
+\subsection{read interrupt by \_deviceHelper\hfill{}\textsc{drill}}
+\label{sec:org8c07efc}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org504a389}
+\begin{verbatim}
+var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+\end{verbatim}
+
+\subsection{open external log\hfill{}\textsc{drill}}
+\label{sec:orgdebc8d5}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:org2f78e9d}
+\begin{verbatim}
+var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+\end{verbatim}
+
+\subsection{instance lock\hfill{}\textsc{drill}}
+\label{sec:orga7be6bf}
+\begin{itemize}
+\item note :
+\item \url{https://dotblogs.com.tw/yc421206/2011/01/07/20624}
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgb719164}
+\begin{verbatim}
+var eNumber = registerCollection.Values.GetEnumerator();
+eNumber.MoveNext();
+var eSubNumber = eNumber.Current.GetEnumerator();
+eSubNumber.MoveNext();
+return AllRegisters[eSubNumber.Current.Value];
+
+\end{verbatim}
+
+\subsection{method invoker\hfill{}\textsc{drill}}
+\label{sec:orgdea61ef}
+\begin{itemize}
+\item note :
+\end{itemize}
+\subsubsection{code}
+\label{sec:orgb9febc6}
+\begin{verbatim}
+internal void ChangeStartStop()
+{
+    MethodInvoker f;
+    if (IsRunning)
+    {
+        f = Stop;
+    }
+    else
+    {
+        PreProcessForStart();
+        f = () => Start(false);
+    }
+    f.BeginInvoke(null, null);
+}
+
+\end{verbatim}
+\end{document}

@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\方法參數 params\Params\bin\Debug\Param.exe
+C:\Users\hatelove\Desktop\方法參數 params\Params\bin\Debug\Param.pdb
+C:\Users\hatelove\Desktop\方法參數 params\Params\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\方法參數 params\Params\obj\Debug\Param.exe
+C:\Users\hatelove\Desktop\方法參數 params\Params\obj\Debug\Param.pdb

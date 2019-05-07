@@ -1,0 +1,5 @@
+bin\Debug\MulticastDelegate.exe
+bin\Debug\MulticastDelegate.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\MulticastDelegate.exe
+obj\Debug\MulticastDelegate.pdb

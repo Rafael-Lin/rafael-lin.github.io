@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\安全字串\UseSecurityString\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\安全字串\UseSecurityString\bin\Debug\UseSecurityString.exe
+C:\Users\hatelove\Desktop\安全字串\UseSecurityString\bin\Debug\UseSecurityString.pdb
+C:\Users\hatelove\Desktop\安全字串\UseSecurityString\obj\Debug\UseSecurityString.exe
+C:\Users\hatelove\Desktop\安全字串\UseSecurityString\obj\Debug\UseSecurityString.pdb

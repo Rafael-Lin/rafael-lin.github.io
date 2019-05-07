@@ -1,0 +1,352 @@
+** 7.進程之間通信的途徑
+shared memssage
+message queues 
+pipe
+** 11.進程死鎖的原因
+資源競爭及進程推進順序非法
+race condition 
+** 12.死鎖的4個必要條件
+互斥、請求保持、不可剝奪、環路
+mutual exclusion, non-preemptiable, circular waiting, have and request
+** 13.死鎖的處理
+鴕鳥策略、預防策略、避免策略、檢測與解除死鎖
+** 15.   操作系統中進程調度策略有哪幾種？
+FCFS(先來先服務)，優先級，時間片輪轉，多級反饋
+** 8.類的靜態成員和非靜態成員有何區別？
+類的靜態成員每個類只有一個，非靜態成員每個對象一個
+** 9.純虛函數如何定義？使用時應註意什?？
+virtual void f()=0;
+是接口，子類必須要實現
+** 10.數組和鏈表的區別
+數組：數據順序存儲，固定大小
+連表：數據可以隨機存儲，大小可動態改變
+array : fixed-size, in-order saving
+linked_list : 
+
+** 12.ISO的七層模型是什?？tcp/udp是屬於哪一層？tcp/udp有何優缺點？
+
+應用層 表示層 會話層 運輸層 網絡層 物理鏈路層 物理層
+
+tcp/udp屬於運輸層
+
+TCP 服務提供了數據流傳輸、可靠性、有效流控制、全雙工操作和多路復用技術等。
+與 TCP 不同， UDP 並不提供對 IP 協議的可靠機制、流控制以及錯誤恢復功能等。由於 UDP 比較簡單， UDP 頭包含很少的字節，比 TCP 負載消耗少。
+
+tcp: 提供穩定的傳輸服務，有流量控制，缺點是包頭大，冗余性不好
+udp: 不提供穩定的服務，包頭小，開銷小  
+
+
+** 1：(void *)ptr 和 (*(void**))ptr的結果是否相同？其中ptr為同一個指針
+(void *)ptr 和 (*(void**))ptr值是相同的
+** 2：
+int main()
+   {
+    int x=3;
+    printf("%d",x);
+    return 1;
+  
+   }
+問函數既然不會被其它函數調用，為什?要返回1？
+main中，c標準認為0表示成功，非0表示錯誤。具體的值是某中具體出錯信息
+
+
+** 1，要對絕對地址0x100000賦值，我們可以用
+(unsigned int*)0x100000 = 1234;
+** 那要是想讓程序跳轉到絕對地址是0x100000去執行，應該怎?做？
+*((void (*)( ))0x100000 ) ( );
+首先要將0x100000強制轉換成函數指針,即:
+(void (*)())0x100000
+然後再調用它:
+*((void (*)())0x100000)();
+用typedef可以看得更直觀些:
+typedef void(*)() voidFuncPtr;
+*((voidFuncPtr)0x100000)();
+** 2，已知一個數組table，用一個宏定義，求出數據的元素個數
+#define NTBL
+#define NTBL (sizeof(table)/sizeof(table[0]))
+
+* 面試題: 
+** 線程與進程的區別和聯系? 線程是否具有相同的堆棧? dll是否有獨立的堆棧?
+進程是死的，只是一些資源的集合，真正的程序執行都是線程來完成的，程序啟動的時候操作系統就幫你創建了一個主線程。
+
+每個線程有自己的堆棧。
+DLL中有沒有獨立的堆棧，這個問題不好回答，或者說這個問題本身是否有問題。因為DLL中
+的代碼是被某些線程所執行，只有線程擁有堆棧，如果DLL中的代碼是EXE中的線程所調用，
+那?這個時候是不是說這個DLL沒有自己獨立的堆棧？如果DLL中的代碼是由DLL自己創建的線
+程所執行，那?是不是說DLL有獨立的堆棧？
+
+以上講的是堆棧，如果對於堆來說，每個DLL有自己的堆，所以如果是從DLL中動態分配的內
+存，最好是從DLL中刪除，如果你從DLL中分配內存，然後在EXE中，或者另外一個DLL中刪除，
+很有可能導致程序崩潰
+
+
+unsigned short A = 10;
+printf("~A = %u\n", ~A);
+
+char c=128;
+printf("c=%d\n",c);
+
+輸出多少？並分析過程
+第一題，～A ＝0xfffffff5,int值 為－11，但輸出的是uint。所以輸出4294967285
+第二題，c＝0x10,輸出的是int，最高位為1，是負數，所以它的值就是0x00的補碼就是128，所以輸出－128。
+這兩道題都是在考察二進制向int或uint轉換時的最高位處理。
+
+分析下面的程序：
+void GetMemory(char **p,int num)
+{
+    *p=(char *)malloc(num);
+   
+}       
+int main()
+{
+    char *str=NULL;
+   
+    GetMemory(&str,100);
+   
+    strcpy(str,"hello");
+   
+    free(str);
+   
+    if(str!=NULL)
+    {
+        strcpy(str,"world");
+    }   
+       
+    printf("\n str is %s",str);
+    getchar();
+}   
+// crash
+** strlen
+int main()
+{
+  char aa[10];
+  printf("%d\n",strlen(aa));
+  printf("%d",sizeof(aa));
+}
+// 0
+// 10
+
+
+
+** char (*str)[20];/*str是一個數組指針，即指向數組的指針．*/
+ char *str[20];/*str是一個指針數組，其元素為指針型數據．*/
+
+** sizeof struct
+ 1)給定結構
+struct A
+{
+  char t=4;
+  char k=4;
+  unsigned short i=8;
+  unsigned long m;
+};
+
+問sizeof(A) = ?
+ 給定結構struct A
+ {
+        char t=4; 4位
+        char k=4; 4位
+        unsigned short i=8; 8位     
+        unsigned long m; // 偏移2字節保證4字節對齊
+ };  1+1+2+4 = 8 
+
+ 2)下面的函數實現在一個數上加一個數，有什?錯誤？請改正。
+ int add_n ( int n )
+ {
+     static int i = 100;
+     i += n;
+     return i;
+ }
+ 當你第二次調用時得不到正確的結果，難道你寫個函數就是為了調用一次？問題就出在 static上？
+
+** hard problem
+ // 幫忙分析一下
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct  AA
+{
+  int b1:5;
+  int b2:2;
+}AA;
+int main()
+{
+  AA aa;
+  char cc[100];
+  strcpy(cc,"0123456789abcdefghijklmnopqrstuvwxyz");
+  memcpy(&aa,cc,sizeof(AA));
+  printf("%d\n%d", aa.b1, aa.b2 ) ;
+}
+
+ 答案是 -16和１
+ 首先sizeof(AA)的大小為4,b1和b2分別占5bit和2bit.
+ 經過strcpy和memcpy後,aa的4個字節所存放的值是:
+ 0,1,2,3的ASC碼，即00110000,00110001,00110010,00110011
+ 所以，最後一步：顯示的是這４個字節的前５位，和之後的２位
+ 分別為：10000,和01
+ 因為int是有正負之分　　所以：答案是-16和１
+** overflow
+ int a,b,c 請寫函數實現C=a+b ,不可以改變數據類型,如將c改為long int,關鍵是如何處理溢出問題
+ 輸出為什?是
+// little endian
+struct bit
+{
+  int a:3;
+  int b:2;
+  int c:3;
+};
+int main()
+{
+  bit s;
+  char *c=(char*)&s;
+  cout<<sizeof(bit)<<endl;
+  *c=0x99;
+  printf("c = 0x99\n");
+  printf("s.a = %d\n",s.a ) ;
+  printf("s.b = %d\n",s.b ) ;
+  printf("s.c = %d\n",s.c ) ;
+  int a=-1;
+  printf("a = -1, a = %x",a);
+  return 0;
+}
+
+4
+c = 0x99
+s.a = 1
+s.b = -1
+s.c = -4
+a = -1, a = ffffffff
+
+ 因為0x99在內存中表示為 100 11 001 , a = 001, b = 11, c = 100
+ 當c為有符合數時, c = 100, 最高1為表示c為負數，負數在計算機用補碼表示，所以c = -4;同理
+ b = -1;
+
+| c   | 99 | 10011001 |
+| s.a |  1 |      001 |
+| s.b | -1 |       11 |
+| s.c | -4 |      100 |
+
+ 當c為有符合數時, c = 100,即 c = 4,同理 b = 3
+
+
+* 位域 ：  
+
+ 有些信息在存儲時，並不需要占用一個完整的字節， 而只需占幾個或一個二進制位。例如
+ 在存放一個開關量時，只有0和1 兩種狀態， 用一位二進位即可。為了節省存儲空間，並
+ 使處理簡便，Ｃ語言又提供了一種數據結構，稱為“位域”或“位段”。所謂“位域”是
+ 把一個字節中的二進位劃分為幾個不同的區域， 並說明每個區域的位數。每個域有一個域
+ 名，允許在程序中按域名進行操作。 這樣就可以把幾個不同的對象用一個字節的二進制位
+ 域來表示。一、位域的定義和位域變量的說明位域定義與結構定義相仿，其形式為：
+
+ struct 位域結構名    
+ { 位域列表 };   
+ 其中位域列表的形式為： 類型說明符 位域名：位域長度    
+ 例如：    
+ struct bs   
+ {   
+ int a:8;   
+ int b:2;   
+ int c:6;   
+ };   
+ 位域變量的說明與結構變量說明的方式相同。 可采用先定義後說明，同時定義說明或者直接說明這三種方式。例如：    
+
+ struct bs   
+ {   
+ int a:8;   
+ int b:2;   
+ int c:6;   
+ }data;   
+ 說明data為bs變量，共占兩個字節。其中位域a占8位，位域b占2位，位域c占6位。對於位域的定義尚有以下幾點說明：   
+
+** 1. 一個位域必須存儲在同一個字節中，不能跨兩個字節。    
+如一個字節所剩空間不夠存放另一位域時，應從下一單元起存放該位域。也可以有意使某位域從下一單元開始。例如：
+struct bs   
+{   
+unsigned a:4   
+unsigned :0 /*空域*/   
+unsigned b:4 /*從下一單元開始存放*/   
+unsigned c:4   
+}   
+在這個位域定義中，a占第一字節的4位，後4位填0表示不使用，b從第二字節開始，占用4位，c占用4位。   
+
+** 2. 由於位域不允許跨兩個字節，因此位域的長度不能大於一個字節的長度，也就是說不能超過8位二進位。   
+
+** 3. 位域可以無位域名，這時它只用來作填充或調整位置。無名的位域是不能使用的。例如：    
+struct k   
+{   
+int a:1   
+int :2 /*該2位不能使用*/   
+int b:3   
+int c:2   
+};   
+從以上分析可以看出，位域在本質上就是一種結構類型， 不過其成員是按二進位分配的。   
+
+二、位域的使用位域的使用和結構成員的使用相同，其一般形式為： 位域變量名&#8226;位域名 位域允許用各種格式輸出。   
+main(){   
+struct bs   
+{   
+unsigned a:1;   
+unsigned b:3;   
+unsigned c:4;   
+} bit,*pbit;   
+bit.a=1;   
+bit.b=7;   
+bit.c=15;   
+
+* 改錯：
+＃include <stdio.h>
+
+int main(void) {
+    int **p;
+    int arr[100];
+    p = &arr;
+    return 0;
+}
+解答：
+搞錯了,是指針類型不同,
+
+int **p; //二級指針
+&arr; //得到的是指向第一維為100的數組的指針
+＃i nclude <stdio.h>
+int main(void) {
+int **p, *q;
+int arr[100];
+q = arr;
+p = &q;
+return 0;
+}
+
+
+* 下面這個程序執行後會有什?錯誤或者效果:
+ #define MAX 255
+ int main()
+{
+   unsigned char A[MAX],i;//i被定義為unsigned char
+   for (i=0;i<=MAX;i++)
+      A[i]=i;
+}
+解答：死循環加數組越界訪問（C/C++不進行數組越界檢查）
+
+MAX=255
+數組A的下標範圍為:0..MAX-1,這是其一..
+其二.當i循環到255時,循環內執行:
+  A[255]=255;
+這句本身沒有問題..但是返回for (i=0;i<=MAX;i++)語句時,
+由於unsigned char的取值範圍在(0..255),i++以後i又為0了..無限循環下去.
+
+struct name1{
+   char  str;
+   short x;
+   int   num;
+}
+
+struct name2{
+   char str;
+   int num;
+   short x;
+}
+
+sizeof(struct name1)=8,sizeof(struct name2)=12
+在第二個結構中，為保證num按四個字節對齊，char後必須留出3字節的空間；同時為保證整個結構的自然對齊（這裏是4字節對齊），在x後還要補齊2個字節，這樣就是12字節。
+

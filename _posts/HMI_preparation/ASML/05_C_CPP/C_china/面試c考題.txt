@@ -1,0 +1,57 @@
+* New
+
+** 1.有以下表達式：
+int a=248; b=4;int const c=21;const int *d=&a;
+int *const e=&b;int const *f const =&a;
+請問下列表達式哪些會被編譯器禁止？為什?？
+*c=32;d=&b;*d=43;e=34;e=&a;f=0x321f;
+*c 這是個什?東東，禁止
+*d 說了是const， 禁止
+e = &a 說了是const 禁止
+const *f const =&a; 禁止
+
+** 2.交換兩個變量的值，不使用第三個變量。即a=3,b=5,交換之後a=5,b=3;
+有兩種解法, 一種用算術算法, 一種用^(異或)
+a = a + b;
+b = a - b;
+a = a - b;
+or
+a = a^b;// 只能對int,char..
+b = a^b;
+a = a^b;
+or
+a ^= b ^= a;
+** 3.c和c++中的struct有什?不同？
+c和c++中struct的主要區別是c中的struct不可以含有成員函數，而c++中的struct可以。c++中struct和class的主要區別在於默認的存取權限不同，struct默認為public，而class默認為private
+
+** 4.
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+void getmemory(char *p)
+{
+  p=(char *) malloc(100);
+  strcpy(p,"hello world");
+}
+int main( )
+{
+  char *str=NULL;
+  getmemory(str);
+  printf("%s",str);
+  free(str);
+  return 0;
+}
+
+// null
+程序崩潰，getmemory中的malloc 不能返回動態內存， free（）對str操作很危險
+** 5.
+char szstr[10];
+  strcpy(szstr,"0123456789");
+  產生什?結果？為什?？
+  長度不一樣，會造成非法的OS
+** 6.列舉幾種進程的同步機制，並比較其優缺點。
+   原子操作
+信號量機制
+   自旋鎖
+   管程，會合，分布式系統
+

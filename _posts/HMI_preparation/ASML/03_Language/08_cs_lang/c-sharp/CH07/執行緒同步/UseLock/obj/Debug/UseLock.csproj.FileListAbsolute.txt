@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\執行緒同步\UseLock\obj\Debug\UseLock.exe
+C:\Users\hatelove\Desktop\執行緒同步\UseLock\obj\Debug\UseLock.pdb
+C:\Users\hatelove\Desktop\執行緒同步\UseLock\bin\Debug\UseLock.exe
+C:\Users\hatelove\Desktop\執行緒同步\UseLock\bin\Debug\UseLock.pdb
+C:\Users\hatelove\Desktop\執行緒同步\UseLock\obj\Debug\ResolveAssemblyReference.cache

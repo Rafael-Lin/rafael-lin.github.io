@@ -1,0 +1,41 @@
+1.calling convention
+
+2.舉一例子calling convention錯誤時會怎樣
+
+3.何謂deadlock，舉例
+
+4.struct field position bias
+
+4.前面的code可以在c裡implement嗎?為什麼?
+
+5.C的keyword volatile的用途
+
+6.有volatile宣告和沒宣告差在哪
+
+7.int *malloc_align(int size,int align);void free_align(int *ptr);
+
+8.IRQL
+
+9.automic operation?為何需要?fuction如何automic?
+
+10.把function改成macro
+
+11.判斷一個數是否為2^n
+
+12.polymorphism?virtual function? virtual function和polymorphism關係?
+
+13.在C code 中出現assembly code是什麼意思?為什麼?
+
+一兩題忘了,忘了的幾題應該都不難
+
+老實說題目蠻多的
+
+如果要用英文回答的話要記很熟才行
+
+口試
+論文和專題
+有用過interrupt寫程式嗎? 
+有寫過windows driver嗎?
+multi process 如何做?
+schedule 怎麼排?
+當有人一直沒排到怎麼辦?

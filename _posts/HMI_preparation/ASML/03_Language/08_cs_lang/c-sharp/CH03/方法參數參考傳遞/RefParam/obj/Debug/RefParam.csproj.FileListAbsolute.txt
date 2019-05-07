@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\方法參數參考傳遞\RefParam\bin\Debug\RefParam.exe
+C:\Users\hatelove\Desktop\方法參數參考傳遞\RefParam\bin\Debug\RefParam.pdb
+C:\Users\hatelove\Desktop\方法參數參考傳遞\RefParam\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\方法參數參考傳遞\RefParam\obj\Debug\RefParam.exe
+C:\Users\hatelove\Desktop\方法參數參考傳遞\RefParam\obj\Debug\RefParam.pdb

@@ -1,0 +1,5 @@
+bin\Debug\ThreadStatic.exe
+bin\Debug\ThreadStatic.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\ThreadStatic.exe
+obj\Debug\ThreadStatic.pdb

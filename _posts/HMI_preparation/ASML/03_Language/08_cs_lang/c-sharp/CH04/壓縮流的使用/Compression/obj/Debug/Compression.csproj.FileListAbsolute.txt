@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\壓縮流的使用\Compression\bin\Debug\Compression.exe
+C:\Users\hatelove\Desktop\壓縮流的使用\Compression\bin\Debug\Compression.pdb
+C:\Users\hatelove\Desktop\壓縮流的使用\Compression\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\壓縮流的使用\Compression\obj\Debug\Compression.exe
+C:\Users\hatelove\Desktop\壓縮流的使用\Compression\obj\Debug\Compression.pdb

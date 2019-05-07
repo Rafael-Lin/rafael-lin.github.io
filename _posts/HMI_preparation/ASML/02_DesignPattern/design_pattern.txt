@@ -1,0 +1,1460 @@
+* Observer pattern
+
+** Step 1
+
+public class Subject {
+	
+   private List<Observer> observers = new ArrayList<Observer>();
+   private int state;
+
+   public int getState() {
+      return state;
+   }
+
+   public void setState(int state) {
+      this.state = state;
+      notifyAllObservers();
+   }
+
+   public void attach(Observer observer){
+      observers.add(observer);		
+   }
+
+   public void notifyAllObservers(){
+      for (Observer observer : observers) {
+         observer.update();
+      }
+   } 	
+}
+
+
+** Step 2
+
+Observer.java
+
+
+public abstract class Observer {
+   protected Subject subject;
+   public abstract void update();
+}
+
+
+** Step 3
+每一個  observer 裡都傳入一個 subject 來註冊自己  
+每一個 subscriber 裡都有一個 publisher 
+  -> 用這個方法來讓 subject 來註冊自己
+
+每一個 publisher 裡都有一串 subscriber 
+
+Create concrete observer classes
+BinaryObserver.java
+
+
+public class BinaryObserver extends Observer{
+
+   public BinaryObserver(Subject subject){
+      this.subject = subject;
+      this.subject.attach(this);
+   }
+
+   @Override
+   public void update() {
+      System.out.println( "Binary String: " + Integer.toBinaryString( subject.getState() ) ); 
+   }
+}
+
+OctalObserver.java
+
+
+public class OctalObserver extends Observer{
+
+   public OctalObserver(Subject subject){
+      this.subject = subject;
+      this.subject.attach(this);
+   }
+
+   @Override
+   public void update() {
+     System.out.println( "Octal String: " + Integer.toOctalString( subject.getState() ) ); 
+   }
+}
+
+HexaObserver.java
+
+
+public class HexaObserver extends Observer{
+
+   public HexaObserver(Subject subject){
+      this.subject = subject;
+      this.subject.attach(this);
+   }
+
+   @Override
+   public void update() {
+      System.out.println( "Hex String: " + Integer.toHexString( subject.getState() ).toUpperCase() ); 
+   }
+}
+
+
+** Step 4
+
+Use Subject and concrete observer objects.
+
+ObserverPatternDemo.java
+
+
+public class ObserverPatternDemo {
+   public static void main(String[] args) {
+      Subject subject = new Subject();
+
+      new HexaObserver(subject);
+      new OctalObserver(subject);
+      new BinaryObserver(subject);
+
+      System.out.println("First state change: 15");	
+      subject.setState(15);
+      System.out.println("Second state change: 10");	
+      subject.setState(10);
+   }
+}
+
+** Step 5
+
+Verify the output.
+
+
+First state change: 15
+Hex String: F
+Octal String: 17
+Binary String: 1111
+Second state change: 10
+Hex String: A
+Octal String: 12
+Binary String: 1010
+
+* prototype pattern 
+
+
+Prototype pattern refers to creating duplicate object while keeping performance
+in mind. This type of design
+
+pattern comes under creational pattern as this pattern provides one of the best
+ways to create an object.
+
+This pattern involves implementing a prototype interface which tells to create a
+clone of the current object. This
+
+pattern is used when creation of object directly is costly. For example, an
+object is to be created after a costly
+
+database operation. We can cache the object, returns its clone on next request
+and update the database as and
+
+when needed thus reducing database calls.
+
+Implementation
+
+We're going to create an abstract class Shape and concrete classes extending the
+Shape class. A class
+
+ShapeCache is defined as a next step which stores shape objects in a Hashtable
+and returns their clone when
+
+requested.
+
+PrototypPatternDemo, our demo class will use ShapeCache class to get a Shape
+object.
+
+** Step 1 
+
+Create an abstract class implementing Clonable interface.
+
+Shape.java
+
+
+public abstract class Shape implements Cloneable {
+   
+   private String id;
+   protected String type;
+   
+   abstract void draw();
+   
+   public String getType(){
+      return type;
+   }
+   
+   public String getId() {
+      return id;
+   }
+   
+   public void setId(String id) {
+      this.id = id;
+   }
+   
+   public Object clone() {
+      Object clone = null;
+      
+      try {
+         clone = super.clone();
+         
+      } catch (CloneNotSupportedException e) {
+         e.printStackTrace();
+      }
+      
+      return clone;
+   }
+}
+
+** Step 2
+
+Create concrete classes extending the above class.
+
+Rectangle.java
+
+
+public class Rectangle extends Shape {
+
+   public Rectangle(){
+     type = "Rectangle";
+   }
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Rectangle::draw() method.");
+   }
+}
+
+Square.java
+
+
+public class Square extends Shape {
+
+   public Square(){
+     type = "Square";
+   }
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Square::draw() method.");
+   }
+}
+
+** Circle.java
+
+
+public class Circle extends Shape {
+
+   public Circle(){
+     type = "Circle";
+   }
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Circle::draw() method.");
+   }
+}
+
+** Step 3
+
+Create a class to get concrete classes from database and store them in a
+Hashtable.
+
+ShapeCache.java
+
+
+import java.util.Hashtable;
+
+public class ShapeCache {
+	
+   private static Hashtable<String, Shape> shapeMap  = 
+   new Hashtable<String, Shape>();
+
+   public static Shape getShape(String shapeId) {
+      Shape cachedShape = shapeMap.get(shapeId);
+      return (Shape) cachedShape.clone();
+   }
+
+   // for each shape run database query and create shape
+   // shapeMap.put(shapeKey, shape);
+   // for example, we are adding three shapes
+   
+   public static void loadCache() {
+      Circle circle = new Circle();
+      circle.setId("1");
+      shapeMap.put(circle.getId(),circle);
+
+      Square square = new Square();
+      square.setId("2");
+      shapeMap.put(square.getId(),square);
+
+      Rectangle rectangle = new Rectangle();
+      rectangle.setId("3");
+      shapeMap.put(rectangle.getId(), rectangle);
+   }
+}
+
+** Step 4
+
+PrototypePatternDemo uses ShapeCache class to get clones of shapes stored in a
+Hashtable.
+
+PrototypePatternDemo.java
+
+
+public class PrototypePatternDemo {
+   public static void main(String[] args) {
+      ShapeCache.loadCache();
+
+      Shape clonedShape = (Shape) ShapeCache.getShape("1");
+      System.out.println("Shape : " + clonedShape.getType());		
+
+      Shape clonedShape2 = (Shape) ShapeCache.getShape("2");
+      System.out.println("Shape : " + clonedShape2.getType());		
+
+      Shape clonedShape3 = (Shape) ShapeCache.getShape("3");
+      System.out.println("Shape : " + clonedShape3.getType());		
+   }
+}
+
+** Step 5
+
+Verify the output.
+
+
+Shape : Circle
+Shape : Square
+Shape : Rectangle
+
+
+* factory pattern 
+
+Factory pattern is one of the most used design patterns in Java. This type of design pattern comes under
+creational pattern as this pattern provides one of the best ways to create an object.
+
+In Factory pattern, we create object without exposing the creation logic to the client and refer to newly created
+object using a common interface.
+
+Implementation
+
+We're going to create a Shape interface and concrete classes implementing the Shape interface. A factory class
+ShapeFactory is defined as a next step.
+
+FactoryPatternDemo, our demo class will use ShapeFactory to get a Shape object. It will pass information
+(CIRCLE / RECTANGLE / SQUARE) to ShapeFactory to get the type of object it needs.
+
+Factory Pattern UML Diagram 
+
+** Step 1
+
+Create an interface.
+
+Shape.java
+
+
+public interface Shape {
+   void draw();
+}
+
+** Step 2
+
+Create concrete classes implementing the same interface.
+
+Rectangle.java
+
+
+public class Rectangle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Rectangle::draw() method.");
+   }
+}
+
+Square.java
+
+
+public class Square implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Square::draw() method.");
+   }
+}
+
+Circle.java
+
+
+public class Circle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Circle::draw() method.");
+   }
+}
+
+** Step 3
+
+Create a Factory to generate object of concrete class based on given
+information.
+
+ShapeFactory.java
+
+
+public class ShapeFactory {
+	
+   //use getShape method to get object of type shape 
+   public Shape getShape(String shapeType){
+      if(shapeType == null){
+         return null;
+      }		
+      if(shapeType.equalsIgnoreCase("CIRCLE")){
+         return new Circle();
+         
+      } else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+         return new Rectangle();
+         
+      } else if(shapeType.equalsIgnoreCase("SQUARE")){
+         return new Square();
+      }
+      
+      return null;
+   }
+}
+
+** Step 4
+
+Use the Factory to get object of concrete class by passing an information such as type.
+
+FactoryPatternDemo.java
+
+
+public class FactoryPatternDemo {
+
+   public static void main(String[] args) {
+      ShapeFactory shapeFactory = new ShapeFactory();
+
+      //get an object of Circle and call its draw method.
+      Shape shape1 = shapeFactory.getShape("CIRCLE");
+
+      //call draw method of Circle
+      shape1.draw();
+
+      //get an object of Rectangle and call its draw method.
+      Shape shape2 = shapeFactory.getShape("RECTANGLE");
+
+      //call draw method of Rectangle
+      shape2.draw();
+
+      //get an object of Square and call its draw method.
+      Shape shape3 = shapeFactory.getShape("SQUARE");
+
+      //call draw method of circle
+      shape3.draw();
+   }
+}
+
+** Step 5
+
+Verify the output.
+
+
+Inside Circle::draw() method.
+Inside Rectangle::draw() method.
+Inside Square::draw() method.
+
+* Abstract Factory Pattern
+
+Abstract Factory patterns work around a super-factory which creates other factories. This factory is also called as
+factory of factories. This type of design pattern comes under creational pattern as this pattern provides one of the
+best ways to create an object. 
+
+In Abstract Factory pattern an interface is responsible for creating a factory of related objects without explicitly
+specifying their classes. Each generated factory can give the objects as per the Factory pattern.
+
+Implementation
+
+We are going to create a Shape and Color interfaces and concrete classes implementing these interfaces. We
+create an abstract factory class AbstractFactory as next step. Factory classes ShapeFactory and ColorFactory
+are defined where each factory extends AbstractFactory. A factory creator/generator class FactoryProducer is
+created.
+
+AbstractFactoryPatternDemo, our demo class uses FactoryProducer to get a AbstractFactory object. It will pass
+information (CIRCLE / RECTANGLE / SQUARE for Shape) to AbstractFactory to get the type of object it needs.
+It also passes information (RED / GREEN / BLUE for Color) to AbstractFactory to get the type of object it needs.
+
+Abstract Factory Pattern UML Diagram 
+
+** Step 1
+
+Create an interface for Shapes.
+
+Shape.java
+
+
+public interface Shape {
+   void draw();
+}
+
+** Step 2
+
+Create concrete classes implementing the same interface.
+
+Rectangle.java
+
+
+public class Rectangle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Rectangle::draw() method.");
+   }
+}
+
+Square.java
+
+
+public class Square implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Square::draw() method.");
+   }
+}
+
+Circle.java
+
+
+public class Circle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Circle::draw() method.");
+   }
+}
+
+** Step 3
+
+Create an interface for Colors.
+
+Color.java
+
+
+public interface Color {
+   void fill();
+}
+
+** Step 4
+
+Create concrete classes implementing the same interface.
+
+Red.java
+
+
+public class Red implements Color {
+
+   @Override
+   public void fill() {
+      System.out.println("Inside Red::fill() method.");
+   }
+}
+
+Green.java
+
+
+public class Green implements Color {
+
+   @Override
+   public void fill() {
+      System.out.println("Inside Green::fill() method.");
+   }
+}
+
+Blue.java
+
+
+public class Blue implements Color {
+
+   @Override
+   public void fill() {
+      System.out.println("Inside Blue::fill() method.");
+   }
+}
+
+** Step 5
+
+Create an Abstract class to get factories for Color and Shape Objects.
+
+AbstractFactory.java
+
+
+public abstract class AbstractFactory {
+   abstract Color getColor(String color);
+   abstract Shape getShape(String shape) ;
+}
+
+** Step 6
+
+Create Factory classes extending AbstractFactory to generate object of concrete
+class based on given information.
+
+ShapeFactory.java
+
+
+public class ShapeFactory extends AbstractFactory {
+	
+   @Override
+   public Shape getShape(String shapeType){
+   
+      if(shapeType == null){
+         return null;
+      }		
+      
+      if(shapeType.equalsIgnoreCase("CIRCLE")){
+         return new Circle();
+         
+      }else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+         return new Rectangle();
+         
+      }else if(shapeType.equalsIgnoreCase("SQUARE")){
+         return new Square();
+      }
+      
+      return null;
+   }
+   
+   @Override
+   Color getColor(String color) {
+      return null;
+   }
+}
+
+ColorFactory.java
+
+
+public class ColorFactory extends AbstractFactory {
+	
+   @Override
+   public Shape getShape(String shapeType){
+      return null;
+   }
+   
+   @Override
+   Color getColor(String color) {
+   
+      if(color == null){
+         return null;
+      }		
+      
+      if(color.equalsIgnoreCase("RED")){
+         return new Red();
+         
+      }else if(color.equalsIgnoreCase("GREEN")){
+         return new Green();
+         
+      }else if(color.equalsIgnoreCase("BLUE")){
+         return new Blue();
+      }
+      
+      return null;
+   }
+}
+
+** Step 7
+
+Create a Factory generator/producer class to get factories by passing an
+information such as Shape or Color
+
+FactoryProducer.java
+
+
+public class FactoryProducer {
+   public static AbstractFactory getFactory(String choice){
+   
+      if(choice.equalsIgnoreCase("SHAPE")){
+         return new ShapeFactory();
+         
+      }else if(choice.equalsIgnoreCase("COLOR")){
+         return new ColorFactory();
+      }
+      
+      return null;
+   }
+}
+
+** Step 8
+
+Use the FactoryProducer to get AbstractFactory in order to get factories of
+concrete classes by passing an information such as type.
+
+AbstractFactoryPatternDemo.java
+
+
+public class AbstractFactoryPatternDemo {
+   public static void main(String[] args) {
+
+      //get shape factory
+      AbstractFactory shapeFactory = FactoryProducer.getFactory("SHAPE");
+
+      //get an object of Shape Circle
+      Shape shape1 = shapeFactory.getShape("CIRCLE");
+
+      //call draw method of Shape Circle
+      shape1.draw();
+
+      //get an object of Shape Rectangle
+      Shape shape2 = shapeFactory.getShape("RECTANGLE");
+
+      //call draw method of Shape Rectangle
+      shape2.draw();
+      
+      //get an object of Shape Square 
+      Shape shape3 = shapeFactory.getShape("SQUARE");
+
+      //call draw method of Shape Square
+      shape3.draw();
+
+      //get color factory
+      AbstractFactory colorFactory = FactoryProducer.getFactory("COLOR");
+
+      //get an object of Color Red
+      Color color1 = colorFactory.getColor("RED");
+
+      //call fill method of Red
+      color1.fill();
+
+      //get an object of Color Green
+      Color color2 = colorFactory.getColor("Green");
+
+      //call fill method of Green
+      color2.fill();
+
+      //get an object of Color Blue
+      Color color3 = colorFactory.getColor("BLUE");
+
+      //call fill method of Color Blue
+      color3.fill();
+   }
+}
+
+** Step 9
+
+Verify the output.
+
+
+Inside Circle::draw() method.
+Inside Rectangle::draw() method.
+Inside Square::draw() method.
+Inside Red::fill() method.
+Inside Green::fill() method.
+Inside Blue::fill() method.
+
+* Decorator Pattern
+
+Decorator pattern allows a user to add new functionality to an existing object without altering its structure. This
+type of design pattern comes under structural pattern as this pattern acts as a wrapper to existing class.
+
+This pattern creates a decorator class which wraps the original class and provides additional functionality keeping
+class methods signature intact.
+
+We are demonstrating the use of decorator pattern via following example in which we will decorate a shape with
+some color without alter shape class.
+
+Implementation
+
+We're going to create a Shape interface and concrete classes implementing the Shape interface. We will then
+create an abstract decorator class ShapeDecorator implementing the Shape interface and having Shape object as
+its instance variable.
+
+RedShapeDecorator is concrete class implementing ShapeDecorator. 
+
+DecoratorPatternDemo, our demo class will use RedShapeDecorator to decorate Shape objects.
+
+Decorator Pattern UML Diagram 
+
+** Step 1
+
+Create an interface.
+
+Shape.java
+
+
+public interface Shape {
+   void draw();
+}
+
+** Step 2
+
+Create concrete classes implementing the same interface.
+
+Rectangle.java
+
+
+public class Rectangle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Shape: Rectangle");
+   }
+}
+
+Circle.java
+
+
+public class Circle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Shape: Circle");
+   }
+}
+
+** Step 3
+
+Create abstract decorator class implementing the Shape interface.
+
+ShapeDecorator.java
+
+
+public abstract class ShapeDecorator implements Shape {
+   protected Shape decoratedShape;
+
+   public ShapeDecorator(Shape decoratedShape){
+      this.decoratedShape = decoratedShape;
+   }
+
+   public void draw(){
+      decoratedShape.draw();
+   }	
+}
+
+** Step 4
+
+Create concrete decorator class extending the ShapeDecorator class.
+
+RedShapeDecorator.java
+
+// 傳入一個和自己同個 interface 的 para,  然後交給 base 去 init 
+// 在 common function 當中，再加入自己特有的 func
+
+public class RedShapeDecorator extends ShapeDecorator {
+
+   public RedShapeDecorator(Shape decoratedShape) {
+      super(decoratedShape);		
+   }
+
+   @Override
+   public void draw() {
+      decoratedShape.draw();	       
+      setRedBorder(decoratedShape);
+   }
+
+   private void setRedBorder(Shape decoratedShape){
+      System.out.println("Border Color: Red");
+   }
+}
+
+** Step 5
+
+Use the RedShapeDecorator to decorate Shape objects.
+
+DecoratorPatternDemo.java
+
+
+public class DecoratorPatternDemo {
+   public static void main(String[] args) {
+
+      Shape circle = new Circle();
+
+      Shape redCircle = new RedShapeDecorator(new Circle());
+
+      Shape redRectangle = new RedShapeDecorator(new Rectangle());
+      System.out.println("Circle with normal border");
+      circle.draw();
+
+      System.out.println("\nCircle of red border");
+      redCircle.draw();
+
+      System.out.println("\nRectangle of red border");
+      redRectangle.draw();
+   }
+}
+
+** Step 6
+
+Verify the output.
+
+
+Circle with normal border
+Shape: Circle
+
+Circle of red border
+Shape: Circle
+Border Color: Red
+
+Rectangle of red border
+Shape: Rectangle
+Border Color: Red
+
+* Adapter Pattern
+
+Adapter pattern works as a bridge between two incompatible interfaces. This type of design pattern comes under
+structural pattern as this pattern combines the capability of two independent interfaces.
+
+This pattern involves a single class which is responsible to join functionalities of independent or incompatible
+interfaces. A real life example could be a case of card reader which acts as an adapter between memory card
+and a laptop. You plugin the memory card into card reader and card reader into the laptop so that memory card
+can be read via laptop.
+
+We are demonstrating use of Adapter pattern via following example in which an audio player device can play mp3
+files only and wants to use an advanced audio player capable of playing vlc and mp4 files. 
+
+Implementation
+
+We have a MediaPlayer interface and a concrete class AudioPlayer implementing the MediaPlayer interface.
+AudioPlayer can play mp3 format audio files by default.
+
+We are having another interface AdvancedMediaPlayer and concrete classes implementing the
+AdvancedMediaPlayer interface. These classes can play vlc and mp4 format files.
+
+We want to make AudioPlayer to play other formats as well. To attain this, we have created an adapter class
+MediaAdapter which implements the MediaPlayer interface and uses AdvancedMediaPlayer objects to play the
+required format.
+
+AudioPlayer uses the adapter class MediaAdapter passing it the desired audio type without knowing the actual
+class which can play the desired format. AdapterPatternDemo, our demo class will use AudioPlayer class to play
+various formats.
+
+Adapter Pattern UML Diagram 
+
+** Step 1
+
+Create interfaces for Media Player and Advanced Media Player.
+
+MediaPlayer.java
+
+
+public interface MediaPlayer {
+   public void play(String audioType, String fileName);
+}
+
+AdvancedMediaPlayer.java
+
+
+public interface AdvancedMediaPlayer {	
+   public void playVlc(String fileName);
+   public void playMp4(String fileName);
+}
+
+** Step 2
+
+Create concrete classes implementing the AdvancedMediaPlayer interface.
+
+VlcPlayer.java
+
+
+public class VlcPlayer implements AdvancedMediaPlayer{
+   @Override
+   public void playVlc(String fileName) {
+      System.out.println("Playing vlc file. Name: "+ fileName);		
+   }
+
+   @Override
+   public void playMp4(String fileName) {
+      //do nothing
+   }
+}
+
+Mp4Player.java
+
+
+public class Mp4Player implements AdvancedMediaPlayer{
+
+   @Override
+   public void playVlc(String fileName) {
+      //do nothing
+   }
+
+   @Override
+   public void playMp4(String fileName) {
+      System.out.println("Playing mp4 file. Name: "+ fileName);		
+   }
+}
+
+** Step 3
+
+Create adapter class implementing the MediaPlayer interface.
+
+MediaAdapter.java
+
+
+public class MediaAdapter implements MediaPlayer {
+
+   AdvancedMediaPlayer advancedMusicPlayer;
+
+   public MediaAdapter(String audioType){
+   
+      if(audioType.equalsIgnoreCase("vlc") ){
+         advancedMusicPlayer = new VlcPlayer();			
+         
+      }else if (audioType.equalsIgnoreCase("mp4")){
+         advancedMusicPlayer = new Mp4Player();
+      }	
+   }
+
+   @Override
+   public void play(String audioType, String fileName) {
+   
+      if(audioType.equalsIgnoreCase("vlc")){
+         advancedMusicPlayer.playVlc(fileName);
+      }
+      else if(audioType.equalsIgnoreCase("mp4")){
+         advancedMusicPlayer.playMp4(fileName);
+      }
+   }
+}
+
+** Step 4
+
+Create concrete class implementing the MediaPlayer interface.
+
+AudioPlayer.java
+
+
+public class AudioPlayer implements MediaPlayer {
+   MediaAdapter mediaAdapter; 
+
+   @Override
+   public void play(String audioType, String fileName) {		
+
+      //inbuilt support to play mp3 music files
+      if(audioType.equalsIgnoreCase("mp3")){
+         System.out.println("Playing mp3 file. Name: " + fileName);			
+      } 
+      
+      //mediaAdapter is providing support to play other file formats
+      else if(audioType.equalsIgnoreCase("vlc") || audioType.equalsIgnoreCase("mp4")){
+         mediaAdapter = new MediaAdapter(audioType);
+         mediaAdapter.play(audioType, fileName);
+      }
+      
+      else{
+         System.out.println("Invalid media. " + audioType + " format not supported");
+      }
+   }   
+}
+
+** Step 5
+
+Use the AudioPlayer to play different types of audio formats.
+
+AdapterPatternDemo.java
+
+
+public class AdapterPatternDemo {
+   public static void main(String[] args) {
+      AudioPlayer audioPlayer = new AudioPlayer();
+
+      audioPlayer.play("mp3", "beyond the horizon.mp3");
+      audioPlayer.play("mp4", "alone.mp4");
+      audioPlayer.play("vlc", "far far away.vlc");
+      audioPlayer.play("avi", "mind me.avi");
+   }
+}
+
+** Step 6
+
+Verify the output.
+
+Playing mp3 file. Name: beyond the horizon.mp3
+Playing mp4 file. Name: alone.mp4
+Playing vlc file. Name: far far away.vlc
+Invalid media. avi format not supported
+
+* MVC Pattern  
+
+MVC Pattern stands for Model-View-Controller Pattern. This pattern is used to separate application's concerns.
+
+-* Model - Model represents an object or JAVA POJO carrying data. It can also have logic to update controller if
+ its data changes.
+
+-* View - View represents the visualization of the data that model contains.
+
+-* Controller - Controller acts on both model and view. It controls the data flow into model object and updates the
+ view whenever data changes. It keeps view and model separate.
+
+Implementation
+
+We are going to create a Student object acting as a model.StudentView will be a view class which can print
+student details on console and StudentController is the controller class responsible to store data in Student
+object and update view StudentView accordingly.
+
+MVCPatternDemo, our demo class, will use StudentController to demonstrate use of MVC pattern.
+
+MVC Pattern UML Diagram 
+
+** Step 1
+
+Create Model.
+
+Student.java
+
+
+public class Student {
+   private String rollNo;
+   private String name;
+   
+   public String getRollNo() {
+      return rollNo;
+   }
+   
+   public void setRollNo(String rollNo) {
+      this.rollNo = rollNo;
+   }
+   
+   public String getName() {
+      return name;
+   }
+   
+   public void setName(String name) {
+      this.name = name;
+   }
+}
+
+** Step 2
+
+Create View.
+
+StudentView.java
+
+
+public class StudentView {
+   public void printStudentDetails(String studentName, String studentRollNo){
+      System.out.println("Student: ");
+      System.out.println("Name: " + studentName);
+      System.out.println("Roll No: " + studentRollNo);
+   }
+}
+
+** Step 3
+
+Create Controller.
+
+// controller 有  model 也有 view 
+
+StudentController.java
+
+
+public class StudentController {
+   private Student model;
+   private StudentView view;
+
+   public StudentController(Student model, StudentView view){
+      this.model = model;
+      this.view = view;
+   }
+
+   public void setStudentName(String name){
+      model.setName(name);		
+   }
+
+   public String getStudentName(){
+      return model.getName();		
+   }
+
+   public void setStudentRollNo(String rollNo){
+      model.setRollNo(rollNo);		
+   }
+
+   public String getStudentRollNo(){
+      return model.getRollNo();		
+   }
+
+   public void updateView(){				
+      view.printStudentDetails(model.getName(), model.getRollNo());
+   }	
+}
+
+** Step 4
+
+Use the StudentController methods to demonstrate MVC design pattern usage.
+
+MVCPatternDemo.java
+
+
+public class MVCPatternDemo {
+   public static void main(String[] args) {
+
+      //fetch student record based on his roll no from the database
+      Student model  = retriveStudentFromDatabase();
+
+      //Create a view : to write student details on console
+      StudentView view = new StudentView();
+
+      StudentController controller = new StudentController(model, view);
+
+      controller.updateView();
+
+      //update model data
+      controller.setStudentName("John");
+
+      controller.updateView();
+   }
+
+   private static Student retriveStudentFromDatabase(){
+      Student student = new Student();
+      student.setName("Robert");
+      student.setRollNo("10");
+      return student;
+   }
+}
+
+Step 5
+
+Verify the output.
+
+
+Student: 
+Name: Robert
+Roll No: 10
+Student: 
+Name: John
+Roll No: 10
+
+* Composite Pattern
+
+Composite pattern is used where we need to treat a group of objects in similar way as a single object. Composite
+pattern composes objects in term of a tree structure to represent part as well as whole hierarchy. This type of
+design pattern comes under structural pattern as this pattern creates a tree structure of group of objects.
+
+This pattern creates a class that contains group of its own objects. This class provides ways to modify its group
+of same objects.
+
+We are demonstrating use of composite pattern via following example in which we will show employees hierarchy
+of an organization.
+
+Implementation
+
+We have a class Employee which acts as composite pattern actor class. CompositePatternDemo, our demo
+class will use Employee class to add department level hierarchy and print all employees.
+
+Composite Pattern UML Diagram 
+
+** Step 1
+
+Create Employee class having list of Employee objects.
+
+Employee.java
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Employee {
+   private String name;
+   private String dept;
+   private int salary;
+   private List<Employee> subordinates;
+
+   // constructor
+   public Employee(String name,String dept, int sal) {
+      this.name = name;
+      this.dept = dept;
+      this.salary = sal;
+      subordinates = new ArrayList<Employee>();
+   }
+
+   public void add(Employee e) {
+      subordinates.add(e);
+   }
+
+   public void remove(Employee e) {
+      subordinates.remove(e);
+   }
+
+   public List<Employee> getSubordinates(){
+     return subordinates;
+   }
+
+   public String toString(){
+      return ("Employee :[ Name : " + name + ", dept : " + dept + ", salary :" + salary+" ]");
+   }   
+}
+
+** Step 2
+
+Use the Employee class to create and print employee hierarchy.
+
+CompositePatternDemo.java
+
+
+public class CompositePatternDemo {
+   public static void main(String[] args) {
+   
+      Employee CEO = new Employee("John","CEO", 30000);
+
+      Employee headSales = new Employee("Robert","Head Sales", 20000);
+
+      Employee headMarketing = new Employee("Michel","Head Marketing", 20000);
+
+      Employee clerk1 = new Employee("Laura","Marketing", 10000);
+      Employee clerk2 = new Employee("Bob","Marketing", 10000);
+
+      Employee salesExecutive1 = new Employee("Richard","Sales", 10000);
+      Employee salesExecutive2 = new Employee("Rob","Sales", 10000);
+
+      CEO.add(headSales);
+      CEO.add(headMarketing);
+
+      headSales.add(salesExecutive1);
+      headSales.add(salesExecutive2);
+
+      headMarketing.add(clerk1);
+      headMarketing.add(clerk2);
+
+      //print all employees of the organization
+      System.out.println(CEO); 
+      
+      for (Employee headEmployee : CEO.getSubordinates()) {
+         System.out.println(headEmployee);
+         
+         for (Employee employee : headEmployee.getSubordinates()) {
+            System.out.println(employee);
+         }
+      }		
+   }
+}
+
+** Step 3
+
+Verify the output.
+
+
+Employee :[ Name : John, dept : CEO, salary :30000 ]
+Employee :[ Name : Robert, dept : Head Sales, salary :20000 ]
+Employee :[ Name : Richard, dept : Sales, salary :10000 ]
+Employee :[ Name : Rob, dept : Sales, salary :10000 ]
+Employee :[ Name : Michel, dept : Head Marketing, salary :20000 ]
+Employee :[ Name : Laura, dept : Marketing, salary :10000 ]
+Employee :[ Name : Bob, dept : Marketing, salary :10000 ]
+
+* facade 
+
+Facade pattern hides the complexities of the system and provides an interface to the client using which the client
+can access the system. This type of design pattern comes under structural pattern as this pattern adds an
+interface to existing system to hide its complexities.
+
+This pattern involves a single class which provides simplified methods required by client and delegates calls to
+methods of existing system classes.
+
+Implementation
+
+We are going to create a Shape interface and concrete classes implementing the Shape interface. A facade
+class ShapeMaker is defined as a next step.
+
+ShapeMaker class uses the concrete classes to delegate user calls to these classes. FacadePatternDemo, our
+demo class, will use ShapeMaker class to show the results.
+
+Facade Pattern UML Diagram 
+
+** Step 1
+
+Create an interface.
+
+Shape.java
+
+
+public interface Shape {
+   void draw();
+}
+
+** Step 2
+
+Create concrete classes implementing the same interface.
+
+Rectangle.java
+
+
+public class Rectangle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Rectangle::draw()");
+   }
+}
+
+Square.java
+
+
+public class Square implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Square::draw()");
+   }
+}
+
+Circle.java
+
+
+public class Circle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Circle::draw()");
+   }
+}
+
+** Step 3
+
+Create a facade class.
+
+ShapeMaker.java
+
+
+public class ShapeMaker {
+   private Shape circle;
+   private Shape rectangle;
+   private Shape square;
+
+   public ShapeMaker() {
+      circle = new Circle();
+      rectangle = new Rectangle();
+      square = new Square();
+   }
+
+   public void drawCircle(){
+      circle.draw();
+   }
+   public void drawRectangle(){
+      rectangle.draw();
+   }
+   public void drawSquare(){
+      square.draw();
+   }
+}
+
+** Step 4
+
+Use the facade to draw various types of shapes.
+
+FacadePatternDemo.java
+
+
+public class FacadePatternDemo {
+   public static void main(String[] args) {
+      ShapeMaker shapeMaker = new ShapeMaker();
+
+      shapeMaker.drawCircle();
+      shapeMaker.drawRectangle();
+      shapeMaker.drawSquare();		
+   }
+}
+
+** Step 5
+
+Verify the output.
+
+
+Circle::draw()
+Rectangle::draw()
+Square::draw()

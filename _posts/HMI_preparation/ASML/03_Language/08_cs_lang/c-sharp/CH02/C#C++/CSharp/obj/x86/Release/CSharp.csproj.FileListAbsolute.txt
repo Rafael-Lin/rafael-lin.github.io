@@ -1,0 +1,7 @@
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Release\CSharp.exe
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Release\CSharp.pdb
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Release\DllFromCPlus.dll
+C:\Users\hatelove\Desktop\Sample\CSharp\bin\Release\DllFromCPlus.pdb
+C:\Users\hatelove\Desktop\Sample\CSharp\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\Sample\CSharp\obj\x86\Release\CSharp.exe
+C:\Users\hatelove\Desktop\Sample\CSharp\obj\x86\Release\CSharp.pdb

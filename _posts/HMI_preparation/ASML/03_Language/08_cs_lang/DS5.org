@@ -1,0 +1,382 @@
+#+STARTUP: indent
+
+* ref, out :
+    ref : initialize before entering the function
+    out : initialize *in* the function
+
+* ref, out, xxx
+  out : initial at the function
+  ref : initial before entering the function
+
+* linq : 
+** http://www.tutorialspoint.com/csharp/
+* Attribute : 
+** Code :
+#+BEGIN_SRC java 
+[Conditional("Debug")]
+#define DEBUG
+using System;
+using System.Diagnostics;
+
+public class Myclass
+{
+   [Conditional("DEBUG")]
+   public static void Message(string msg)
+   {
+      Console.WriteLine(msg);
+   }
+}
+
+class Test
+{
+   static void function1()
+   {
+      Myclass.Message("In Function 1.");
+      function2();
+   }
+   static void function2()
+   {
+      Myclass.Message("In Function 2.");
+   }
+   
+   public static void Main()
+   {
+      Myclass.Message("In Main function.");
+      function1();
+      Console.ReadKey();
+      }
+}
+
+#+END_SRC
+
+* Extension Methods :
+
+** link : https://msdn.microsoft.com/en-us//library/bb383977.aspx
+
+
+** code : 
+
+#+BEGIN_SRC java
+  public static class DsInterruptServiceEventArgsFunction01Extension
+  {
+      public static bool HasFingerData(this DsInterruptServiceEventArgs args)
+      {
+          var rmiFunction01 = new RMIFunction01(args.RegisterMapSnapshot);
+          return rmiFunction01.HasInterrupt(0x11) || rmiFunction01.HasInterrupt(0x12) ||
+              rmiFunction01.HasInterrupt(0x51); // Proximity is temporarily in F$51
+      }
+
+      public static bool Has0DButtonData(this DsInterruptServiceEventArgs args)
+      {
+          var f01 = new RMIFunction01(args.RegisterMapSnapshot);
+          return f01.HasInterrupt(0x1A);
+      }
+
+      public static bool HasInterrupt(this DsInterruptServiceEventArgs args, byte functionNumber)
+      {
+          var rmiFunction01 = new RMIFunction01(args.RegisterMapSnapshot);
+          return rmiFunction01.HasInterrupt(functionNumber);
+      }
+  }
+#+END_SRC
+
+* Async function :
+
+* Limbda function :
+
+* [serialize]
+
+** code :
+
+#+BEGIN_SRC java
+  [Serializable]
+  [XmlInclude(typeof(PacketRegisterInfo))]
+  public class RegisterInfo
+  {
+      private byte _OldValue;
+      private byte _Value;
+
+      [XmlAttribute]
+      public string Name { get; set; }
+
+      [XmlAttribute]
+      public ushort Address { get; set; }
+
+      [XmlAttribute]
+      public byte FunctionNumber { get; set; }
+
+      [XmlAttribute]
+      public byte Number { get; set; }
+  }
+#+END_SRC
+
+
+* public seal class  
+ When applied to a class, the sealed modifier prevents other classes from inheriting from it. In the following example,
+ class B inherits from class A, but no class can inherit from class B. 
+
+* GC.suppressfinalized()
+* Event and delegate
+** code :
+#+BEGIN_SRC java
+
+  public delegate void DsMessageEvent(DsMessageArgs args);
+  public delegate void DsMessageListEvent(ArrayList aList);
+
+  public static event DsMessageEvent OnMessage;
+  public static event DsMessageListEvent OnMessageList;
+
+  OnMessage(args) ; // launch this event
+
+#+END_SRC
+
+
+* override : override the old method, for example , toString()
+** another example : GetHashCode();
+ 
+* ReferenceEquals from object
+** obj.Gettype != typeof( registerinfo ) .. return ...
+* GetHashCode :
+** code :
+#+BEGIN_SRC java
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = (Name != null ? Name.GetHashCode() : 0);
+                result = (result * 397) ^ Address.GetHashCode();
+                result = (result * 397) ^ FunctionNumber.GetHashCode();
+                result = (result * 397) ^ Number.GetHashCode();
+                result = (result * 397) ^ SubNumber.GetHashCode();
+                result = (result * 397) ^ Type.GetHashCode();
+                result = (result * 397) ^ Value.GetHashCode();
+                return result;
+            }
+        }
+
+#+END_SRC
+
+* unchecked keyword :
+    The unchecked keyword is used to suppress overflow-checking for integral-type arithmetic operations and conversions.
+    unchecked
+    {
+        int1 = 2147483647 + 10;
+    }
+    int1 = unchecked(ConstantMax + 10);
+* Byte.TryParse()
+* msg = string.Format("{0}: needs to be 0 or 1", itemName);
+  var val = (float)RMIFunctionFacade.ConvertFromQtoFloat(ushort.MaxValue, 12);
+  // Show 6 digits after decimal to avoid misleading rounded up value of 
+  // 16.000 (which is actually 15.999760)
+  return String.Format("0 - {0:f6}", val);
+
+  float fval = (float)RMIFunctionFacade.ConvertFromQtoFloat(255, 8);
+  return "0 - " + fval.ToString("F3");
+
+* List<double> badRx = new List<double>();
+* static function and static class
+* var sqlR = new SqlLiteReader();
+** SQL tutorial
+*** create table and insert info
+    CREATE TABLE KnobGrps (GrpId INTEGER PRIMARY KEY, GrpName TEXT);
+
+    INSERT INTO KnobGrps VALUES(3,'0D Control');
+    INSERT INTO KnobGrps VALUES(5,'2D General Control');
+*** create table and insert info II 
+    CREATE TABLE Knobs (GrpId NUMERIC, FcnNum TEXT, RegType NUMERIC, CtrlNum NUMERIC, 
+    CtrlNumSub NUMERIC, BitMask Text, PktGrp NUMERIC, PktGrpIdx NUMERIC, KnobName TEXT, Unit TEXT, 
+    RangeMin TEXT, RangeMax TEXT, [Pub] CHAR(1), [ReadOnly] CHAR(1), ContentId NUMERIC);
+
+    -- 0D Control
+    INSERT INTO Knobs VALUES(3,'0x1A',2,0,255,'0xc',255,255,'Filter Mode',NULL,NULL,NULL,'Y','N',0);
+    INSERT INTO Knobs VALUES(3,'0x1A',2,0,255,'0x3',255,255,'Multi Btn Report',NULL,NULL,NULL,'Y','N',0);
+
+*** begin 
+    BEGIN TRANSACTION;
+*** end 
+    COMMIT ;
+
+** DATATABLE
+class Program
+{
+    static void Main()
+    {
+	// Get the DataTable.
+	DataTable table = GetTable();
+	// ... Use the DataTable here with SQL.
+    }
+
+    /// <summary>
+    /// This example method generates a DataTable.
+    /// </summary>
+    static DataTable GetTable()
+    {
+	// Here we create a DataTable with four columns.
+	DataTable table = new DataTable();
+	table.Columns.Add("Dosage", typeof(int));
+	table.Columns.Add("Drug", typeof(string));
+	table.Columns.Add("Patient", typeof(string));
+	table.Columns.Add("Date", typeof(DateTime));
+
+	// Here we add five DataRows.
+	table.Rows.Add(25, "Indocin", "David", DateTime.Now);
+	table.Rows.Add(50, "Enebrel", "Sam", DateTime.Now);
+	table.Rows.Add(10, "Hydralazine", "Christoff", DateTime.Now);
+	table.Rows.Add(21, "Combivent", "Janet", DateTime.Now);
+	table.Rows.Add(100, "Dilantin", "Melanie", DateTime.Now);
+	return table;
+    }
+}
+
+** create table and Insert III
+   CREATE TABLE [DropDownList] (
+   [ContentId] NUMERIC,
+   [RawVal] TEXT,
+   [Desc] TEXT
+   );
+
+   ----------------------
+   -- Platform: 1 ?99
+   ----------------------
+   -- Vref Mod Amplitude. See T1324 Reference Manual, PAGE 297, VREF_MOD_AMP.
+   INSERT INTO DropDownList VALUES(1,'0','vref=VRX/2');
+   INSERT INTO DropDownList VALUES(1,'1','alpha=1/7');
+
+** SQLiteDataAdapter example 
+
+   D:\Code\DesignStudioNG\Source\Core\Data\Shared\SqlLiteReader.cs
+   var _dbAdptr = new SQLiteDataAdapter(cmd, _sqlConn);
+   var ds = new DataSet();
+   ds.Reset();
+
+   _dbAdptr.Fill(ds);
+   return ds.Tables[0];
+
+** L12n 
+
+* RMI : regmap exist :
+  if (_localRegmap.Exists(0x31))
+  _f31Helper = new RMIFunction31Helper(_localRegmap);
+  _f31 = _f31Helper.F31;
+  _fSensorHelper = new RMIFunctionSensorHelper(_localRegmap);
+  question : if (SolutionDataFacade.Instance.HasFunction(0x1A))
+
+* get package function : 
+  string pt = SolutionDataFacade.Instance.GetPackageType();
+
+* static partial class 
+  public static partial class KnobValidation
+  all function in the static class are "static"
+
+* knobConfigure project action
+  echo Create the knobs.dat...
+  echo "SqlToDb.exe" "$(ProjectDir)knobs.sql" "$(TargetDir)knobs.dat"
+  "SqlToDb.exe" "$(ProjectDir)knobs.sql" "$(TargetDir)knobs.dat"
+
+* Singleton example 
+    public class MpcManager : IDisposable
+    {
+        private MpcManager()
+            : this(null)
+        { ...}
+
+        private static MpcManager _Instance;
+
+        public static MpcManager Instance
+        {
+            get
+            {
+                if (_Instance == null)
+                {
+                    _Instance = new MpcManager();
+                }
+                return _Instance;
+            }
+        }
+
+    }
+* what's the different between singleton and static attribute ?
+* what's the difference between as and (force cast) ?
+* how to usage swig ?
+** class from cpp 
+   - hostinfo
+   - protocol
+   - 
+* in what case should we use abstract instead of interface?
+* what's the difference between is and equal ?
+* public uint?
+**  question mark means : nullable types. means that the type before it may have a null value.
+   public string someFunctionThatMayBeCalledWithNullAndReturnsString(int? value)
+   {
+   if (value == null)
+   {
+   return "bad value";
+   }
+
+   return someFunctionThatHandlesIntAndReturnsString(value);
+   }
+* four HW pin : VDD, VIO, VLED, VTX, Attention
+* network address : TarsierHostInfo(m_Hostinfo).address
+* what is protected means : 
+** The type or member can only be accessed by code in the same class or struct, or in a derived class.
+* internal
+** The type or member can be accessed by any code in the same assembly, but not from another assembly.
+* protected internal
+** The type or member can be accessed by any code in the same assembly, or by any derived class in another assembly.
+* Static
+  The static modifier on a class means that the class cannot be instantiated, and that all of its members are static. A static member has one version regardless of how many instances of its enclosing type are created.
+  A static class is basically the same as a non-static class, but there is one difference: a static class cannot be externally instantiated. In other words, you cannot use the new keyword to create a variable of the class type. Because there is no instance variable, you access the members of a static class by using the class name itself.
+  However, there is a such thing as a static constructor. Any class can have one of these, including static classes. They cannot be called directly & cannot have parameters (other than any type parameters on the class itself). A static constructor is called automatically to initialize the class before the first instance is created or any static members are referenced. Looks like this:
+  static class Foo()
+  {
+  static Foo()
+  {
+  Bar = "fubar";
+  }
+
+  public static string Bar { get; set; }
+  }
+* DS4/5 note keep :
+** how to change reset pin as a new one :
+*** 1. change program.cs
+*** 2. run packageinimanager.exe then it will change the content of package.ini
+*** 3. commit both of the code into repository.
+
+* SystemComparison.Ordinal :
+
+* Assert function : System.Diagnostics.Debug.Assert( false ) ;
+
+* registerMapController.cs almost the same as configcontroller.cs
+
+** rmifunctionFacade.Instance.ReadAllControlRegisters
+** solutionDataFacade :
+*** solutionDataFacade
+*** StudioSolutionManager
+*** SolutionFileManger
+*** SudioSolution
+*** StudioFile
+*** StudioProject
+*** 
+** deviceInfo : contains 1) hostinfo 2) protocol 3) version 
+** function 54 related to forceUpdate
+** launch reset from RMIFunctionFacade.Instance
+** find registerInfo from address : 
+***  RMIFunctionFacade.Instance.FindByAddress( address ) ;
+*** if it's a packetRegisterInfo -> use the left class -> come from RegisterInfo
+
+* UIServiceEvent
+** XmlIgnore
+** IList x , x.Sum( x => x) 
+** DsException come from ApplicationException
+* list init : List<byte> output = new List<byte>();
+* HashSet init : HashSet<byte> output = new HashSet<byte>();
+** remove duplicate element , put sth from a list into a hashset, then put it backto another list, return that list 
+
+* get temp path : o
+            _tempFilePath = System.IO.Path.GetTempFileName();
+* get packrat : 
+
+    std::string urlPath = "http://packrat.synaptics.com/packrat/show_zip.py?packrat_id=" + packratID + "&zip=regmap_inhouse.zip&file=registerMap_inhouse.html";
+
+* MethodInvoker 
+** MethodInvoker f = RunTestAndSetUp;

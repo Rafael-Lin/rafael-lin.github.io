@@ -1,0 +1,1888 @@
+#+STARTUP: indent
+
+* TutorialPoint
+** Reflection :
+ #+BEGIN_SRC java
+   using System;
+
+   [AttributeUsage(AttributeTargets.All)]
+       public class HelpAttribute : System.Attribute
+   {
+       public readonly string Url;
+
+       public string Topic   // Topic is a named parameter
+       {
+           get
+               {
+                   return topic;
+               }
+           set
+               {
+                   topic = value;
+               }
+       }
+
+       public HelpAttribute(string url)   // url is a positional parameter
+           {
+               this.Url = url;
+           }
+       private string topic;
+   }
+
+   [HelpAttribute("Information on the class MyClass")]
+       class MyClass
+       {
+       }
+   namespace AttributeAppl
+   {
+       class Program
+       {
+           static void Main(string[] args)
+           {
+               System.Reflection.MemberInfo info = typeof(MyClass);
+               object[] attributes = info.GetCustomAttributes(true);
+               for (int i = 0; i < attributes.Length; i++)
+                   {
+                       System.Console.WriteLine(attributes[i]);
+                   }
+
+               Console.ReadKey();
+           }
+       }
+   }
+ #+END_SRC
+ #+BEGIN_SRC java
+   using System;
+   using System.Reflection;
+
+   namespace BugFixApplication
+   {
+      //a custom attribute BugFix to be
+      //assigned to a class and its members
+      [AttributeUsage(AttributeTargets.Class |
+      AttributeTargets.Constructor |
+      AttributeTargets.Field |
+      AttributeTargets.Method |
+      AttributeTargets.Property,
+      AllowMultiple = true)]
+
+      public class DeBugInfo : System.Attribute
+      {
+         private int bugNo;
+         private string developer;
+         private string lastReview;
+         public string message;
+
+         public DeBugInfo(int bg, string dev, string d)
+         {
+            this.bugNo = bg;
+            this.developer = dev;
+            this.lastReview = d;
+         }
+
+         public int BugNo
+         {
+            get
+            {
+               return bugNo;
+            }
+         }
+
+         public string Developer
+         {
+            get
+            {
+               return developer;
+            }
+         }
+
+         public string LastReview
+         {
+            get
+            {
+               return lastReview;
+            }
+         }
+
+         public string Message
+         {
+            get
+            {
+               return message;
+            }
+            set
+            {
+               message = value;
+            }
+         }
+      }
+      [DeBugInfo(45, "Zara Ali", "12/8/2012", Message = "Return type mismatch")]
+      [DeBugInfo(49, "Nuha Ali", "10/10/2012", Message = "Unused variable")]
+
+      class Rectangle
+      {
+         //member variables
+         protected double length;
+         protected double width;
+         public Rectangle(double l, double w)
+         {
+            length = l;
+            width = w;
+         }
+         [DeBugInfo(55, "Zara Ali", "19/10/2012", Message = "Return type mismatch")]
+         public double GetArea()
+         {
+            return length * width;
+         }
+         [DeBugInfo(56, "Zara Ali", "19/10/2012")]
+         public void Display()
+         {
+            Console.WriteLine("Length: {0}", length);
+            Console.WriteLine("Width: {0}", width);
+            Console.WriteLine("Area: {0}", GetArea());
+         }
+      }//end class Rectangle
+
+      class ExecuteRectangle
+      {
+         static void Main(string[] args)
+         {
+            Rectangle r = new Rectangle(4.5, 7.5);
+            r.Display();
+            Type type = typeof(Rectangle);
+
+            //iterating through the attribtues of the Rectangle class
+            foreach (Object attributes in type.GetCustomAttributes(false))
+            {
+               DeBugInfo dbi = (DeBugInfo)attributes;
+               if (null != dbi)
+               {
+                  Console.WriteLine("Bug no: {0}", dbi.BugNo);
+                  Console.WriteLine("Developer: {0}", dbi.Developer);
+                  Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
+                  Console.WriteLine("Remarks: {0}", dbi.Message);
+               }
+            }
+
+            //iterating through the method attribtues
+            foreach (MethodInfo m in type.GetMethods())
+            {
+               foreach (Attribute a in m.GetCustomAttributes(true))
+               {
+                  DeBugInfo dbi = (DeBugInfo)a;
+                  if (null != dbi)
+                  {
+                     Console.WriteLine("Bug no: {0}, for Method: {1}", dbi.BugNo, m.Name);
+                     Console.WriteLine("Developer: {0}", dbi.Developer);
+                     Console.WriteLine("Last Reviewed: {0}", dbi.LastReview);
+                     Console.WriteLine("Remarks: {0}", dbi.Message);
+                  }
+               }
+            }
+
+            Console.ReadLine();
+         }
+      }
+   }
+ #+END_SRC
+
+** ArrayList :
+ #+BEGIN_SRC java
+   using System;
+   using System.Collections;
+
+   namespace CollectionApplication
+   {
+       class Program
+       {
+           static void Main(string[] args)
+           {
+               ArrayList al = new ArrayList();
+
+               Console.WriteLine("Adding some numbers:");
+               al.Add(45);
+               al.Add(78);
+               al.Add(33);
+               al.Add(56);
+               al.Add(12);
+               al.Add(23);
+               al.Add(9);
+
+               Console.WriteLine("Capacity: {0} ", al.Capacity);
+               Console.WriteLine("Count: {0}", al.Count);
+
+               Console.Write("Content: ");
+               foreach (int i in al)
+                   {
+                       Console.Write(i + " ");
+                   }
+
+               Console.WriteLine();
+               Console.Write("Sorted Content: ");
+               al.Sort();
+               foreach (int i in al)
+                   {
+                       Console.Write(i + " ");
+                   }
+               Console.WriteLine();
+               Console.ReadKey();
+           }
+       }
+   }
+   /*
+     Adding some numbers:
+     Capacity: 8
+     Count: 7
+     Content: 45 78 33 56 12 23 9
+     Content: 9 12 23 33 45 56 78
+    ,*/
+ #+END_SRC
+** HashTable :
+ #+BEGIN_SRC java
+   using System;
+   using System.Collections;
+
+   namespace CollectionsApplication
+   {
+       class Program
+       {
+           static void Main(string[] args)
+           {
+               Hashtable ht = new Hashtable();
+
+               ht.Add("001", "Zara Ali");
+               ht.Add("002", "Abida Rehman");
+               ht.Add("003", "Joe Holzner");
+               ht.Add("004", "Mausam Benazir Nur");
+               ht.Add("005", "M. Amlan");
+               ht.Add("006", "M. Arif");
+               ht.Add("007", "Ritesh Saikia");
+
+               if (ht.ContainsValue("Nuha Ali"))
+                   {
+                       Console.WriteLine("This student name is already in the list");
+                   }
+               else
+                   {
+                       ht.Add("008", "Nuha Ali");
+                   }
+
+               // Get a collection of the keys.
+               ICollection key = ht.Keys;
+
+               foreach (string k in key)
+                   {
+                       Console.WriteLine(k + ": " + ht[k]);
+                   }
+
+               Console.ReadKey();
+           }
+       }
+   }
+   /*
+     001: Zara Ali
+     002: Abida Rehman
+     003: Joe Holzner
+     004: Mausam Benazir Nur
+     005: M. Amlan
+     006: M. Arif
+     007: Ritesh Saikia
+     008: Nuha Ali
+   ,*/
+ #+END_SRC
+** SortedList :
+ #+BEGIN_SRC java
+   using System;
+   using System.Collections;
+
+   namespace CollectionsApplication
+   {
+       class Program
+       {
+           static void Main(string[] args)
+           {
+               SortedList sl = new SortedList();
+
+               sl.Add("001", "Zara Ali");
+               sl.Add("002", "Abida Rehman");
+               sl.Add("003", "Joe Holzner");
+               sl.Add("004", "Mausam Benazir Nur");
+               sl.Add("005", "M. Amlan");
+               sl.Add("006", "M. Arif");
+               sl.Add("007", "Ritesh Saikia");
+
+               if (sl.ContainsValue("Nuha Ali"))
+                   {
+                       Console.WriteLine("This student name is already in the list");
+                   }
+               else
+                   {
+                       sl.Add("008", "Nuha Ali");
+                   }
+
+               // get a collection of the keys.
+               ICollection key = sl.Keys;
+
+               foreach (string k in key)
+                   {
+                       Console.WriteLine(k + ": " + sl[k]);
+                   }
+           }
+       }
+   }
+   /*
+     001: Zara Ali
+     002: Abida Rehman
+     003: Joe Holzner
+     004: Mausam Banazir Nur
+     005: M. Amlan 
+     006: M. Arif
+     007: Ritesh Saikia
+     008: Nuha Ali
+    ,*/
+ #+END_SRC
+** Nullable :
+ #+BEGIN_EXAMPLE
+
+ C# provides a special data types, the nullable types, to which you can assign
+ normal range of values as well as null values.
+
+ For example, you can store any value from -2,147,483,648 to 2,147,483,647 or
+ null in a Nullable<Int32> variable. Similarly, you can assign true, false, or
+ null in a Nullable<bool> variable. Syntax for declaring a nullable type is as
+ follows:
+
+
+ < data_type> ? <variable_name> = null;
+
+
+ The following example demonstrates use of nullable data types:
+ #+END_EXAMPLE
+ #+BEGIN_SRC java
+
+   using System;
+   namespace CalculatorApplication
+   {
+      class NullablesAtShow
+      {
+         static void Main(string[] args)
+         {
+            int? num1 = null;
+            int? num2 = 45;
+            double? num3 = new double?();
+            double? num4 = 3.14157;
+
+            bool? boolval = new bool?();
+
+            // display the values
+
+            Console.WriteLine("Nullables at Show: {0}, {1}, {2}, {3}", num1, num2, num3, num4);
+            Console.WriteLine("A Nullable boolean value: {0}", boolval);
+            Console.ReadLine();
+         }
+      }
+   }
+
+   // output :
+   // Nullables at Show: , 45,  , 3.14157
+   //     A Nullable boolean value:
+ #+END_SRC
+*** The null coalescing 
+ #+BEGIN_EXAMPLE
+
+   The null coalescing operator is used with the nullable value types and
+   reference types. It is used for converting an operand to the type of another
+   nullable (or not)
+  
+   value type operand, where an implicit conversion is possible.
+
+   If the value of the first operand is null, then the operator returns the value
+   of the second operand, otherwise it returns the value of the first operand.
+   The following
+
+   example explains this:
+ #+END_EXAMPLE
+ #+BEGIN_SRC java
+   using System;
+   namespace CalculatorApplication
+   {
+      class NullablesAtShow
+      {
+         static void Main(string[] args)
+         {
+            double? num1 = null;
+            double? num2 = 3.14157;
+            double num3;
+            num3 = num1 ?? 5.34;
+            Console.WriteLine(" Value of num3: {0}", num3);
+            num3 = num2 ?? 5.34;
+            Console.WriteLine(" Value of num3: {0}", num3);
+            Console.ReadLine();
+         }
+      }
+   }
+
+   // Value of num3: 5.34
+   // Value of num3: 3.14157
+ #+END_SRC
+
+** Generics :
+
+ #+BEGIN_SRC java
+   using System;
+   using System.Collections.Generic;
+
+   namespace GenericApplication
+   {
+      public class MyGenericArray<T>
+      {
+         private T[] array;
+         public MyGenericArray(int size)
+         {
+            array = new T[size + 1];
+         }
+
+         public T getItem(int index)
+         {
+            return array[index];
+         }
+
+         public void setItem(int index, T value)
+         {
+            array[index] = value;
+         }
+      }
+
+      class Tester
+      {
+         static void Main(string[] args)
+         {
+
+            //declaring an int array
+            MyGenericArray<int> intArray = new MyGenericArray<int>(5);
+
+            //setting values
+            for (int c = 0; c < 5; c++)
+            {
+               intArray.setItem(c, c*5);
+            }
+
+            //retrieving the values
+            for (int c = 0; c < 5; c++)
+            {
+               Console.Write(intArray.getItem(c) + " ");
+            }
+
+            Console.WriteLine();
+
+            //declaring a character array
+            MyGenericArray<char> charArray = new MyGenericArray<char>(5);
+
+            //setting values
+            for (int c = 0; c < 5; c++)
+            {
+               charArray.setItem(c, (char)(c+97));
+            }
+
+            //retrieving the values
+            for (int c = 0; c< 5; c++)
+            {
+               Console.Write(charArray.getItem(c) + " ");
+            }
+            Console.WriteLine();
+
+            Console.ReadKey();
+         }
+      }
+   }
+
+   // 0 5 10 15 20
+   // a b c d e
+ #+END_SRC
+
+
+*** Generic Methods
+ #+BEGIN_EXAMPLE
+ In the previous example, we have used a generic class; we can declare a generic
+ method with a type parameter. The following program illustrates the concept:
+ #+END_EXAMPLE
+ #+BEGIN_SRC java
+
+   using System;
+   using System.Collections.Generic;
+
+   namespace GenericMethodAppl
+   {
+      class Program
+      {
+         static void Swap<T>(ref T lhs, ref T rhs)
+         {
+            T temp;
+            temp = lhs;
+            lhs = rhs;
+            rhs = temp;
+         }
+         static void Main(string[] args)
+         {
+            int a, b;
+            char c, d;
+            a = 10;
+            b = 20;
+            c = 'I';
+            d = 'V';
+
+            //display values before swap:
+            Console.WriteLine("Int values before calling swap:");
+            Console.WriteLine("a = {0}, b = {1}", a, b);
+            Console.WriteLine("Char values before calling swap:");
+            Console.WriteLine("c = {0}, d = {1}", c, d);
+
+            //call swap
+            Swap<int>(ref a, ref b);
+            Swap<char>(ref c, ref d);
+
+            //display values after swap:
+            Console.WriteLine("Int values after calling swap:");
+            Console.WriteLine("a = {0}, b = {1}", a, b);
+            Console.WriteLine("Char values after calling swap:");
+            Console.WriteLine("c = {0}, d = {1}", c, d);
+
+            Console.ReadKey();
+         }
+      }
+   }
+
+   // Int values before calling swap:
+   // a = 10, b = 20
+   // Char values before calling swap:
+   // c = I, d = V
+   // Int values after calling swap:
+   // a = 20, b = 10
+   // Char values after calling swap:
+   // c = V, d = I
+ #+END_SRC
+
+*** GEneric Delegates :
+
+ #+BEGIN_EXAMPLE
+
+ You can define a generic delegate with type parameters. For example:
+
+ delegate T NumberChanger<T>(T n);
+
+ #+END_EXAMPLE
+
+ #+BEGIN_SRC java
+   using System;
+   using System.Collections.Generic;
+
+   delegate T NumberChanger<T>(T n);
+   namespace GenericDelegateAppl
+   {
+      class TestDelegate
+      {
+         static int num = 10;
+         public static int AddNum(int p)
+         {
+            num += p;
+            return num;
+         }
+
+         public static int MultNum(int q)
+         {
+            num *= q;
+            return num;
+         }
+         public static int getNum()
+         {
+            return num;
+         }
+
+         static void Main(string[] args)
+         {
+            //create delegate instances
+            NumberChanger<int> nc1 = new NumberChanger<int>(AddNum);
+            NumberChanger<int> nc2 = new NumberChanger<int>(MultNum);
+
+            //calling the methods using the delegate objects
+            nc1(25);
+            Console.WriteLine("Value of Num: {0}", getNum());
+            nc2(5);
+            Console.WriteLine("Value of Num: {0}", getNum());
+            Console.ReadKey();
+         }
+      }
+   }
+
+
+   // Value of Num: 35
+   // Value of Num: 175
+ #+END_SRC
+
+** Bit Array :
+
+ #+BEGIN_EXAMPLE
+
+ #+END_EXAMPLE
+
+ #+BEGIN_SRC java
+
+   using System;
+   using System.Collections;
+
+   namespace CollectionsApplication
+   {
+      class Program
+      {
+         static void Main(string[] args)
+         {
+            //creating two  bit arrays of size 8
+            BitArray ba1 = new BitArray(8);
+            BitArray ba2 = new BitArray(8);
+            byte[] a = { 60 };
+            byte[] b = { 13 };
+
+            //storing the values 60, and 13 into the bit arrays
+            ba1 = new BitArray(a);
+            ba2 = new BitArray(b);
+
+            //content of ba1
+            Console.WriteLine("Bit array ba1: 60");
+
+            for (int i = 0; i < ba1.Count; i++)
+            {
+               Console.Write("{0, -6} ", ba1[i]);
+            }
+            Console.WriteLine();
+
+            //content of ba2
+            Console.WriteLine("Bit array ba2: 13");
+
+            for (int i = 0; i < ba2.Count; i++)
+            {
+               Console.Write("{0, -6} ", ba2[i]);
+            }
+            Console.WriteLine();
+            BitArray ba3 = new BitArray(8);
+            ba3 = ba1.And(ba2);
+
+            //content of ba3
+            Console.WriteLine("Bit array ba3 after AND operation: 12");
+
+            for (int i = 0; i < ba3.Count; i++)
+            {
+               Console.Write("{0, -6} ", ba3[i]);
+            }
+            Console.WriteLine();
+            ba3 = ba1.Or(ba2);
+
+            //content of ba3
+            Console.WriteLine("Bit array ba3 after OR operation: 61");
+
+            for (int i = 0; i < ba3.Count; i++)
+            {
+               Console.Write("{0, -6} ", ba3[i]);
+            }
+            Console.WriteLine();
+
+            Console.ReadKey();
+           }
+       }
+   }
+
+   // Bit array ba1: 60
+   // False False True True True True False False
+   // Bit array ba2: 13
+   // True False True True False False False False
+   // Bit array ba3 after AND operation: 12
+   // False False True True False False False False
+   // Bit array ba3 after OR operation: 61
+   // True False True True False False False False
+ #+END_SRC
+
+** Anonymous Methods
+
+ #+BEGIN_EXAMPLE
+
+ Anonymous methods provide a technique to pass a code block as a delegate
+ parameter. Anonymous methods are the methods without a name, just the body.
+
+ You need not specify the return type in an anonymous method; it is inferred from
+ the return statement inside the method body.
+ #+END_EXAMPLE
+ #+BEGIN_SRC java
+   using System;
+
+   delegate void NumberChanger(int n);
+   namespace DelegateAppl
+   {
+       class TestDelegate
+       {
+           static int num = 10;
+           public static void AddNum(int p)
+           {
+               num += p;
+               Console.WriteLine("Named Method: {0}", num);
+           }
+
+           public static void MultNum(int q)
+           {
+               num *= q;
+               Console.WriteLine("Named Method: {0}", num);
+           }
+
+           public static int getNum()
+           {
+               return num;
+           }
+           static void Main(string[] args)
+           {
+               //create delegate instances using anonymous method
+               NumberChanger nc = delegate(int x)
+                   {
+                       Console.WriteLine("Anonymous Method: {0}", x);
+                   };
+
+               //calling the delegate using the anonymous method
+               nc(10);
+
+               //instantiating the delegate using the named methods
+               nc =  new NumberChanger(AddNum);
+
+               //calling the delegate using the named methods
+               nc(5);
+
+               //instantiating the delegate using another named methods
+               nc =  new NumberChanger(MultNum);
+
+               //calling the delegate using the named methods
+               nc(2);
+               Console.ReadKey();
+           }
+       }
+   }
+   // Anonymous Method: 10
+   // Named Method: 15
+   // Named Method: 30
+ #+END_SRC
+
+** Unsafe code :
+
+ C# allows using pointer variables in a function of code block when it is marked by the unsafe modifier. The unsafe code or the unmanaged code is a code block
+
+ that uses a pointer variable.
+
+  Note: To execute the programs mentioned in this chapter at codingground, please set compilation option in Project >> Compile Options >> Compilation
+  Command to
+
+  mcs *.cs -out:main.exe -unsafe"
+
+*** Pointers
+
+ #+BEGIN_SRC java
+
+ int    *ip;    /* pointer to an integer */
+ double *dp;    /* pointer to a double */
+ float  *fp;    /* pointer to a float */
+ char   *ch     /* pointer to a character */
+ #+END_SRC
+
+
+ #+BEGIN_SRC java
+   using System;
+   namespace UnsafeCodeApplication
+   {
+      class Program
+      {
+         static unsafe void Main(string[] args)
+         {
+            int var = 20;
+            int* p = &var;
+            Console.WriteLine("Data is: {0} ",  var);
+            Console.WriteLine("Address is: {0}",  (int)p);
+            Console.ReadKey();
+         }
+      }
+   }
+   // Data is: 20
+   // Address is: 99215364
+ #+END_SRC
+
+*** Retrieving the Data Value Using a Pointer
+
+ #+BEGIN_EXAMPLE
+ You can retrieve the data stored at the located referenced by the pointer
+ variable, using the ToString() method. The following example demonstrates this:
+ #+END_EXAMPLE
+ #+BEGIN_SRC java
+   using System;
+   namespace UnsafeCodeApplication
+   {
+      class Program
+      {
+         public static void Main()
+         {
+            unsafe
+            {
+               int var = 20;
+               int* p = &var;
+               Console.WriteLine("Data is: {0} " , var);
+               Console.WriteLine("Data is: {0} " , p->ToString());
+               Console.WriteLine("Address is: {0} " , (int)p);
+            }
+
+            Console.ReadKey();
+         }
+      }
+   }
+
+
+   // Data is: 20
+   // Data is: 20
+   // Address is: 77128984
+ #+END_SRC
+
+*** Accessing Array Elements Using a Pointer
+
+ #+BEGIN_EXAMPLE
+   In C#, an array name and a pointer to a data type same as the array data, are not the same variable type. For example, int *p and int[] p, are not same type. You can increment the pointer variable p because it is not fixed in memory but an array address is fixed in memory, and you can't increment that.
+
+   Therefore, if you need to access an array data using a pointer variable, as we traditionally do in C, or C++ ( please check: C Pointers), you need to fix the pointer
+   using the fixed keyword.
+
+   The following example demonstrates this:
+ #+END_EXAMPLE
+
+ #+BEGIN_SRC java
+   using System;
+   namespace UnsafeCodeApplication
+   {
+      class TestPointer
+      {
+         public unsafe static void Main()
+         {
+            int[]  list = {10, 100, 200};
+            fixed(int *ptr = list)
+
+            /* let us have array address in pointer */
+            for ( int i = 0; i < 3; i++)
+            {
+               Console.WriteLine("Address of list[{0}]={1}",i,(int)(ptr + i));
+               Console.WriteLine("Value of list[{0}]={1}", i, *(ptr + i));
+            }
+
+            Console.ReadKey();
+         }
+      }
+   }
+
+
+   // Address of list[0] = 31627168
+   // Value of list[0] = 10
+   // Address of list[1] = 31627172
+   // Value of list[1] = 100
+   // Address of list[2] = 31627176
+   // Value of list[2] = 200
+ #+END_SRC
+
+** Event :
+
+ #+BEGIN_SRC java
+
+   using System;
+   namespace SimpleEvent
+   {
+      using System;
+
+      public class EventTest
+      {
+         private int value;
+         public delegate void NumManipulationHandler();
+         public event NumManipulationHandler ChangeNum;
+         protected virtual void OnNumChanged()
+         {
+            if (ChangeNum != null)
+            {
+               ChangeNum();
+            }
+            else
+            {
+               Console.WriteLine("Event fired!");
+            }
+         }
+
+         public EventTest(int n )
+         {
+            SetValue(n);
+         }
+
+         public void SetValue(int n)
+         {
+            if (value != n)
+            {
+               value = n;
+               OnNumChanged();
+            }
+         }
+      }
+
+      public class MainClass
+      {
+         public static void Main()
+         {
+            EventTest e = new EventTest(5);
+            e.SetValue(7);
+            e.SetValue(11);
+            Console.ReadKey();
+         }
+      }
+   }
+
+   // Event Fired!
+   // Event Fired!
+   // Event Fired!
+ #+END_SRC
+
+ #+BEGIN_SRC java
+   using System;
+   using System.IO;
+
+   namespace BoilerEventAppl
+   {
+      // boiler class
+      class Boiler
+      {
+         private int temp;
+         private int pressure;
+         public Boiler(int t, int p)
+         {
+            temp = t;
+            pressure = p;
+         }
+
+         public int getTemp()
+         {
+            return temp;
+         }
+
+         public int getPressure()
+         {
+            return pressure;
+         }
+      }
+
+      // event publisher
+      class DelegateBoilerEvent
+      {
+         public delegate void BoilerLogHandler(string status);
+
+         //Defining event based on the above delegate
+         public event BoilerLogHandler BoilerEventLog;
+
+         public void LogProcess()
+         {
+            string remarks = "O. K";
+            Boiler b = new Boiler(100, 12);
+            int t = b.getTemp();
+            int p = b.getPressure();
+            if(t > 150 || t < 80 || p < 12 || p > 15)
+            {
+               remarks = "Need Maintenance";
+            }
+            OnBoilerEventLog("Logging Info:\n");
+            OnBoilerEventLog("Temparature " + t + "\nPressure: " + p);
+            OnBoilerEventLog("\nMessage: " + remarks);
+         }
+
+         protected void OnBoilerEventLog(string message)
+         {
+            if (BoilerEventLog != null)
+            {
+               BoilerEventLog(message);
+            }
+         }
+      }
+
+      // this class keeps a provision for writing into the log file
+      class BoilerInfoLogger
+      {
+         FileStream fs;
+         StreamWriter sw;
+         public BoilerInfoLogger(string filename)
+         {
+            fs = new FileStream(filename, FileMode.Append, FileAccess.Write);
+            sw = new StreamWriter(fs);
+         }
+
+         public void Logger(string info)
+         {
+            sw.WriteLine(info);
+         }
+
+         public void Close()
+         {
+            sw.Close();
+            fs.Close();
+         }
+      }
+
+      // The event subscriber
+      public class RecordBoilerInfo
+      {
+         static void Logger(string info)
+         {
+            Console.WriteLine(info);
+         }//end of Logger
+
+         static void Main(string[] args)
+         {
+            BoilerInfoLogger filelog = new BoilerInfoLogger("e:\\boiler.txt");
+            DelegateBoilerEvent boilerEvent = new DelegateBoilerEvent();
+            boilerEvent.BoilerEventLog += new
+            DelegateBoilerEvent.BoilerLogHandler(Logger);
+            boilerEvent.BoilerEventLog += new
+            DelegateBoilerEvent.BoilerLogHandler(filelog.Logger);
+            boilerEvent.LogProcess();
+            Console.ReadLine();
+            filelog.Close();
+         }//end of main
+
+      }//end of RecordBoilerInfo
+   }
+
+   // Logging info:
+
+   // Temperature 100
+   // Pressure 12
+
+   // Message: O. K
+ #+END_SRC
+
+** Indexers :
+*** indexers :
+
+ #+BEGIN_SRC java
+   using System;
+   namespace IndexerApplication
+   {
+      class IndexedNames
+      {
+         private string[] namelist = new string[size];
+         static public int size = 10;
+         public IndexedNames()
+         {
+            for (int i = 0; i < size; i++)
+            namelist[i] = "N. A.";
+         }
+
+         public string this[int index]
+         {
+            get
+            {
+               string tmp;
+
+               if( index >= 0 && index <= size-1 )
+               {
+                  tmp = namelist[index];
+               }
+               else
+               {
+                  tmp = "";
+               }
+
+               return ( tmp );
+            }
+            set
+            {
+               if( index >= 0 && index <= size-1 )
+               {
+                  namelist[index] = value;
+               }
+            }
+         }
+
+         static void Main(string[] args)
+         {
+            IndexedNames names = new IndexedNames();
+            names[0] = "Zara";
+            names[1] = "Riz";
+            names[2] = "Nuha";
+            names[3] = "Asif";
+            names[4] = "Davinder";
+            names[5] = "Sunil";
+            names[6] = "Rubic";
+            for ( int i = 0; i < IndexedNames.size; i++ )
+            {
+               Console.WriteLine(names[i]);
+            }
+
+            Console.ReadKey();
+         }
+      }
+   }
+
+   // Zara
+   //     Riz
+   //     Nuha
+   //     Asif
+   //     Davinder
+   //     Sunil
+   //     Rubic
+   //     N. A.
+   //     N. A.
+   //     N. A.
+ #+END_SRC
+*** overloaded indexers :
+
+ #+BEGIN_EXAMPLE
+   Indexers can be overloaded. Indexers can also be declared with multiple parameters and each parameter may be a different type. It is not necessary that the
+   indexes have to be integers. C# allows indexes to be of other types, for example, a string.
+
+   The following example demonstrates overloaded indexers:
+ #+END_EXAMPLE
+ #+BEGIN_SRC java
+   using System;
+   namespace IndexerApplication
+   {
+      class IndexedNames
+      {
+         private string[] namelist = new string[size];
+         static public int size = 10;
+         public IndexedNames()
+         {
+            for (int i = 0; i < size; i++)
+            {
+               namelist[i] = "N. A.";
+            }
+         }
+
+         public string this[int index]
+         {
+            get
+            {
+               string tmp;
+
+               if( index >= 0 && index <= size-1 )
+               {
+                  tmp = namelist[index];
+               }
+               else
+               {
+                  tmp = "";
+               }
+
+               return ( tmp );
+            }
+            set
+            {
+               if( index >= 0 && index <= size-1 )
+               {
+                  namelist[index] = value;
+               }
+            }
+         }
+         public int this[string name]
+         {
+            get
+            {
+               int index = 0;
+               while(index < size)
+               {
+                  if (namelist[index] == name)
+                  {
+                   return index;
+                  }
+                  index++;
+               }
+               return index;
+            }
+
+         }
+
+         static void Main(string[] args)
+         {
+            IndexedNames names = new IndexedNames();
+            names[0] = "Zara";
+            names[1] = "Riz";
+            names[2] = "Nuha";
+            names[3] = "Asif";
+            names[4] = "Davinder";
+            names[5] = "Sunil";
+            names[6] = "Rubic";
+
+            //using the first indexer with int parameter
+            for (int i = 0; i < IndexedNames.size; i++)
+            {
+               Console.WriteLine(names[i]);
+            }
+
+            //using the second indexer with the string parameter
+            Console.WriteLine(names["Nuha"]);
+            Console.ReadKey();
+         }
+      }
+   }
+
+   /*
+     Zara
+     Riz
+     Nuha
+     Asif
+     Davinder
+     Sunil
+     Rubic
+     N. A.
+     N. A.
+     N. A.
+     2
+   ,*/
+ #+END_SRC
+* Buffer. 
+The Buffer type handles ranges of bytes. It includes the optimized
+Buffer.BlockCopy method. This copies a range of bytes from one array to another.
+It provides too the ByteLength, GetByte and SetByte methods.
+
+BlockCopy. To begin, Buffer.BlockCopy does not copy logical elements in arrays.
+Instead it copies bytes. We call it to copy the bytes in one byte array to
+another. This is useful for compression, images, or many other types of binary
+data. Byte
+
+ 
+Based on: .NET 4.5
+
+** C# program that uses BlockCopy on bytes
+
+#+BEGIN_SRC java
+  using System;
+
+  class Program{
+      static void Main() {
+          byte[] arr1 = new byte[] { 1, 2, 3, 4, 5 };
+          byte[] arr2 = new byte[10];
+
+          // Copy the first five bytes from arr1 to arr2
+          Buffer.BlockCopy(arr1, 0, arr2, 0, 5);
+
+          Display(arr2);
+      }
+
+      static void Display(byte[] arr) {
+          for (int i = 0; i < arr.Length; i++) {
+              Console.Write(arr[i]);
+          }
+          Console.WriteLine();
+      }
+  }
+
+#+END_SRC
+
+** Output
+
+1234500000
+
+In this example, we get the expected result after calling Buffer.BlockCopy. The
+ints are actually used as bytes, not 4-byte ints. The byte array arr2 is
+automatically initialized to all zero bytes.
+
+Byte Array
+
+** Example 2. 
+
+Buffer.BlockCopy is different when using a data type that is not 1 byte. An int
+is 4 bytes. The fifth parameter of Buffer.BlockCopy is the number of bytes to
+copy, not array elements. We must multiply it by 4, or the sizeof(int).
+
+In this example, the sizeof() operator returns the byte length of a primitive
+data type like int. Here it returns 4. The multiplication of sizeof(int) * 4 can
+be resolved by the C# compiler—it won't cause any slowdowns.
+
+C# program that copies ints
+
+** code 
+#+BEGIN_SRC java
+  using System;
+
+  class Program {
+      static void Main() {
+          int[] arr1 = new int[] { 1, 2, 3, 4, 5 };
+          int[] arr2 = new int[10];
+
+          // Copy the first twenty bytes from arr1 to arr2
+          Buffer.BlockCopy(arr1, 0, arr2, 0, 5 * sizeof(int));
+
+          Display(arr2);
+      }
+
+      static void Display(int[] arr) {
+          for (int i = 0; i < arr.Length; i++) {
+              Console.Write(arr[i]);
+          }
+          Console.WriteLine();
+      }
+  }
+
+#+END_SRC
+
+Output
+
+1234500000
+
+
+* ref, out :
+    ref : initialize before entering the function
+    out : initialize *in* the function
+
+
+* linq : 
+** http://www.tutorialspoint.com/csharp/
+** http://www.dotnetperls.com/linq
+** 
+* lambda :
+http://www.dotnetperls.com/lambda
+
+* Attribute : 
+** [Conditional("Debug")]
+#define DEBUG
+using System;
+using System.Diagnostics;
+
+public class Myclass
+{
+   [Conditional("DEBUG")]
+   public static void Message(string msg)
+   {
+      Console.WriteLine(msg);
+   }
+}
+
+class Test
+{
+   static void function1()
+   {
+      Myclass.Message("In Function 1.");
+      function2();
+   }
+   static void function2()
+   {
+      Myclass.Message("In Function 2.");
+   }
+   
+   public static void Main()
+   {
+      Myclass.Message("In Main function.");
+      function1();
+      Console.ReadKey();
+      }
+}
+** [Obsolete("Don't use OldMethod, use NewMethod instead", true)]
+   [Obsolete("Don't use OldMethod, use NewMethod instead", false)]
+   static void OldMethod()
+   {
+      Console.WriteLine("It is the old method");
+   }
+** 
+* Async function :
+Async, await. Many methods do not immediately return. A method may need to query
+an external source. This takes time—and other code could run.
+
+With async and await, we formalize and clarify how asynchronous, non-blocking
+methods begin and end. An async method can return only void or a Task.
+
+Task: A Task returns no value (it is void). A Task<int> returns an element of
+type int. This is a generic type. Void Note: An async method will be run
+synchronously if it does not contain the await keyword.
+
+This program uses the async and await keywords to asynchronously run a method.
+The program begins a long-running method (HandleFileAsync).
+
+First:
+
+We create a Task instance with the ProcessDataAsync method as the argument. We
+Start this task, and Wait for it to finish.
+
+Messages:
+
+The method displays a status message after it starts. When it ends, the results
+are displayed.
+
+ProcessDataAsync:
+
+In ProcessDataAsync, we call the HandleFileAsync method. We write a status
+message to the screen.
+
+HandleFileAsync:
+
+In HandleFileAsync, we use the StreamReader type and await the ReadToEndAsync
+method. We perform some computations.
+
+ 
+** code :
+#+BEGIN_SRC java
+  using System;
+  using System.IO;
+  using System.Threading.Tasks;
+
+  class Program
+  {
+      static void Main(){
+          // Create task and start it.
+          // ... Wait for it to complete.
+          Task task = new Task(ProcessDataAsync);
+          task.Start();
+          task.Wait();
+          Console.ReadLine();
+      }
+
+      static async void ProcessDataAsync(){
+          // Start the HandleFile method.
+          Task<int> task = HandleFileAsync("C:\\enable1.txt");
+
+          // Control returns here before HandleFileAsync returns.
+          // ... Prompt the user.
+          Console.WriteLine("Please wait patiently " +
+                            "while I do something important.");
+
+          // Wait for the HandleFile task to complete.
+          // ... Display its results.
+          int x = await task;
+          Console.WriteLine("Count: " + x);
+      }
+
+      static async Task<int> HandleFileAsync(string file){
+          Console.WriteLine("HandleFile enter");
+          int count = 0;
+
+          // Read in the specified file.
+          // ... Use async StreamReader method.
+          using (StreamReader reader = new StreamReader(file)) {
+              string v = await reader.ReadToEndAsync();
+
+              // ... Process the file data somehow.
+              count += v.Length;
+
+              // ... A slow-running computation.
+              //     Dummy code.
+              for (int i = 0; i < 10000; i++) {
+                  int x = v.GetHashCode();
+                  if (x == 0) {
+                      count--;
+                  }
+              }
+          }
+          Console.WriteLine("HandleFile exit");
+          return count;
+      }
+  }
+
+#+END_SRC
+
+** Output: initial
+
+HandleFile enter
+Please wait patiently while I do something important.
+
+Output: final
+
+HandleFile enter
+Please wait patiently while I do something important.
+HandleFile exit
+Count: 1916146
+
+Above, the slow computation done in HandlFileAsync is for demonstration. If you change the path to a large text file that exists on your computer, the program should work.
+Note:
+We can do something (such as write a message) after the async method starts. This is not possible with synchronous methods.
+
+Simple example. This program runs a computation asynchronously on every line entered in the console. It keeps accepting lines even when computations are running.
+
+** Action:
+A lambda expression is specified as the argument to Task.Run. This is an action delegate.
+Action
+Allocate:
+This method does a slow-running computation. But when run asynchronously, it does not cause the program to freeze.
+Result:
+Many user inputs can be handled while the computation is running. Each Allocate() call finishes at its own pace.
+C# program that uses async computation
+** code :
+#+BEGIN_SRC java
+  using System;
+  using System.Threading.Tasks;
+
+  class Program {
+      static void Main() {
+          while (true) {
+              // Start computation.
+              Example();
+              // Handle user input.
+              string result = Console.ReadLine();
+              Console.WriteLine("You typed: " + result);
+          }
+      }
+
+      static async void Example() {
+          // This method runs asynchronously.
+          int t = await Task.Run(() => Allocate());
+          Console.WriteLine("Compute: " + t);
+      }
+
+      static int Allocate() {
+          // Compute total count of digits in strings.
+          int size = 0;
+          for (int z = 0; z < 100; z++) {
+              for (int i = 0; i < 1000000; i++) {
+                  string value = i.ToString();
+                  if (value == null) {
+                      return 0;
+                  }
+                  size += value.Length;
+              }
+          }
+          return size;
+      }
+  }
+
+
+#+END_SRC
+** Output
+
+hello
+You typed: hello
+good
+You typed: good
+day
+You typed: day
+Compute: 588889000
+friend
+You typed: friend
+Compute: 588889000
+Compute: 588889000
+Compute: 588889000
+Compute: 588889000
+
+** Main method. The async keyword cannot be used on the Main method. 
+So we will need to add a second method before using an await call.
+C# program that causes compile-time error
+
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async void Main()
+    {
+    }
+}
+
+Output
+
+error CS4009: 'Program.Main()': an entry point cannot be marked
+    with the 'async' modifier
+
+A pattern. Async and await are a code pattern—they allow methods to asynchronously run. They are a form of syntactic sugar. They make code that uses threads easier to read.
+Complexity. With async and await, the compiler helps with asynchronous code. We return a Task or void from an async method. Visual Studio reports warnings or errors on incorrect methods.
+Types (StreamReader, HttpClient) contain "Async" methods. These should be called with the await keyword. And the await keyword must be used within an async method.
+StreamReader
+HttpClient
+Task.Start:
+The first async method call can occur with the Task Start method. This is an instance method.
+Also:
+Event handlers can be used with async methods. This is not currently shown here.
+
+Asynchronous. This term does not mean multithreaded code. By default, code written with async and await is single-threaded. But threaded code works well here.
+Threads
+
+Task.Run. With the Task.Run method, we can make code that uses async and await multithreaded. Asynchronous code is code that returns upon completion.
+And:
+Other code can execute (even on the same thread) after an asynchronous task has started.
+Note:
+Thanks to Donnie Karns for pointing out that async and await code statements are not by default run on another thread.
+The async and await keywords don't cause additional threads to be created. Async methods don't require multithreading because an async method doesn't run on its own thread.
+Async, await: MSDN
+
+Concept. Programs are full of methods that do not immediately return. Sometimes an external slowdown, as from a network, is the cause, not processor usage.
+With these keywords, we run methods in an asynchronous way. Threads are optional. This style of code is more responsive. A network access can occur with no program freeze.
+
+* Limbda function :
+* Linq function :
+* [serialize]
+
+    [Serializable]
+    [XmlInclude(typeof(PacketRegisterInfo))]
+    public class RegisterInfo
+    {
+        private byte _OldValue;
+        private byte _Value;
+
+        [XmlAttribute]
+        public string Name { get; set; }
+
+        [XmlAttribute]
+        public ushort Address { get; set; }
+
+        [XmlAttribute]
+        public byte FunctionNumber { get; set; }
+
+        [XmlAttribute]
+        public byte Number { get; set; }
+
+
+* DSmessage from syna.DSNG.core.data.shared
+* inheritance :
+
+    public DsMessageArgs(StudioPackageType pType, StudioMessageType mType,
+        string message, bool log) : this(pType, mType, message, log, DsTimer.Instance().GetDateTime())
+    {
+    }
+    
+* public seal class  
+ When applied to a class, the sealed modifier prevents other classes from inheriting from it. In the following example,
+ class B inherits from class A, but no class can inherit from class B. 
+* GC.suppressfinalized()
+* public statci class DsMessage
+* Event and delegate
+    public delegate void DsMessageEvent(DsMessageArgs args);
+    public delegate void DsMessageListEvent(ArrayList aList);
+
+    public static event DsMessageEvent OnMessage;
+    public static event DsMessageListEvent OnMessageList;
+
+    ...
+    ...
+    OnMessage(args) ; // launch this event
+    ...
+* override : override the old method, for example , toString()
+** another example : GetHashCode();
+* ReferenceEquals from object
+** obj.Gettype != typeof( registerinfo ) .. return ...
+* GetHashCode :
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = (Name != null ? Name.GetHashCode() : 0);
+                result = (result * 397) ^ Address.GetHashCode();
+                result = (result * 397) ^ FunctionNumber.GetHashCode();
+                result = (result * 397) ^ Number.GetHashCode();
+                result = (result * 397) ^ SubNumber.GetHashCode();
+                result = (result * 397) ^ Type.GetHashCode();
+                result = (result * 397) ^ Value.GetHashCode();
+                return result;
+            }
+        }
+* unchecked keyword :
+    The unchecked keyword is used to suppress overflow-checking for integral-type arithmetic operations and conversions.
+    unchecked
+    {
+        int1 = 2147483647 + 10;
+    }
+    int1 = unchecked(ConstantMax + 10);
+* ref, out, xxx
+  out : initial at the function
+  ref : initial before entering the function
+* Byte.TryParse()
+* msg = string.Format("{0}: needs to be 0 or 1", itemName);
+  var val = (float)RMIFunctionFacade.ConvertFromQtoFloat(ushort.MaxValue, 12);
+  // Show 6 digits after decimal to avoid misleading rounded up value of 
+  // 16.000 (which is actually 15.999760)
+  return String.Format("0 - {0:f6}", val);
+
+  float fval = (float)RMIFunctionFacade.ConvertFromQtoFloat(255, 8);
+  return "0 - " + fval.ToString("F3");
+
+* List<double> badRx = new List<double>();
+* static function and static class
+* var sqlR = new SqlLiteReader();
+** SQL tutorial
+*** create table and insert info
+    CREATE TABLE KnobGrps (GrpId INTEGER PRIMARY KEY, GrpName TEXT);
+
+    INSERT INTO KnobGrps VALUES(3,'0D Control');
+    INSERT INTO KnobGrps VALUES(5,'2D General Control');
+*** create table and insert info II 
+    CREATE TABLE Knobs (GrpId NUMERIC, FcnNum TEXT, RegType NUMERIC, CtrlNum NUMERIC, 
+    CtrlNumSub NUMERIC, BitMask Text, PktGrp NUMERIC, PktGrpIdx NUMERIC, KnobName TEXT, Unit TEXT, 
+    RangeMin TEXT, RangeMax TEXT, [Pub] CHAR(1), [ReadOnly] CHAR(1), ContentId NUMERIC);
+
+    -- 0D Control
+    INSERT INTO Knobs VALUES(3,'0x1A',2,0,255,'0xc',255,255,'Filter Mode',NULL,NULL,NULL,'Y','N',0);
+    INSERT INTO Knobs VALUES(3,'0x1A',2,0,255,'0x3',255,255,'Multi Btn Report',NULL,NULL,NULL,'Y','N',0);
+
+*** begin 
+    BEGIN TRANSACTION;
+*** end 
+    COMMIT ;
+
+** DATATABLE
+class Program
+{
+    static void Main()
+    {
+	// Get the DataTable.
+	DataTable table = GetTable();
+	// ... Use the DataTable here with SQL.
+    }
+
+    /// <summary>
+    /// This example method generates a DataTable.
+    /// </summary>
+    static DataTable GetTable()
+    {
+	// Here we create a DataTable with four columns.
+	DataTable table = new DataTable();
+	table.Columns.Add("Dosage", typeof(int));
+	table.Columns.Add("Drug", typeof(string));
+	table.Columns.Add("Patient", typeof(string));
+	table.Columns.Add("Date", typeof(DateTime));
+
+	// Here we add five DataRows.
+	table.Rows.Add(25, "Indocin", "David", DateTime.Now);
+	table.Rows.Add(50, "Enebrel", "Sam", DateTime.Now);
+	table.Rows.Add(10, "Hydralazine", "Christoff", DateTime.Now);
+	table.Rows.Add(21, "Combivent", "Janet", DateTime.Now);
+	table.Rows.Add(100, "Dilantin", "Melanie", DateTime.Now);
+	return table;
+    }
+}
+
+** create table and Insert III
+   CREATE TABLE [DropDownList] (
+   [ContentId] NUMERIC,
+   [RawVal] TEXT,
+   [Desc] TEXT
+   );
+
+   ----------------------
+   -- Platform: 1 ?99
+   ----------------------
+   -- Vref Mod Amplitude. See T1324 Reference Manual, PAGE 297, VREF_MOD_AMP.
+   INSERT INTO DropDownList VALUES(1,'0','vref=VRX/2');
+   INSERT INTO DropDownList VALUES(1,'1','alpha=1/7');
+
+** SQLiteDataAdapter example 
+
+   D:\Code\DesignStudioNG\Source\Core\Data\Shared\SqlLiteReader.cs
+   var _dbAdptr = new SQLiteDataAdapter(cmd, _sqlConn);
+   var ds = new DataSet();
+   ds.Reset();
+
+   _dbAdptr.Fill(ds);
+   return ds.Tables[0];
+
+** L12n 
+
+* RMI : regmap exist :
+  if (_localRegmap.Exists(0x31))
+  _f31Helper = new RMIFunction31Helper(_localRegmap);
+  _f31 = _f31Helper.F31;
+  _fSensorHelper = new RMIFunctionSensorHelper(_localRegmap);
+  question : if (SolutionDataFacade.Instance.HasFunction(0x1A))
+
+* get package function : 
+  string pt = SolutionDataFacade.Instance.GetPackageType();
+
+* static partial class 
+  public static partial class KnobValidation
+  all function in the static class are "static"
+
+* knobConfigure project action
+  echo Create the knobs.dat...
+  echo "SqlToDb.exe" "$(ProjectDir)knobs.sql" "$(TargetDir)knobs.dat"
+  "SqlToDb.exe" "$(ProjectDir)knobs.sql" "$(TargetDir)knobs.dat"
+
+
+* what's the different between singleton and static attribute ?
+
+* what's the difference between as and (force cast) ?
+* how to usage swig ?
+** class from cpp 
+   - hostinfo
+   - protocol
+   - 
+
+* in what case should we use abstract instead of interface?
+
+* what's the difference between is and equal ?
+
+* public uint?
+**  question mark means : nullable types. means that the type before it may have a null value.
+   public string someFunctionThatMayBeCalledWithNullAndReturnsString(int? value)
+   {
+   if (value == null)
+   {
+   return "bad value";
+   }
+
+   return someFunctionThatHandlesIntAndReturnsString(value);
+   }
+
+* what is protected means : 
+** The type or member can only be accessed by code in the same class or struct, or in a derived class.
+
+* internal
+** The type or member can be accessed by any code in the same assembly, but not from another assembly.
+
+* protected internal
+** The type or member can be accessed by any code in the same assembly, or by any derived class in another assembly.
+* Static
+  The static modifier on a class means that the class cannot be instantiated,
+  and that all of its members are static. A static member has one version
+  regardless of how many instances of its enclosing type are created.
+
+  A static class is basically the same as a non-static class, but there is one
+  difference: a static class cannot be externally instantiated. In other words,
+  you cannot use the new keyword to create a variable of the class type. Because
+  there is no instance variable, you access the members of a static class by
+  using the class name itself.
+
+  However, there is a such thing as a static constructor. Any class can have one
+  of these, including static classes. They cannot be called directly & cannot
+  have parameters (other than any type parameters on the class itself). A static
+  constructor is called automatically to initialize the class before the first
+  instance is created or any static members are referenced. Looks like this:
+
+  static class Foo()
+  {
+  static Foo()
+  {
+  Bar = "fubar";
+  }
+
+  public static string Bar { get; set; }
+  }
+* SystemComparison.Ordinal :
+
+* Assert function : System.Diagnostics.Debug.Assert( false ) ;
+
+* registerMapController.cs almost the same as configcontroller.cs
+
+** rmifunctionFacade.Instance.ReadAllControlRegisters
+** solutionDataFacade :
+*** solutionDataFacade
+*** StudioSolutionManager
+*** SolutionFileManger
+*** SudioSolution
+*** StudioFile
+*** StudioProject
+*** 
+** deviceInfo : contains 1) hostinfo 2) protocol 3) version 
+** function 54 related to forceUpdate
+** launch reset from RMIFunctionFacade.Instance
+** find registerInfo from address : 
+***  RMIFunctionFacade.Instance.FindByAddress( address ) ;
+*** if it's a packetRegisterInfo -> use the left class -> come from RegisterInfo
+
+* UIServiceEvent
+** XmlIgnore
+** IList x , x.Sum( x => x) 
+** DsException come from ApplicationException
+* list init : List<byte> output = new List<byte>();
+* HashSet init : HashSet<byte> output = new HashSet<byte>();
+** remove duplicate element , put sth from a list into a hashset, then put it backto another list, return that list 
+
+* get temp path : o
+            _tempFilePath = System.IO.Path.GetTempFileName();
+* get packrat : 
+
+    std::string urlPath = "http://packrat.synaptics.com/packrat/show_zip.py?packrat_id=" + packratID + "&zip=regmap_inhouse.zip&file=registerMap_inhouse.html";
+
+* MethodInvoker 
+** MethodInvoker f = RunTestAndSetUp;

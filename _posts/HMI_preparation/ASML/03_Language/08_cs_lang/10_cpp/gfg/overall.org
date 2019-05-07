@@ -1,0 +1,373 @@
+   
+* Basics
+
+1 Setting up C++
+ Development Environment 
+2 Writing first C++ program(Practice) 
+3 void main or main() 
+4 C++ Data Types 
+5 Basic Input/Output 
+6 C++ Preprocessors 
+7 Operators in C++(Practice) 
+8 Loops (Practice) 
+9 Decision Making in C++(Practice) 
+10 Execute both if and else simulatneously 
+11 Switch statement in C++(Practice) 
+12 Functions in C++(Practice) 
+13 Arrays in C/C++(Practice) 
+14 Strings in C++(Practice) 
+15 Pointers in C++(Practice) 
+16 References in C++ 
+17 Introduction to OOP in C++ 
+
+* C vs C++
+
+1 C program that won’t compile in C++ 
+2 Name Mangling and extern “C” in C++ 
+3 void * in C vs C++ 
+4 Program that produces different results
+ in C and C++ 
+5 Type difference of character literals in C vs C++ 
+6 Difference between Structures in C and C++ 
+
+* C++ vs Java
+
+1 Inheritance in C++ vs Java 
+2 static keyword in C++ vs Java 
+3 default virtual behavior in C++ vs Java 
+4 Exception Handling in C++ vs Java 
+5 Foreach in C++ vs Java 
+6 Floating Point Operations
+ & Associativity in C, C++ and Java 
+
+* Input and output
+
+1 Basic Input/Output 
+2 Clearing The Input Buffer 
+3 cout << endl vs cout << “\n” in C++ 
+4 Problem with scanf() when there is fgets()/gets()/scanf() after it 
+5 How to use getline() in C++ when there are blank lines in input? 
+6 scanf() and fscanf() in C – Simple Yet Poweful 
+7 How to change the output of printf() in main() ? 
+8 Implementation of a Falling Matrix 
+9 Code to generate the map of India 
+
+* Operators
+
+1 Operators in C++ 
+2 Unary operators in C/C++ 
+3 Conditionally assign a value without
+ using conditional and arithmetic operators 
+4 Execution of printf with ++ operators 
+5 Set a variable without using
+ Arithmetic, Relational or Conditional Operator 
+6 Scope Resolution Operator vs this pointer 
+7 Pre-increment (or pre-decrement) 
+8 new and delete operator in C++ 
+9 Casting operators| Set 1 (const_cast) 
+
+* Arrays and Strings
+
+1 Arrays in C/C++ 
+2 Array of Strings 
+3 Multidimensional arrays in C/C++ 
+4 Raw string literal 
+5 Counts of distinct consecutive sub-string
+ of length two 
+6 Converting string to number and vice-versa 
+7 Find size of array in C/C++ without using sizeof 
+8 How to quickly reverse a string in C++? 
+9 C++ string class and its applications , Set 2 
+10 How to create a dynamic 2D array inside a class in C++ ? 
+11 Lexicographically next permutation 
+12 Print size of array parameter 
+13 Split a string in C/C++, Python and Java 
+
+* Functions
+
+1 Functions in C++ 
+2 Default Arguments 
+3 Inline Functions 
+4 Return from void functions 
+5 Returning multiple values from a function
+ using Tuple and Pair 
+6 Function Call Puzzle 
+7 Functors 
+8 Ciel and floor functions in C++ 
+9 Const member functions 
+
+* Pointers and References
+
+1 Pointers in C and C++ 
+2 What is Array Decay in C++? How can
+ it be prevented? 
+3 Opaque Pointer 
+4 References 
+5 Can references refer to invalid location? 
+6 Pass arguments by reference or pointer 
+7 Smart Pointers 
+8 ‘this’ pointer 
+9 Type of ‘this’ pointer 
+10 “delete this” 
+11 auto_ptr, unique_ptr, shared_ptr and weak_ptr 
+12 Dangling, Void , Null and Wild Pointers 
+13 Passing by pointer Vs Passing by Reference 
+14 NaN in C++ – What is it and how to check for it? 
+15 nullptr 
+16 Pointers vs References in C++ 
+
+* Dynamic memory allocation
+
+1 new and delete operator in C++ 
+2 malloc() vs new 
+3 delete() and free() 
+
+* Object Oriented Programming(OOP)
+
+1 Introduction to OOP in C++ 
+2 Classes and Objects 
+3 Access Modifiers 
+4 Inheritance 
+5 Polymorphism 
+6 Encapsulation 
+7 Data Abstraction 
+8 Structure vs class 
+9 Can a C++ class have an object of self type? 
+10 Why is the size of an empty class not zero? 
+11 Static data members in C++ 
+12 Some interesting facts about static member functions 
+13 Friend class and function 
+14 Local Class 
+15 Nested Classes 
+16 Simulating final class 
+
+* Constructor and Destructor
+
+1 Constructors 
+2 Copy Constructor 
+3 Destructors 
+4 Does compiler create default constructor
+ when we write our own? 
+5 When should we write our
+ own copy constructor? 
+6 When is copy constructor called? 
+7 Initialization of data members 
+8 Use of explicit keyword 
+9 When do we use Initializer List in? 
+10 Default Constructors 
+11 Private Destructor 
+12 Playing with Destructors 
+13 Copy elision 
+14 C++ default constructor | Built-in types 
+15 When does compiler create a
+ default constructor and copy constructor? 
+16 Why copy constructor argument should be
+ const in C++? 
+17 Advanced C++ | Virtual Constructor 
+18 Advanced C++ | Virtual Copy Constructor 
+19 Default Constructors 
+20 When are static objects destroyed? 
+21 Is it possible to call constructor
+ and destructor explicitly? 
+
+* Function Overloading
+
+1 Function Overloading 
+2 Functions that can’t be overloaded 
+3 Function overloading and const keyword 
+4 Function overloading and return type 
+5 Does overloading work with Inheritance? 
+6 Can main() be overloaded 
+7 Function Overloading and float 
+
+* Operator Overloading
+
+1 Operator Overloading 
+2 Copy constructor vs assignment operator 
+3 When should we write our
+ own assignment operator? 
+4 Operators that cannot be overloaded 
+5 Conversion Operators 
+6 Is assignment operator inherited? 
+7 Default Assignment Operator and References 
+8 Overloading stream insertion (<<)
+ and extraction (>>) operators 
+9 Overloading array index operator [] 
+
+* Virtual Functions
+
+1 Virtual Functions and Runtime Polymorphism 
+2 Default arguments and virtual function 
+3 Virtual functions in derived classes 
+4 Can static functions be virtual? 
+5 Virtual Destructor 
+6 Virtual Constructor 
+7 Virtual Copy Constructor 
+8 RTTI (Run-time type information) 
+9 Can virtual functions be private? 
+10 Inline virtual function 
+11 Pure Virtual Functions and Abstract Classes 
+12 Pure virtual destructor 
+
+* Exception Handling
+
+1 Exception Handling Basics 
+2 Stack Unwinding 
+3 Catching base and derived classes as exceptions 
+4 Catch block and type conversion 
+5 Exception handling and object destruction 
+
+* Namespace
+
+1 Namespace in C++ | Set 1 (Introduction) 
+2 Set 2 (Extending namespace and
+ Unnamed namespace) 
+3 Namespace in C++ | Set 3 (Accessing,
+ creating header, nesting and aliasing) 
+4 Inline namespaces and usage of the
+ “using” directive inside namespaces 
+5 Can namespaces be nested? 
+
+* Standard Template Library (STL)
+
+Algorithms
+
+1 Introduction to STL 
+2 Sorting 
+3 Searching 
+
+Containers:
+
+1 Pair (Practice) 
+2 Vector (Practice) 
+
+ * Ways to copy a vector in C++ 
+ * Sorting 2D Vector in C++ | Set 3 (By number of columns),(Sort in descending order by first and second) 
+ * Sorting 2D Vector in C++ | Set 2 (In descending order by row and column) 
+ * Sorting 2D Vector in C++ | Set 1 (By row and column), (Sort by first and second) 
+
+3 List 
+
+ * List in C++ | Set 2 (Some Useful Functions) 
+ * Forward List in C++ | Set 1 (Introduction and Important Functions) 
+ * Forward List in C++ | Set 2 (Manipulating Functions) 
+
+4 Dequeue 
+5 Queue (Practice) 
+6 Priority Queue 
+7 Stack (Practice) 
+8 Set (Practice) 
+
+ Count number of unique Triangles using STL | Set 1 (Using set) 
+
+- Multiset 
+- Map (Practice) 
+- Multimap 
+- Heap using STL C++ 
+
+* More:
+
+1 sort() in C++ STL 
+2 Type Inference in C++ (auto and decltype) 
+3 transform() in C++ STL 
+4 Variadic function templates in C++ 
+5 Template Specialization 
+6 Implementing iterator pattern of a singly linked list 
+7 Binary Search functions in C++ STL 
+8 Descending order in Map and Multimap of C++ STL 
+9 Insertion and Deletion in STL Set C++ 
+
+* Inheritance 
+
+- What all is inherited from parent class in C++? 
+- Virtual Functions and Runtime Polymorphism in C++ 
+- Multiple Inheritance in C++ 
+- What happens when more restrictive access is given to a derived class method in C++? 
+- Object Slicing in C++ 
+- Hiding of all overloaded methods in base class 
+- Inheritance and friendship 
+- Simulating final class 
+
+* C++ Library
+
+1 <random> file – generators and distributions 
+2 Array type manipulation 
+3 C program to demonstrate fork() and pipe() 
+4 Complex numbers in C++ | Set 1 Set 2 
+5 Inbuilt library functions for user Input 
+6 Chrono 
+7 valarray class 
+8 Floating Point Manipulation (fmod(), remainder(), remquo() … in cmath) 
+9 Character Classification: cctype 
+10 Socket Programming 
+11 Precision of floating point numbers in C++ (floor(), ceil(), trunc(), round() and setprecision()) 
+12 <bit/stdc++.h> header file 
+13 std::string class in C++ 
+14 Merge operations using STL in C++ (merge, includes, set_union, set_intersection, set_difference, ..) 
+15 std::partition in C++ STL 
+16 Ratio Manipulations in C++ | Set 1 (Arithmetic) , Set 2 (Comparison) 
+17 numeric header in C++ STL | Set 1 (accumulate() and partial_sum()), Set 2 (adjacent_difference(), inner_product() and iota()) 
+18 Bind function and placeholders 
+19 Array class 
+20 Tuples 
+21 Regex (Regular Expression) 
+22 Common Subtleties in Vector STLs 
+23 Understanding constexpr specifier 
+24 unordered_multiset and its uses 
+25 unordered_multimap and its application 
+26 Populating a vector in C++ using fill() and fill_n() 
+27 Writing OS Independent Code in C/C++ 
+28 Database Connectivity using C/C++ 
+29 C++ bitset and its application 
+30 unordered_map in STL and its applications 
+31 unorderd_set in STL and its applications 
+32 nextafter() and nexttoward() 
+
+* C++ Advanced
+
+1 User Defined Literal 
+2 Placement new operator 
+3 Advanced C++ with boost library 
+4 Copy-and-Swap Idiom 
+5 Zombie and Orphan Processes 
+6 Lambda expression 
+7 Command line arguments in C++ 
+
+* C++ in Competitive Programming
+
+1 Writing C/C++ code efficiently in Competitive programming 
+2 Useful Array algorithms in C++ STL 
+3 Data Type Ranges and their macros 
+4 Cin-Cout vs Scanf-Printf 
+5 getchar_unlocked() – faster input in C/C++ for Competitive Programming 
+6 C qsort() vs C++ sort() 
+7 Generating Test Cases (generate() and generate_n() 
+
+* Puzzles
+
+1 Can we call an undeclared function in? 
+2 Can we access global variable if there
+ is a local variable with same name? 
+3 Can we use function on left side
+ of an expression in C and C++? 
+4 Can we access private data members
+ of a class without using a member
+ or a friend function? 
+5 How to make a C++ class whose objects
+ can only be dynamically allocated? 
+6 How to print “GeeksforGeeks” with
+ empty main() 
+7 Print 1 to 100, without loop and recursion 
+8 How to restrict dynamic allocation of objects 
+9 Sum of digits of a number in single statement 
+10 Write a URL in a C++ program 
+11 Zoom digits of an integer 
+12 Printing pyramid pattern 
+13 How to swap two variables in one line in C/C++, Python and Java? 
+14 Program to shut down a computer 
+
+* Interview Questions
+
+1 Commonly Asked C++ Interview Questions | Set 1 
+2 Commonly Asked OOP Interview Questions | Set 1 
+3 C/C++ Programs 

@@ -1,0 +1,7 @@
+C:\Users\hatelove\Desktop\LoadAssembly\Load\bin\Debug\Load.exe
+C:\Users\hatelove\Desktop\LoadAssembly\Load\bin\Debug\Load.pdb
+C:\Users\hatelove\Desktop\LoadAssembly\Load\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\LoadAssembly\Load\obj\Debug\Load.exe
+C:\Users\hatelove\Desktop\LoadAssembly\Load\obj\Debug\Load.pdb
+C:\Users\hatelove\Desktop\LoadAssembly\Load\bin\Debug\Load.exe.config
+C:\Users\hatelove\Desktop\LoadAssembly\Load\bin\Debug\Compile.dll

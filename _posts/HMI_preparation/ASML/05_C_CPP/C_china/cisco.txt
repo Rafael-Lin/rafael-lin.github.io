@@ -1,0 +1,27 @@
+* 思科
+1. 用宏定義寫出swap（x，y）
+#define swap(x, y)\
+x = x + y;\
+y = x - y;\
+x = x - y;
+
+2.數組a[N]，存放了1至N-1個數，其中某個數重復一次。寫一個函數，找出被重復的數字.時間復雜度必須為o（N）函數原型：
+int do_dup(int a[],int N)
+
+3 一語句實現x是否為2的若幹次冪的判斷
+int i = 512;
+cout << boolalpha << ((i & (i - 1)) ? false : true) << endl;
+
+4.unsigned int intvert(unsigned int x,int p,int n)實現對x的進行轉換,p為起始轉化位,n為需要轉換的長度,假設起始點在右邊.如x=0b0001 0001,p=4,n=3轉換後x=0b0110 0001
+unsigned int intvert(unsigned int x,int p,int n){
+unsigned int _t = 0;
+unsigned int _a = 1;
+for(int i = 0; i < n; ++i){
+_t |= _a;
+_a = _a << 1;
+}
+_t = _t << p;
+x ^= _t;
+return x;
+}
+

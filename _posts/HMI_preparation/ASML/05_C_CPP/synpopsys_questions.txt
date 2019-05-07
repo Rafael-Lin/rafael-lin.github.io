@@ -1,0 +1,28 @@
+1.You are given a string1 and string 2. Check if the order of characters in
+string2 is same as string 1.
+
+2.How to find minOfStack()in O(1). restriction is: pop()and push() should be in
+O(1) only.
+
+3.1. Question on evaluation of an expression
+
+3.2. Question on Preprocessor directive #define
+
+4.What is the data structure you will use to model Tennis tournament of size
+number of players n=8. Splitted into 2 groups? What is the complexity of finding
+the winner and the runner.
+
+5.There is an infinite stream of numbers coming. you have to search for a
+particular number. How can you do it?
+
+6.Find the nth node from the last of linked list using both recursion and
+iterative approach
+
+7.Program to check if a tree is structurally similar
+
+8.What are the differences between new (in C++) & malloc (in).
+
+9.Find the LCA of two nodes in a binary tree (not BST); ensure that both nodes
+are present in the tree; if not then error should be returned.
+
+10.Program to rotate an array

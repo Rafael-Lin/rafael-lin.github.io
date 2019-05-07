@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="ConstructorVirtualProblem/ConstructorVirtualProblem.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConstructorVirtualProblem/ConstructorVirtual.cs">
+    <Files>
+      <File FileName="ConstructorVirtualProblem/ConstructorVirtual.cs" Line="17" Column="14" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/home/rafael/c-sharp/CH03/建構式中呼叫虛擬方法/ConstructorVirtualProblem/ConstructorVirtual.cs" line="13" column="34" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

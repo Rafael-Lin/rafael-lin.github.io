@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\控制代碼的使用和轉換\Handlers\obj\Debug\Handlers.exe
+C:\Users\hatelove\Desktop\控制代碼的使用和轉換\Handlers\obj\Debug\Handlers.pdb
+C:\Users\hatelove\Desktop\控制代碼的使用和轉換\Handlers\bin\Debug\Handlers.exe
+C:\Users\hatelove\Desktop\控制代碼的使用和轉換\Handlers\bin\Debug\Handlers.pdb
+C:\Users\hatelove\Desktop\控制代碼的使用和轉換\Handlers\obj\Debug\ResolveAssemblyReference.cache

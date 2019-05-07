@@ -1,0 +1,2944 @@
+#+STARTUP: indent `
+#+TAGS: drill(d) review(r) noexport(n)
+
+* design pattern
+:PROPERTIES:
+:ID:       0b1bce9b-a64c-4715-b065-714015c0bded
+:Attachments: designpatterns
+:END:
+
+** abstract factory                                                  :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 16:47]
+:ID:       f5bc32c4-6262-43d5-a5dd-9ce942e57644
+:END:
+- note : 
+  - https://zh.wikipedia.org/wiki/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82
+  - 
+*** desc 
+#+BEGIN_EXAMPLE
+  適用性[編輯]
+  在以下情況可以考慮使用抽象工廠模式：
+  一個系統要獨立於它的產品的建立、組合和表示時。
+  一個系統要由多個產品系列中的一個來配置時。
+  需要強調一系列相關的產品物件的設計以便進行聯合使用時。
+  提供一個產品類別庫，而只想顯示它們的介面而不是實現時。
+
+  優點[編輯]
+  具體產品從客戶代碼中被分離出來
+  容易改變產品的系列
+  將一個系列的產品族統一到一起建立
+
+  缺點[編輯]
+  在產品族中擴充功能新的產品是很困難的，它需要修改抽象工廠的介面
+#+END_EXAMPLE
+*** code 
+ #+BEGIN_SRC cpp
+   abstract factory :
+   the factory which create abstract objects
+
+   class Button; // Abstract Class
+
+   class MacButton: public Button {};
+
+   class WinButton: public Button {};
+
+   class Border; // Abstract Class
+
+   class MacBorder: public Border {};
+
+   class WinBorder: public Border {};
+
+   class AbstractFactory {
+   public:
+       virtual Button* CreateButton() =0;
+       virtual Border* CreateBorder() =0;
+   };
+
+   class MacFactory: public AbstractFactory {
+   public:
+       MacButton* CreateButton() { return new MacButton; }
+       MacBorder* CreateBorder() { return new MacBorder; }
+   };
+
+   class WinFactory: public AbstractFactory {
+   public:
+       WinButton* CreateButton() { return new WinButton; }
+       WinBorder* CreateBorder() { return new WinBorder; }
+   };
+
+   AbstractFactory* fac;
+   switch (style) {
+   case MAC:
+       fac = new MacFactory;
+       break;
+   case WIN:
+       fac = new WinFactory;
+       break;
+   }
+   Button* button = fac->CreateButton();
+   Border* border = fac->CreateBorder();
+ #+END_SRC
+
+** adapter                                                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-18 Mon 13:12]
+   :END:
+ - note : 
+   - 
+*** code 
+  #+BEGIN_SRC java
+     interface Bird {
+         public void fly();
+         public void makeSound();
+     }
+
+     class Sparrow implements Bird {
+         public void fly() {
+             System.out.println("Flying");
+         }
+         public void makeSound() {
+             System.out.println("Chirp Chirp");
+         }
+     }
+
+     interface ToyDuck {
+         public void squeak();
+     }
+
+     class PlasticToyDuck implements ToyDuck {
+         public void squeak() {
+             System.out.println("Squeak");
+         }
+     }
+
+     class BirdAdapter implements ToyDuck {
+         Bird bird;
+         public BirdAdapter(Bird bird) {
+             this.bird = bird;
+         }
+
+         public void squeak() {
+             // translate the methods appropriately
+             bird.makeSound();
+         }
+     }
+
+     class Main {
+         public static void main(String args[]) {
+             Sparrow sparrow = new Sparrow();
+             PlasticToyDuck toyDuck = new PlasticToyDuck();
+
+             // xx adapter : change into another object -> toyDuck
+             ToyDuck birdAdapter = new BirdAdapter(sparrow);
+
+             System.out.println("Sparrow...");
+             sparrow.fly();
+             sparrow.makeSound();
+
+             System.out.println("ToyDuck...");
+             toyDuck.squeak();
+
+             System.out.println("BirdAdapter...");
+             birdAdapter.squeak();
+         }
+     }
+
+
+     Output:
+
+     Sparrow...
+     Flying
+     Chirp Chirp
+     ToyDuck...
+     Squeak
+     BirdAdapter...
+     Chirp Chirp
+
+
+     Object Adapter Vs Class Adapter
+
+     The adapter pattern we have implemented above is called Object Adapter Pattern
+     because the adapter holds an instance of adaptee. There is also another type
+     called Class Adapter Pattern which use inheritance instead of composition but
+     you require multiple inheritance to implement it.
+
+     Class diagram of Class Adapter Pattern:
+     pattern4
+
+     Here instead of having an adaptee object inside adapter (composition) to make
+     use of its functionality adapter inherits the adaptee.
+
+     Since multiple inheritance is not supported by many languages including java
+     and is associated with many problems we have not shown implementation using
+     class adapter pattern.
+
+     Advantages:
+
+    - Helps achieve reusability and flexibility.
+
+    - Client class is not complicated by having to use a different interface and can
+      use polymorphism to swap between different implementations of adapters.
+
+     Disadvantages:
+
+    - All requests are forwarded, so there is a slight increase in the overhead.
+
+    - Sometimes many adaptations are required along an adapter chain to reach the
+      type which is required.
+
+  #+END_SRC
+
+** builder                                                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-20 Wed 16:52]
+   :END:
+ - note : 
+   - 
+*** code 
+    #+BEGIN_SRC java
+       interface HousePlan {
+         public void setBasement(String basement);
+         public void setStructure(String structure);
+         public void setRoof(String roof);
+         public void setInterior(String interior);
+       }
+
+       class House implements HousePlan {
+         private String basement;
+         private String structure;
+         private String roof;
+         private String interior;
+
+         public void setBasement(String basement) {
+           this.basement = basement;
+         }
+
+         public void setStructure(String structure) {
+           this.structure = structure;
+         }
+
+         public void setRoof(String roof) {
+           this.roof = roof;
+         }
+
+         public void setInterior(String interior) {
+           this.interior = interior;
+         }
+
+       }
+
+      interface HouseBuilder {
+         public void buildBasement();
+         public void buildStructure();
+         public void bulidRoof();
+         public void buildInterior();
+         public House getHouse();
+       }
+
+       class IglooHouseBuilder implements HouseBuilder {
+         private House house;
+
+         public IglooHouseBuilder() {
+           this.house = new House();
+         }
+
+         public void buildBasement() {
+           house.setBasement("Ice Bars");
+         }
+
+         public void buildStructure() {
+           house.setStructure("Ice Blocks");
+         }
+
+         public void buildInterior() {
+           house.setInterior("Ice Carvings");
+         }
+
+         public void bulidRoof() {
+           house.setRoof("Ice Dome");
+         }
+
+         public House getHouse() {
+           return this.house;
+         }
+       }
+
+       class TipiHouseBuilder implements HouseBuilder {
+         private House house;
+
+         public TipiHouseBuilder() {
+           this.house = new House();
+         }
+
+         public void buildBasement() {
+           house.setBasement("Wooden Poles");
+         }
+
+         public void buildStructure() {
+           house.setStructure("Wood and Ice");
+         }
+
+         public void buildInterior() {
+           house.setInterior("Fire Wood");
+         }
+
+         public void bulidRoof() {
+           house.setRoof("Wood, caribou and seal skins");
+         }
+
+         public House getHouse() {
+           return this.house;
+         }
+
+       }
+      class CivilEngineer {
+
+         private HouseBuilder houseBuilder;
+
+         public CivilEngineer(HouseBuilder houseBuilder) {
+           this.houseBuilder = houseBuilder;
+         }
+
+         public House getHouse() {
+           return this.houseBuilder.getHouse();
+         }
+
+         public void constructHouse() {
+           this.houseBuilder.buildBasement();
+           this.houseBuilder.buildStructure();
+           this.houseBuilder.bulidRoof();
+           this.houseBuilder.buildInterior();
+         }
+       }
+      class Builder {public static void main(String[] args) {
+           HouseBuilder iglooBuilder = new IglooHouseBuilder();
+           CivilEngineer engineer = new CivilEngineer(iglooBuilder);
+
+           engineer.constructHouse();
+           House house = engineer.getHouse();
+
+           System.out.println("Builder constructed: "+ house);
+         }
+       }
+
+
+       Output :
+
+
+       Builder constructed: House@6d06d69c
+  #+END_SRC
+
+#+BEGIN_SRC org
+  ,* Adv
+
+  - The parameters to the constructor are reduced and are provided in highly readable method calls.
+  - Builder design pattern also helps in minimizing the number of parameters in constructor and thus there is no need to pass in null for optional parameters to the constructor.
+  - Object is always instantiated in a complete state
+  - Immutable objects can be build without much complex logic in object building process.
+
+  ,* DisAdv
+
+  - The number of lines of code increase at least to double in builder pattern, but the effort pays off in terms of design flexibility and much more readable code.
+  - Requires creating a separate ConcreteBuilder for each different type of Product.
+#+END_SRC
+** builder : a abs class got some abs func to set up the materials    :drill:
+SCHEDULED: <2017-09-18 Mon>
+:PROPERTIES:
+:DATE: [2017-09-11 Mon 13:48]
+:ID:       c06fd131-5596-4a41-8948-959cf25aadd4
+:DRILL_LAST_INTERVAL: 3.916
+:DRILL_REPEATS_SINCE_FAIL: 2
+:DRILL_TOTAL_REPEATS: 1
+:DRILL_FAILURE_COUNT: 0
+:DRILL_AVERAGE_QUALITY: 3.0
+:DRILL_EASE: 2.36
+:DRILL_LAST_QUALITY: 3
+:DRILL_LAST_REVIEWED: [2017-09-14 Thu 20:24]
+:END:
+- note : 
+  - 
+*** java 
+#+BEGIN_SRC java
+  /** "Product" */
+  class Pizza {
+    private String dough = "";
+    private String sauce = "";
+    private String topping = "";
+
+    public void setDough (String dough)     { this.dough = dough; }
+    public void setSauce (String sauce)     { this.sauce = sauce; }
+    public void setTopping (String topping) { this.topping = topping; }
+  }
+
+
+  ''/** "Abstract Builder" */''
+  abstract class pzBuilder{
+    protected Pizza pizza;
+
+    public Pizza getPizza() { return pizza; }
+    public void createNewPizzaProduct() { pizza = new Pizza(); }
+
+    public abstract void buildDough();
+    public abstract void buildSauce();
+    public abstract void buildTopping();
+  }
+
+  /** "ConcreteBuilder" */
+  class HawaiianPizzaBuilder extends pzBuilder{
+    public void buildDough()   { pizza.setDough("cross"); }
+    public void buildSauce()   { pizza.setSauce("mild"); }
+    public void buildTopping() { pizza.setTopping("ham+pineapple"); }
+  }
+
+  /** "ConcreteBuilder" */
+  class SpicyPizzaBuilder extends pzBuilder{
+    public void buildDough()   { pizza.setDough("pan baked"); }
+    public void buildSauce()   { pizza.setSauce("hot"); }
+    public void buildTopping() { pizza.setTopping("pepperoni+salami"); }
+  }
+
+
+  class Waiter {
+    private pzBuilderpizzaBuilder;
+
+    public void setBuilder(pzBuilderpb) { pbBuilder= pb; }
+    public Pizza getPizza() { return pbBuilder.getPizza(); }
+
+    public void genPizza() {
+      pbBuilder.createNewPizzaProduct();
+      pbBuilder.buildDough();
+      pbBuilder.buildSauce();
+      pbBuilder.buildTopping();
+    }
+  }
+
+  /** A customer ordering a pizza. */
+  // 1. set the builder
+  // 2. create something
+  class BuilderExample {
+    public static void main(String[] args) {
+      Waiter waiter = new Waiter();
+      pzBuilderhawaiian_pizzabuilder = new HawaiianPizzaBuilder();
+      pzBuilderspicy_pizzabuilder = new SpicyPizzaBuilder();
+
+      waiter.setBuilder( hawaiian_pizzabuilder );
+      waiter.genPizza();
+
+      Pizza pizza = waiter.getPizza();
+    }
+  }
+#+END_SRC
+*** code 
+
+** chain of responsibility                                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-20 Wed 16:51]
+   :END:
+ - note : 
+   - 
+*** code 
+  #+BEGIN_SRC cpp
+    interface Chain {
+      public abstract void setNext(Chain nextInChain);
+      public abstract void process(Number request);
+    }
+
+    class Number {
+      private int number;
+
+      public Number(int number) {
+        this.number = number;
+      }
+
+      public int getNumber() {
+        return number;
+      }
+
+    }
+
+    class NegativeProcessor implements Chain {
+      private Chain nextInChain;
+
+      public void setNext(Chain c) {
+        nextInChain = c;
+      }
+
+      public void process(Number request) {
+        if (request.getNumber() < 0) {
+          System.out.println("NegativeProcessor : " + request.getNumber());
+        }
+        else {
+          nextInChain.process(request);
+        }
+      }
+    }
+
+    class ZeroProcessor implements Chain {
+
+      private Chain nextInChain;
+
+      public void setNext(Chain c) {
+        nextInChain = c;
+      }
+
+      public void process(Number request) {
+        if (request.getNumber() == 0) {
+          System.out.println("ZeroProcessor : " + request.getNumber());
+        }
+        else {
+          nextInChain.process(request);
+        }
+      }
+    }
+
+    class PositiveProcessor implements Chain {
+
+      private Chain nextInChain;
+
+      public void setNext(Chain c) {
+        nextInChain = c;
+      }
+
+      public void process(Number request) {
+        if (request.getNumber() > 0) {
+          System.out.println("PositiveProcessor : " + request.getNumber());
+        }
+        else {
+          nextInChain.process(request);
+        }
+      }
+    }
+
+    class TestChain {public static void main(String[] args) {
+        //configure Chain of Responsibility
+        Chain c1 = new NegativeProcessor();
+        Chain c2 = new ZeroProcessor();
+        Chain c3 = new PositiveProcessor();
+        c1.setNext(c2);
+        c2.setNext(c3);
+
+        //calling chain of responsibility
+        c1.process(new Number(90));
+        c1.process(new Number(-50));
+        c1.process(new Number(0));
+        c1.process(new Number(91));
+      }
+    }
+
+
+    Output :
+
+
+    PositiveProcessor : 90
+    NegativeProcessor : -50
+    ZeroProcessor : 0
+    PositiveProcessor : 91
+
+
+  #+END_SRC
+
+#+BEGIN_SRC org
+
+  ,* Adv
+  -  To reduce the coupling degree. Decoupling it will request the sender and receiver.
+  -  Simplified object. The object does not need to know the chain structure.
+  - Enhance flexibility of object assigned duties. By changing the members within
+    the chain or change their order, allow dynamic adding or deleting
+    responsibility.
+  -  Increase the request processing new class of very convenient.
+
+  ,* disAdv
+
+  - The request must be received not guarantee.
+  - The performance of the system will be affected, but also in the code debugging is not easy may cause cycle call.
+  - It may not be easy to observe the characteristics of operation, due to debug.
+#+END_SRC
+** command pattern                                                    :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-18 Mon 13:07]
+   :END:
+ - note : 
+   - 
+*** code 
+  #+BEGIN_SRC java
+    /*
+    1. remote control only receive commands
+    2. command need a subject
+    3. command examples : lightOn, lightOff, StereoPlay, StereoStop
+    4. remote control, button pressed
+     ,*/
+    interface Command {
+         public void execute();
+     }
+
+     class Light {
+         public void on() {
+             System.out.println("Light is on");
+         }
+         public void off() {
+             System.out.println("Light is off");
+         }
+     }
+     class LightOnCommand implements Command {
+         Light light;
+         public LightOnCommand(Light light) {
+            this.light = light;
+         }
+         public void execute() {
+            light.on();
+         }
+     }
+     class LightOffCommand implements Command {
+         Light light;
+         public LightOffCommand(Light light) {
+             this.light = light;
+         }
+         public void execute() {
+              light.off();
+         }
+     }
+     class Stereo {
+         public void on() {
+             System.out.println("Stereo is on");
+         }
+         public void off() {
+             System.out.println("Stereo is off");
+         }
+         public void setCD() {
+             System.out.println("Stereo is set " + "for CD input");
+         }
+         public void setDVD() {
+             System.out.println("Stereo is set"+ " for DVD input");
+         }
+         public void setRadio() {
+             System.out.println("Stereo is set" + " for Radio");
+         }
+         public void setVolume(int volume) {
+            System.out.println("Stereo volume set" + " to " + volume);
+         }
+     }
+     class StereoOffCommand implements Command {
+         Stereo stereo;
+         public StereoOffCommand(Stereo stereo) {
+             this.stereo = stereo;
+         }
+         public void execute() {
+            stereo.off();
+         }
+     }
+     class StereoOnWithCDCommand implements Command {
+          Stereo stereo;
+          public StereoOnWithCDCommand(Stereo stereo) {
+              this.stereo = stereo;
+          }
+          public void execute() {
+              stereo.on();
+              stereo.setCD();
+              stereo.setVolume(11);
+          }
+     }
+     class SimpleRemoteControl {
+         Command slot;  // only one button
+         public SimpleRemoteControl() {}
+         public void setCommand(Command command) {
+             slot = command;
+         }
+
+         public void buttonWasPressed() {
+             slot.execute();
+         }
+     }
+
+     class RemoteControlTest {
+         public static void main(String[] args) {
+             SimpleRemoteControl remote = new SimpleRemoteControl();
+             Light light = new Light();
+             Stereo stereo = new Stereo();
+             // we can change command dynamically
+             remote.setCommand(new LightOnCommand(light));
+             remote.buttonWasPressed();
+             remote.setCommand(new StereoOnWithCDCommand(stereo));
+             remote.buttonWasPressed();
+             remote.setCommand(new StereoOffCommand(stereo));
+             remote.buttonWasPressed();
+          }
+       }
+
+
+     Output:
+
+     Light is on
+     Stereo is on
+     Stereo is set for CD input
+     Stereo volume set to 11
+     Stereo is off
+
+
+     Notice that the remote control doesn’t know anything about turning on the
+     stereo. That information is contained in a separate command object. This
+     reduces the coupling between them.
+
+     Advantages:
+
+    ,** Makes our code extensible as we can add new commands without changing existing code.
+    ,** Reduces coupling the invoker and receiver of a command.
+
+     Disadvantages:
+
+    ,** Increase in the number of classes for each individual command
+  #+END_SRC
+
+** CRTP                                                               :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-18 Mon 13:00]
+   :END:
+ - note : 
+   - https://stackoverflow.com/questions/4173254/what-is-the-curiously-recurring-template-pattern-crtp
+*** code 
+  #+BEGIN_SRC cpp
+    Curiously Recurring Template Pattern
+    (CRTP)
+    1. avoid Usage of VPtr and VTable can be avoided altogether
+    2. a class X derives from a class template instantiation using X itself as template argument.
+
+    3. known as F-bound polymorphism.
+
+
+    // Image program (similar to above) to demonstrate
+    // working of CRTP
+    #include <iostream>
+    #include <chrono>
+    using namespace std;
+
+    typedef std::chrono::high_resolution_clock Clock;
+
+    // To store dimensions of an image
+    class Dimension
+    {
+    public:
+        Dimension(int _X, int _Y)
+        {
+            mX = _X;
+            mY = _Y;
+        }
+    private:
+        int mX, mY;
+    };
+
+    // Base class for all image types. The template
+    // parameter T is used to know type of derived
+    // class pointed by pointer.
+    template <class T>
+    class Image
+    {
+    public:
+        void Draw()
+        {
+            // Dispatch call to exact type
+            static_cast<T*> (this)->Draw();
+        }
+        Dimension GetDimensionInPixels()
+        {
+            // Dispatch call to exact type
+            static_cast<T*> (this)->GetDimensionInPixels();
+        }
+
+    protected:
+        int dimensionX, dimensionY;
+    };
+
+
+    // For Tiff Images
+    class TiffImage : public Image<TiffImage>
+    {
+    public:
+        void Draw()
+        {
+            // Uncomment this to check method dispatch
+            // cout << "TiffImage::Draw() called" << endl;
+        }
+        Dimension GetDimensionInPixels()
+        {
+            return Dimension(dimensionX, dimensionY);
+        }
+    };
+
+    // There can be more derived classes like PngImage,
+    // BitmapImage, etc
+
+    // Driver code
+    int main()
+    {
+        // An Image type pointer pointing to Tiffimage
+        Image<TiffImage>* pImage = new TiffImage;
+
+        // Store time before virtual function calls
+        auto then = Clock::now();
+
+        // Call Draw 1000 times to make sure performance
+        // is visible
+        for (int i = 0; i < 1000; ++i)
+            pImage->Draw();
+
+        // Store time after virtual function calls
+        auto now = Clock::now();
+
+        cout << "Time taken: "
+             << std::chrono::duration_cast
+             <std::chrono::nanoseconds>(now - then).count()
+             << " nanoseconds" << endl;
+
+        return 0;
+    }
+
+
+    Output :
+
+    Time taken: 732 nanoseconds
+
+
+    See this for above result.
+
+    Virtual method vs CRTP benchmark
+    The time taken while using virtual method was 2613 nanoseconds. This (small)
+    performance gain from CRTP is because the use of a VTable dispatch has been
+    circumvented. Please note that the performance depends on a lot of factors like
+    compiler used, operations performed by virtual methods. Performance numbers
+    might differ in different runs, but (small) performance gain is expected from
+    CRTP. Note: If we print size of class in CRTP, it can bee seen that VPtr no
+    longer reserves 4 bytes of memory.
+
+
+    cout )
+  #+END_SRC
+
+** decorator: keep a abstract as a member and this is also this type  :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 17:09]
+:ID:       de2bc583-b1a2-487e-b468-c359faf08124
+:END:
+- note : 
+  - 
+*** cpp 
+#+BEGIN_SRC cpp
+  #include <iostream>
+
+  using namespace std;
+
+  class Widget {
+  public:
+    virtual void draw() = 0;
+    virtual ~Widget() {}
+  };
+
+  class TextField : public Widget {
+  private:
+    int width, height;
+
+  public:
+    TextField( int w, int h ){
+      width  = w;
+      height = h;
+    }
+
+    void draw() {
+      cout << "TextField: " << width << ", " << height << '\n';
+    }
+  };
+
+  class Decorator : public Widget {
+  private:
+    Widget* wid;       // reference to Widget
+
+  public:
+    Decorator( Widget* w )  {
+      wid = w;
+    }
+
+    void draw() {
+      wid->draw();
+    }
+
+    ~Decorator() {
+      delete wid;
+    }
+  };
+
+  class BorderDecorator : public Decorator {
+  public:
+    BorderDecorator( Widget* w ) : Decorator( w ) { }
+    void draw() {
+      Decorator::draw();
+      cout << "   BorderDecorator" << '\n';
+    }
+  };
+
+  class ScrollDecorator : public Decorator {
+  public:
+    ScrollDecorator( Widget* w ) : Decorator( w ) { }
+    void draw() {
+      Decorator::draw();
+      cout << "   ScrollDecorator" << '\n';
+    }
+  };
+
+  int main( void ) {
+
+    Widget* aWidget = new BorderDecorator(new BorderDecorator(new ScrollDecorator(new TextField( 80, 24 ))));
+    aWidget->draw();
+    delete aWidget;
+  }
+  // TextField: 80, 24
+  //             ScrollDecorator
+  //             BorderDecorator
+  //             BorderDecorator
+#+END_SRC
+*** code 
+ #+BEGIN_SRC java
+   // The Window interface class
+   public interface Window {
+       public void draw(); // Draws the Window
+       public String getDescription(); // Returns a description of the Window
+   }
+
+
+   // implementation of a simple Window without any scrollbars
+   public class SimpleWindow implements Window {
+       public void draw() {
+           // Draw window
+       }
+
+       public String getDescription() {
+           return "simple window";
+       }
+   }
+   // abstract decorator class - note that it implements Window
+   public abstract class WindowDecorator implements Window {
+       protected Window decoratedWindow; // the Window being decorated
+
+       public WindowDecorator (Window decoratedWindow) {
+           this.decoratedWindow = decoratedWindow;
+       }
+
+       @Override
+       public void draw() {
+           decoratedWindow.draw();
+       }
+
+       @Override
+       public String getDescription() {
+           return decoratedWindow.getDescription();
+       }
+   }
+
+
+   // The first concrete decorator which adds vertical scrollbar functionality
+   public class VerticalScrollBar extends WindowDecorator {
+       public VerticalScrollBar(Window windowToBeDecorated) {
+           super(windowToBeDecorated);
+       }
+
+       @Override
+       public void draw() {
+           super.draw();
+           drawVerticalScrollBar();
+       }
+
+       private void drawVerticalScrollBar() {
+           // Draw the vertical scrollbar
+       }
+
+       @Override
+       public String getDescription() {
+           return super.getDescription() + ", including vertical scrollbars";
+       }
+   }
+
+
+   // The second concrete decorator which adds horizontal scrollbar functionality
+   public class HorizontalScrollBar extends WindowDecorator {
+       public HorizontalScrollBar (Window windowToBeDecorated) {
+           super(windowToBeDecorated);
+       }
+
+       @Override
+       public void draw() {
+           super.draw();
+           drawHorizontalScrollBar();
+       }
+
+       private void drawHorizontalScrollBar() {
+           // Draw the horizontal scrollbar
+       }
+
+       @Override
+       public String getDescription() {
+           return super.getDescription() + ", including horizontal scrollbars";
+       }
+   }
+   //以下是一個測試程序，它創建了一個包含多重裝飾的Window實例(如,包含了垂直的和水平的滾動條),然後輸出它的描述：
+   public class Main {
+       // for print descriptions of the window subclasses
+       static void printInfo(Window w) {
+           System.out.println("description:"+w.getDescription());
+       }
+       public static void main(String[] args) {
+           // original SimpleWindow
+           SimpleWindow sw = new SimpleWindow();
+           printInfo(sw);
+           // HorizontalScrollBar  mixed Window
+           HorizontalScrollBar hbw = new HorizontalScrollBar(sw);
+           printInfo(hbw);
+           // VerticalScrollBar mixed Window
+           VerticalScrollBar vbw = new VerticalScrollBar(hbw);
+           printInfo(vbw);
+       }
+   }
+   /*
+     以下是SimpleWindow及添加了組件HorizontalScrollBar和VerticalScrollBar後的Window測試結果：
+     description:simple window
+     description:simple window, including horizontal scrollbars
+     description:simple window, including horizontal scrollbars, including vertical scrollbars
+
+   ,*/
+ #+END_SRC
+
+** factory method                                                    :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 16:52]
+:ID:       c0041580-191b-4986-8fb8-4eb9910089c0
+:END:
+- note : 
+  - 
+*** code 
+ #+BEGIN_SRC csharp
+   public class Complex{
+       public double rl;
+       public double img;
+       public static Complex fromCartesianFactory(double rl, double img) {
+           return new Complex(rl, img);
+       }
+
+       public static Complex fromPolarFactory(double modulus , double angle ) {
+           return new Complex(modulus * Math.Cos(angle), modulus * Math.Sin(angle));
+       }
+
+       private Complex (double a, double b) {
+           rl= a;
+           img= b;
+       }
+   }
+
+   Complex product = Complex.fromPolarFactory(1,pi);
+ #+END_SRC
+
+** flyweight                                                          :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-18 Mon 12:31]
+   :END:
+ - note : 
+   - 
+*** code 
+  #+BEGIN_SRC cpp
+    import java.util.Random;
+    import java.util.HashMap;
+    interface Player {
+        public void assignWeapon(String weapon);
+        public void mission();
+    }
+
+    class Terrorist implements Player {
+        private final String TASK;
+
+        private String weapon;
+        public Terrorist() {
+            TASK = "PLANT A BOMB";
+        }
+        public void assignWeapon(String weapon) {
+            this.weapon = weapon;
+        }
+        public void mission() {
+            System.out.println("Terrorist with weapon " + weapon + "|" + " Task is " + TASK);
+        }
+    }
+
+    class CounterTerrorist implements Player {
+        private final String TASK;
+
+        private String weapon;
+        public CounterTerrorist() {
+            TASK = "DIFFUSE BOMB";
+        }
+        public void assignWeapon(String weapon) {
+            this.weapon = weapon;
+        }
+        public void mission() {
+            System.out.println("Counter Terrorist with weapon " + weapon + "|" + " Task is " + TASK);
+        }
+    }
+      class PlayerFactory{
+        private static HashMap <String, Player> hm = new HashMap<String, Player>();
+        public static Player getPlayer(String type) {
+            Player p = null;
+            if (hm.containsKey(type))
+                    p = hm.get(type);
+            else {
+                switch(type) {
+                case "Terrorist":
+                    System.out.println("Terrorist Created");
+                    p = new Terrorist();
+                    break;
+                case "CounterTerrorist":
+                    System.out.println("Counter Terrorist Created");
+                    p = new CounterTerrorist();
+                    break;
+                default :
+                    System.out.println("Unreachable code!");
+                }
+
+                hm.put(type, p);
+            }
+            return p;
+        }
+    }
+
+    public class CounterStrike {
+        private static String[] playerType = {"Terrorist", "CounterTerrorist"};
+        private static String[] weapons = {"AK-47", "Maverick", "Gut Knife", "Desert Eagle"};
+
+
+        public static void main(String args[]) {
+            /* Assume that we have a total of 10 players
+               in the game. */
+            for (int i = 0; i < 10; i++) {
+                /* getPlayer() is called simply using the class
+                   name since the method is a static one */
+                Player p = PlayerFactory.getPlayer(getRandPlayerType());
+                /* Assign a weapon chosen randomly uniformly
+                   from the weapon array  */
+                p.assignWeapon(getRandWeapon());
+                p.mission();
+            }
+        }
+        public static String getRandPlayerType() {
+            Random r = new Random();
+            int randInt = r.nextInt(playerType.length);
+            return playerType[randInt];
+        }
+        public static String getRandWeapon() {
+            Random r = new Random();
+            int randInt = r.nextInt(weapons.length);
+            return weapons[randInt];
+        }
+    }
+
+    Output:
+    Counter Terrorist Created
+    Counter Terrorist with weapon Gut Knife| Task is DIFFUSE BOMB
+    Counter Terrorist with weapon Desert Eagle| Task is DIFFUSE BOMB
+    Terrorist Created
+    Terrorist with weapon AK-47| Task is PLANT A BOMB
+    Terrorist with weapon Gut Knife| Task is PLANT A BOMB
+    Terrorist with weapon Gut Knife| Task is PLANT A BOMB
+    Terrorist with weapon Desert Eagle| Task is PLANT A BOMB
+    Terrorist with weapon AK-47| Task is PLANT A BOMB
+    Counter Terrorist with weapon Desert Eagle| Task is DIFFUSE BOMB
+    Counter Terrorist with weapon Gut Knife| Task is DIFFUSE BOMB
+    Counter Terrorist with weapon Desert Eagle| Task is DIFFUSE BOMB
+  #+END_SRC
+
+** itearator                                                          :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-18 Mon 13:06]
+   :END:
+ - note : 
+   - 
+*** code 
+  #+BEGIN_SRC cpp
+    class Notification {
+        // To store notification message
+        String notification;
+
+        public Notification(String notification) {
+            this.notification = notification;
+        }
+        public String getNotification() {
+            return notification;
+        }
+    }
+
+    // Collection interface
+    interface Collection {
+        public Iterator createIterator();
+    }
+
+    // Collection of notifications
+    class NotificationCollection implements Collection {
+        static final int MAX_ITEMS = 6;
+        int numberOfItems = 0;
+        Notification[] notificationList;
+
+        public NotificationCollection() {
+            notificationList = new Notification[MAX_ITEMS];
+
+            // Let us add some dummy notifications
+            addItem("Notification 1");
+            addItem("Notification 2");
+            addItem("Notification 3");
+        }
+
+        public void addItem(String str) {
+            Notification notification = new Notification(str);
+            if (numberOfItems >= MAX_ITEMS)
+                System.err.println("Full");
+            else {
+                notificationList[numberOfItems] = notification;
+                numberOfItems = numberOfItems + 1;
+            }
+        }
+
+        public Iterator createIterator() {
+            return new NotificationIterator(notificationList);
+        }
+    }
+
+    // We could also use Java.Util.Iterator
+    interface Iterator {
+        // indicates whether there are more elements to
+        // iterate over
+        boolean hasNext();
+
+        // returns the next element
+        Object next();
+    }
+
+    // Notification iterator
+    class NotificationIterator implements Iterator {
+        Notification[] notificationList;
+
+        // maintains curr pos of iterator over the array
+        int pos = 0;
+
+        // Constructor takes the array of notifiactionList are
+        // going to iterate over.
+        public  NotificationIterator (Notification[] notificationList) {
+            this.notificationList = notificationList;
+        }
+
+        public Object next() {
+            // return next element in the array and increment pos
+            Notification notification =  notificationList[pos];
+            pos += 1;
+            return notification;
+        }
+
+        public boolean hasNext() {
+            if (pos >= notificationList.length ||
+                notificationList[pos] == null)
+                return false;
+            else
+                return true;
+        }
+    }
+
+    // Contains collection of notifications as an object of
+    // NotificationCollection
+    class NotificationBar {
+        NotificationCollection notifications;
+
+        public NotificationBar(NotificationCollection notifications) {
+            this.notifications = notifications;
+        }
+
+        public void printNotifications() {
+            Iterator iterator = notifications.createIterator();
+            System.out.println("-------NOTIFICATION BAR------------");
+            while (iterator.hasNext()) {
+                Notification n = (Notification)iterator.next();
+                System.out.println(n.getNotification());
+            }
+        }
+    }
+
+    // Driver class
+    class Main {
+        public static void main(String args[]) {
+            NotificationCollection nc = new NotificationCollection();
+            NotificationBar nb = new NotificationBar(nc);
+            nb.printNotifications();
+        }
+    }
+
+
+    Output:
+
+    -------NOTIFICATION BAR------------
+    Notification 1
+    Notification 2
+    Notification 3
+
+  #+END_SRC
+
+** object pool                                                       :drill:
+:PROPERTIES:
+:DATE: [2017-09-11 Mon 14:07]
+:ID:       666a8dae-8244-4e70-b53f-8d387e34953c
+:END:
+- note : 
+  - https://en.wikipedia.org/wiki/Object_pool_pattern
+*** code 
+#+BEGIN_EXAMPLE
+
+  The object pool pattern is a software creational design pattern that uses a set
+  of initialized objects kept ready to use – a "pool" – rather than allocating and
+  destroying them on demand. A client of the pool will request an object from the
+  pool and perform operations on the returned object. When the client has
+  finished, it returns the object to the pool rather than destroying it; this can
+  be done manually or automatically.
+
+  Object pools are primarily used for performance: in some circumstances, object
+  pools significantly improve performance. Object pools complicate object
+  lifetime, as objects obtained from and returned to a pool are not actually
+  created or destroyed at this time, and thus require care in implementation.
+#+END_EXAMPLE
+ #+BEGIN_SRC cpp
+    // ObjectPool Class
+
+   public abstract class ObjectPool<T> {
+     private long expirationTime;
+
+     private Hashtable<T, Long> locked, unlocked;
+
+     public ObjectPool() {
+       expirationTime = 30000; // 30 seconds
+       locked = new Hashtable<T, Long>();
+       unlocked = new Hashtable<T, Long>();
+     }
+
+     protected abstract T create();
+
+     public abstract boolean validate(T o);
+
+     public abstract void expire(T o);
+
+     public synchronized T checkOut() {
+       long now = System.currentTimeMillis();
+       T t;
+       if (unlocked.size() > 0) {
+         Enumeration<T> e = unlocked.keys();
+         while (e.hasMoreElements()) {
+           t = e.nextElement();
+           if ((now - unlocked.get(t)) > expirationTime) {
+             // object has expired
+             unlocked.remove(t);
+             expire(t);
+             t = null;
+           } else {
+             if (validate(t)) {
+               unlocked.remove(t);
+               locked.put(t, now);
+               return (t);
+             } else {
+               // object failed validation
+               unlocked.remove(t);
+               expire(t);
+               t = null;
+             }
+           }
+         }
+       }
+       // no objects available, create a new one
+       t = create();
+       locked.put(t, now);
+       return (t);
+     }
+
+     public synchronized void checkIn(T t) {
+       locked.remove(t);
+       unlocked.put(t, System.currentTimeMillis());
+     }
+   }
+
+   //The three remaining methods are abstract 
+   //and therefore must be implemented by the subclass
+
+   public class JDBCConnectionPool extends ObjectPool<Connection> {
+
+     private String dsn, usr, pwd;
+
+     public JDBCConnectionPool(String driver, String dsn, String usr, String pwd) {
+       super();
+       try {
+         Class.forName(driver).newInstance();
+       } catch (Exception e) {
+         e.printStackTrace();
+       }
+       this.dsn = dsn;
+       this.usr = usr;
+       this.pwd = pwd;
+     }
+
+     @Override
+     protected Connection create() {
+       try {
+         return (DriverManager.getConnection(dsn, usr, pwd));
+       } catch (SQLException e) {
+         e.printStackTrace();
+         return (null);
+       }
+     }
+
+     @Override
+     public void expire(Connection o) {
+       try {
+         ((Connection) o).close();
+       } catch (SQLException e) {
+         e.printStackTrace();
+       }
+     }
+
+     @Override
+     public boolean validate(Connection o) {
+       try {
+         return (!((Connection) o).isClosed());
+       } catch (SQLException e) {
+         e.printStackTrace();
+         return (false);
+       }
+     }
+   }
+
+   JDBCConnectionPool will allow the application to borrow and return database connections:
+
+
+   public class Main {
+     public static void main(String args[]) {
+       // Do something...
+       ...
+
+       // Create the ConnectionPool:
+       JDBCConnectionPool pool = new JDBCConnectionPool(
+         "org.hsqldb.jdbcDriver", "jdbc:hsqldb://localhost/mydb",
+         "sa", "secret");
+
+       // Get a connection:
+       Connection con = pool.checkOut();
+
+       // Use the connection
+       ...
+
+       // Return the connection:
+       pool.checkIn(con);
+
+     }
+   }
+
+ #+END_SRC
+#+BEGIN_SRC java
+  public class PooledObject {
+    public String temp1;
+    public String temp2;
+    public String temp3;
+
+    public String getTemp1() {
+      return temp1;
+    }
+    public void setTemp1(String temp1) {
+      this.temp1 = temp1;
+    }
+    public String getTemp2() {
+      return temp2;
+    }
+    public void setTemp2(String temp2) {
+      this.temp2 = temp2;
+    }
+    public String getTemp3() {
+      return temp3;
+    }
+    public void setTemp3(String temp3) {
+      this.temp3 = temp3;
+    }
+
+
+
+  }
+
+  public class PooledObjectPool {
+    private static long expTime = 60000;//6 seconds
+    public static HashMap<PooledObject, Long> available = new HashMap<PooledObject, Long>();
+    public static HashMap<PooledObject, Long> inUse = new HashMap<PooledObject, Long>();
+
+
+    public synchronized static PooledObject getObject() {
+      long now = System.currentTimeMillis();
+      if (!available.isEmpty()) {
+        for (Map.Entry<PooledObject, Long> entry : available.entrySet()) {
+          if (now - entry.getValue() > expTime) { //object has expired
+            popElement(available);
+          } else {
+            PooledObject po = popElement(available, entry.getKey());
+            push(inUse, po, now);
+            return po;
+          }
+        }
+      }
+
+      // either no PooledObject is available or each has expired, so return a new one
+      return createPooledObject(now);
+    }
+
+    private synchronized static PooledObject createPooledObject(long now) {
+      PooledObject po = new PooledObject();
+      push(inUse, po, now);
+      return po;
+          }
+
+    private synchronized static void push(HashMap<PooledObject, Long> map,
+        PooledObject po, long now) {
+      map.put(po, now);
+    }
+
+    public static void releaseObject(PooledObject po) {
+      cleanUp(po);
+      available.put(po, System.currentTimeMillis());
+      inUse.remove(po);
+    }
+
+    private static PooledObject popElement(HashMap<PooledObject, Long> map) {
+       Map.Entry<PooledObject, Long> entry = map.entrySet().iterator().next();
+       PooledObject key= entry.getKey();
+       //Long value=entry.getValue();
+       map.remove(entry.getKey());
+       return key;
+    }
+
+    private static PooledObject popElement(HashMap<PooledObject, Long> map, PooledObject key) {
+      map.remove(key);
+      return key;
+    }
+
+    public static void cleanUp(PooledObject po) {
+      po.setTemp1(null);
+      po.setTemp2(null);
+      po.setTemp3(null);
+    }
+  }
+#+END_SRC
+** polymorphism                                                       :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-18 Mon 12:59]
+   :END:
+ - note : 
+   - 
+*** code 
+  #+BEGIN_SRC cpp
+    #include <iostream>
+    #include <chrono>
+    using namespace std;
+
+    typedef std::chrono::high_resolution_clock Clock;
+
+    // To store dimensions of an image
+    class Dimension {
+    public:
+        Dimension(int X, int Y) {mX = X;  mY = Y; }
+    private:
+        int mX, mY;
+    };
+
+    // Base class for all image types
+    class Image {
+    public:
+        virtual void Draw() = 0;
+        virtual Dimension GetDimensionInPixels() = 0;
+    protected:
+        int dimensionX;
+        int dimensionY;
+    };
+
+    // For Tiff Images
+    class TiffImage : public Image
+    {
+    public:
+        void Draw() { }
+        Dimension GetDimensionInPixels() {
+            return Dimension(dimensionX, dimensionY);
+        }
+    };
+
+    // There can be more derived classes like PngImage,
+    // BitmapImage, etc
+
+    // Driver code that calls virtual function
+    int main()
+    {
+        // An image type
+        Image* pImage = new TiffImage;
+
+        // Store time before virtual function calls
+        auto then = Clock::now();
+
+        // Call Draw 1000 times to make sure performance
+        // is visible
+        for (int i = 0; i < 1000; ++i)
+            pImage->Draw();
+
+        // Store time after virtual function calls
+        auto now = Clock::now();
+
+        cout << "Time taken: "
+             << std::chrono::duration_cast
+               <std::chrono::nanoseconds>(now - then).count()
+             << " nanoseconds" << endl;
+
+        return 0;
+    }
+
+
+    Output :
+    Time taken: 2613 nanoseconds
+  #+END_SRC
+
+** prototype                                                         :drill:
+SCHEDULED: <2017-09-16 Sat>
+:PROPERTIES:
+:DATE: [2017-09-11 Mon 14:09]
+:ID:       a7b94aee-4d15-4fbe-9b33-45f19ed5ae42
+:DRILL_LAST_INTERVAL: 3.86
+:DRILL_REPEATS_SINCE_FAIL: 2
+:DRILL_TOTAL_REPEATS: 1
+:DRILL_FAILURE_COUNT: 0
+:DRILL_AVERAGE_QUALITY: 3.0
+:DRILL_EASE: 2.36
+:DRILL_LAST_QUALITY: 3
+:DRILL_LAST_REVIEWED: [2017-09-12 Tue 10:24]
+:END:
+- note : 
+*** java 
+#+BEGIN_SRC java
+   /** Prototype Class **/
+   public class Cookie implements Cloneable {
+   
+      public Object clone() throws CloneNotSupportedException
+      {
+          //In an actual implementation of this pattern you would now attach references to
+          //the expensive to produce parts from the copies that are held inside the prototype.
+          return (Cookie) super.clone();
+      }
+   }
+ 
+   /** Concrete Prototypes to clone **/
+   public class CoconutCookie extends Cookie { }
+ 
+   /** Client Class**/
+   public class CookieMachine
+   {
+ 
+     private Cookie cookie;//cookie必须是可复制的
+ 
+       public CookieMachine(Cookie cookie) { 
+           this.cookie = cookie; 
+       } 
+
+      public Cookie makeCookie()
+      {
+          try
+          {
+              return (Cookie) cookie.clone();
+          } catch (CloneNotSupportedException e)
+          {
+              e.printStackTrace();
+          }
+          return null;
+      } 
+
+ 
+       public static void main(String args[]){ 
+           Cookie tempCookie =  null; 
+           Cookie prot = new CoconutCookie(); 
+           CookieMachine cm = new CookieMachine(prot); //设置原型
+           for(int i=0; i<100; i++) 
+               tempCookie = cm.makeCookie();//通过复制原型返回多个cookie 
+       } 
+   }
+#+END_SRC
+*** code 
+ #+BEGIN_SRC cpp
+   #include <iostream>
+
+   enum imageType
+   {
+     LSAT, SPOT
+   };
+
+   class Image
+   {
+     public:
+       virtual void draw() = 0;
+       static Image *findAndClone(imageType);
+     protected:
+       virtual imageType returnType() = 0;
+       virtual Image *clone() = 0;
+       // As each subclass of Image is declared, it registers its prototype
+       static void addPrototype(Image *image)
+       {
+           _prototypes[_nextSlot++] = image;
+       }
+     private:
+       // addPrototype() saves each registered prototype here
+       static Image *_prototypes[10];
+       static int _nextSlot;
+   };
+
+   Image *Image::_prototypes[];
+   int Image::_nextSlot;
+
+   // Client calls this public static member function when it needs an instance
+   // of an Image subclass
+   Image *Image::findAndClone(imageType type) {
+     for (int i = 0; i < _nextSlot; i++)
+       if (_prototypes[i]->returnType() == type)
+         return _prototypes[i]->clone();
+     return NULL;
+   }
+
+   class LandSatImage: public Image {
+     public:
+       imageType returnType() {
+           return LSAT;
+       }
+       void draw() {
+           std::cout << "LandSatImage::draw " << _id << std::endl;
+       }
+       // When clone() is called, call the one-argument ctor with a dummy arg
+       Image *clone() {
+           return new LandSatImage(1);
+       }
+     protected:
+       // This is only called from clone()
+       LandSatImage(int dummy) {
+           _id = _count++;
+       }
+     private:
+       // Mechanism for initializing an Image subclass - this causes the
+       // default ctor to be called, which registers the subclass's prototype
+       static LandSatImage _landSatImage;
+       // This is only called when the private static data member is initiated
+       LandSatImage()
+       {
+           addPrototype(this);
+       }
+       // Nominal "state" per instance mechanism
+       int _id;
+       static int _count;
+   };
+
+   // Register the subclass's prototype
+   LandSatImage LandSatImage::_landSatImage;
+   // Initialize the "state" per instance mechanism
+   int LandSatImage::_count = 1;
+
+   class SpotImage: public Image
+   {
+     public:
+       imageType returnType()
+       {
+           return SPOT;
+       }
+       void draw()
+       {
+           std::cout << "SpotImage::draw " << _id << std::endl;
+       }
+       Image *clone()
+       {
+           return new SpotImage(1);
+       }
+     protected:
+       SpotImage(int dummy)
+       {
+           _id = _count++;
+       }
+     private:
+       SpotImage()
+       {
+           addPrototype(this);
+       }
+       static SpotImage _spotImage;
+       int _id;
+       static int _count;
+   };
+
+   SpotImage SpotImage::_spotImage;
+   int SpotImage::_count = 1;
+
+   // Simulated stream of creation requests
+   const int NUM_IMAGES = 8;
+   imageType input[NUM_IMAGES] =
+   {
+     LSAT, LSAT, LSAT, SPOT, LSAT, SPOT, SPOT, LSAT
+   };
+
+   int main()
+   {
+     Image *images[NUM_IMAGES];
+
+     // Given an image type, find the right prototype, and return a clone
+     for (int i = 0; i < NUM_IMAGES; i++)
+       images[i] = Image::findAndClone(input[i]);
+
+     // Demonstrate that correct image objects have been cloned
+     for (int i = 0; i < NUM_IMAGES; i++)
+       images[i]->draw();
+
+     // Free the dynamic memory
+     for (int i = 0; i < NUM_IMAGES; i++)
+       delete images[i];
+   }
+
+
+   Output
+
+
+   LandSatImage::draw 1
+   LandSatImage::draw 2
+   LandSatImage::draw 3
+   SpotImage::draw 1
+   LandSatImage::draw 4
+   SpotImage::draw 2
+   SpotImage::draw 3
+   LandSatImage::draw 5
+
+ #+END_SRC
+
+** prototype in java                                                  :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-20 Wed 13:53]
+   :END:
+ - note : 
+   - 
+*** code 
+  #+BEGIN_SRC cpp
+     // A Java program to demonstrate working of
+    // Prototype Design Pattern with example
+    // of a ColorStore class to store existing objects.
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+
+    abstract class Color implements Cloneable
+    {
+
+        protected String colorName;
+
+        abstract void addColor();
+
+        public Object clone()
+        {
+            Object clone = null;
+            try
+            {
+                clone = super.clone();
+            }
+            catch (CloneNotSupportedException e)
+            {
+                e.printStackTrace();
+            }
+            return clone;
+        }
+    }
+
+    class blueColor extends Color
+    {
+        public blueColor()
+        {
+            this.colorName = "blue";
+        }
+
+        @Override
+        void addColor()
+        {
+            System.out.println("Blue color added");
+        }
+
+    }
+
+    class blackColor extends Color{
+
+        public blackColor()
+        {
+            this.colorName = "black";
+        }
+
+        @Override
+        void addColor()
+        {
+            System.out.println("Black color added");
+        }
+    }
+
+    class ColorStore {
+
+        private static Map<String, Color> colorMap = new HashMap<String, Color>();
+
+        static
+        {
+            colorMap.put("blue", new blueColor());
+            colorMap.put("black", new blackColor());
+        }
+
+        public static Color getColor(String colorName)
+        {
+            return (Color) colorMap.get(colorName).clone();
+        }
+    }
+
+
+    // Driver class
+    class Prototype
+    {
+        public static void main (String[] args)
+        {
+            ColorStore.getColor("blue").addColor();
+            ColorStore.getColor("black").addColor();
+            ColorStore.getColor("black").addColor();
+            ColorStore.getColor("blue").addColor();
+        }
+    }
+
+
+
+    Output :
+
+
+    Blue color added
+    Black color added
+    Black color added
+    Blue color added
+  #+END_SRC
+
+** simple factory                                                    :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 16:54]
+:ID:       8a3ba3b0-4557-48f0-bb7b-b4e3b011c968
+:END:
+- note : 
+  - 
+*** code 
+ #+BEGIN_SRC cpp
+    普通的工廠方法模式通常伴隨著物件的具體類型與工廠具體類型的一一對應，用戶端代碼
+    根據需要選擇合適的具體類型工廠使用。然而，這種選擇可能包含複雜的邏輯。這時，可
+    以建立一個單一的工廠類，用以包含這種選擇邏輯，根據參數的不同選擇實現不同的具體
+    物件。這個工廠類不需要由每個具體產品實現一個自己的具體的工廠類，所以可以將工廠
+    方法設定為靜態方法。 而且，工廠方法封裝了物件的建立過程。如果建立過程非常複雜
+    （比如依賴於設定檔或用戶輸入），工廠方法就非常有用了。 比如，一個程式要讀取圖檔。
+    程式支援多種圖像格式，每種格式都有一個對應的ImageReader類用來讀取圖像。程式每次
+    讀取圖像時，需要基於檔案資訊建立合適類型的ImageReader。這個選擇邏輯可以包裝在一
+    個簡單工廠中：
+
+   public class ImageReaderFactory {
+       public static ImageReader imageReaderFactoryMethod(InputStream is) {
+           ImageReader product = null;
+
+           int imageType = determineImageType(is);
+           switch (imageType) {
+               case ImageReaderFactory.GIF:
+                   product = new GifReader(is);
+               case ImageReaderFactory.JPEG:
+                   product = new JpegReader(is);
+               //...
+           }
+           return product;
+       }
+   }
+ #+END_SRC
+
+** virtual                                                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-18 Mon 13:00]
+   :END:
+ - note : 
+   - 
+*** code 
+#+BEGIN_SRC org
+
+   When a method is declared virtual, compiler secretly does two things for us:
+
+  1. Defines a VPtr in first 4 bytes of the class object
+  2. Inserts code in constructor to initialize VPtr to point to the VTable
+
+  What are VTable and VPtr?
+
+  When a method is declared virtual in a class, 
+  1. compiler creates a virtual table (aka VTable) 
+  2. stores addresses of virtual methods in that table. 
+
+  A virtual pointer (aka VPtr) is then created and initialized to point to that
+  VTable. A VTable is shared across all the instances of the class, i.e. compiler
+  creates only one instance of VTable to be shared across all the objects of a
+  class. Each instance of the class has its own version of VPtr. If we print the
+  size of a class object containing at least one virtual method, the output will
+  be sizeof(class data) + sizeof(VPtr). Since address of virtual method is stored
+  in VTable, VPtr can be manipulated to make calls to those virtual methods
+  thereby violating principles of encapsulation. See below example:
+
+
+#+END_SRC
+  #+BEGIN_SRC cpp
+    #include <iostream>
+    using namespace std;
+
+    #pragma pack(1)
+
+    // A base class with virtual function foo()
+    class CBase
+    {
+    public:
+        virtual void foo() noexcept {
+            cout << "CBase::Foo() called" << endl;
+        }
+    protected:
+        int mData;
+    };
+
+    // A derived class with its own implementation
+    // of foo()
+    class CDerived : public CBase
+    {
+    public:
+        void foo() noexcept  {
+            cout << "CDerived::Foo() called" << endl;
+        }
+    private:
+        char cChar;
+    };
+
+    // Driver code
+    int main()
+    {
+        // A base type pointer pointing to derived
+        CBase *pBase = new CDerived;
+
+        // Accessing vPtr
+        int* pVPtr = *(int**)pBase;
+
+        // Calling virtual method
+        ((void(*)())pVPtr[0])();
+
+        // Changing vPtr
+        delete pBase;
+        pBase = new CBase;
+        pVPtr = *(int**)pBase;
+
+        // Calls method for new base object
+        ((void(*)())pVPtr[0])();
+
+        return 0;
+    }
+
+
+    Output :
+
+
+    CDerived::Foo() called
+    CBase::Foo() called
+  #+END_SRC
+
+* design pattern tutorial point
+
+** factory pattern                                                   :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 17:30]
+:ID:       24de2233-b0fc-45bd-8b24-d22d57133eaa
+:END:
+- note : 
+  - 
+*** code 
+ #+BEGIN_SRC java
+   //  Step 1
+   // Create an interface.
+
+   // Shape.java
+
+
+   public interface Shape {
+      void draw();
+   }
+
+
+   // Step 2
+
+   // Create concrete classes implementing the same interface.
+
+   // Rectangle.java
+
+
+   public class Rectangle implements Shape {
+
+      @Override
+      public void draw() {
+         System.out.println("Inside Rectangle::draw() method.");
+      }
+   }
+
+
+   // Square.java
+
+
+   public class Square implements Shape {
+
+      @Override
+      public void draw() {
+         System.out.println("Inside Square::draw() method.");
+      }
+   }
+
+
+   // Circle.java
+
+
+   public class Circle implements Shape {
+
+      @Override
+      public void draw() {
+         System.out.println("Inside Circle::draw() method.");
+      }
+   }
+
+
+   // Step 3
+
+   // Create a Factory to generate object of concrete class based on given information.
+
+   // ShapeFactory.java
+
+
+   public class ShapeFactory {
+
+      //use getShape method to get object of type shape
+      public Shape getShape(String shapeType){
+         if(shapeType == null){
+            return null;
+         }
+         if(shapeType.equalsIgnoreCase("CIRCLE")){
+            return new Circle();
+
+         } else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+            return new Rectangle();
+
+         } else if(shapeType.equalsIgnoreCase("SQUARE")){
+            return new Square();
+         }
+
+         return null;
+      }
+   }
+
+
+   // Step 4
+
+   // Use the Factory to get object of concrete class by passing an information such as type.
+
+   // FactoryPatternDemo.java
+
+
+   public class FactoryPatternDemo {
+
+      public static void main(String[] args) {
+         ShapeFactory shapeFactory = new ShapeFactory();
+
+         //get an object of Circle and call its draw method.
+         Shape shape1 = shapeFactory.getShape("CIRCLE");
+
+         //call draw method of Circle
+         shape1.draw();
+
+         //get an object of Rectangle and call its draw method.
+         Shape shape2 = shapeFactory.getShape("RECTANGLE");
+
+         //call draw method of Rectangle
+         shape2.draw();
+
+         //get an object of Square and call its draw method.
+         Shape shape3 = shapeFactory.getShape("SQUARE");
+
+         //call draw method of circle
+         shape3.draw();
+      }
+   }
+
+
+   // Step 5
+
+   // Verify the output.
+
+
+   // Inside Circle::draw() method.
+   // Inside Rectangle::draw() method.
+   // Inside Square::draw() method.
+ #+END_SRC
+
+** abstract factory                                                  :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 17:32]
+:ID:       e5f2f636-641a-4fc2-ba85-8200c18a0b57
+:END:
+- note : 
+  - 
+*** code 
+ #+BEGIN_SRC java
+   //  Step 1
+
+   // Create an interface for Shapes.
+
+   // Shape.java
+
+
+   public interface Shape {
+      void draw();
+   }
+
+
+   // Step 2
+
+   // Create concrete classes implementing the same interface.
+
+   // Rectangle.java
+
+
+   public class Rectangle implements Shape {
+
+      @Override
+      public void draw() {
+         System.out.println("Inside Rectangle::draw() method.");
+      }
+   }
+
+
+   // Square.java
+
+
+   public class Square implements Shape {
+
+      @Override
+      public void draw() {
+         System.out.println("Inside Square::draw() method.");
+      }
+   }
+
+
+   // Circle.java
+
+
+   public class Circle implements Shape {
+
+      @Override
+      public void draw() {
+         System.out.println("Inside Circle::draw() method.");
+      }
+   }
+
+
+   // Step 3
+
+   // Create an interface for Colors.
+
+   // Color.java
+
+
+   public interface Color {
+      void fill();
+   }
+
+
+   // Step4
+
+   // Create concrete classes implementing the same interface.
+
+   // Red.java
+
+
+   public class Red implements Color {
+
+      @Override
+      public void fill() {
+         System.out.println("Inside Red::fill() method.");
+      }
+   }
+
+
+
+
+   public class Green implements Color {
+
+      @Override
+      public void fill() {
+         System.out.println("Inside Green::fill() method.");
+      }
+   }
+
+
+
+
+   public class Blue implements Color {
+
+      @Override
+      public void fill() {
+         System.out.println("Inside Blue::fill() method.");
+      }
+   }
+
+
+   // Step 5
+
+   // Create an Abstract class to get factories for Color and Shape Objects.
+
+   // AbstractFactory.java
+
+
+   public abstract class AbstractFactory {
+      abstract Color getColor(String color);
+      abstract Shape getShape(String shape) ;
+   }
+
+
+   // Step 6
+
+   // Create Factory classes extending AbstractFactory to generate object of
+   // concrete class based on given information.
+
+   // ShapeFactory.java
+
+
+   public class ShapeFactory extends AbstractFactory {
+
+      @Override
+      public Shape getShape(String shapeType){
+
+         if(shapeType == null){
+            return null;
+         }
+
+         if(shapeType.equalsIgnoreCase("CIRCLE")){
+            return new Circle();
+
+         }else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+            return new Rectangle();
+
+         }else if(shapeType.equalsIgnoreCase("SQUARE")){
+            return new Square();
+         }
+
+         return null;
+      }
+
+      @Override
+      Color getColor(String color) {
+         return null;
+      }
+   }
+
+
+   // ColorFactory.java
+
+
+   public class ColorFactory extends AbstractFactory {
+
+      @Override
+      public Shape getShape(String shapeType){
+         return null;
+      }
+
+      @Override
+      Color getColor(String color) {
+
+         if(color == null){
+            return null;
+         }
+
+         if(color.equalsIgnoreCase("RED")){
+            return new Red();
+
+         }else if(color.equalsIgnoreCase("GREEN")){
+            return new Green();
+
+         }else if(color.equalsIgnoreCase("BLUE")){
+            return new Blue();
+         }
+
+         return null;
+      }
+   }
+
+
+   // Step 7
+
+   // Create a Factory generator/producer class to get factories by passing an information such as Shape or Color
+
+   // FactoryProducer.java
+
+
+   public class FactoryProducer {
+      public static AbstractFactory getFactory(String choice){
+
+         if(choice.equalsIgnoreCase("SHAPE")){
+            return new ShapeFactory();
+
+         }else if(choice.equalsIgnoreCase("COLOR")){
+            return new ColorFactory();
+         }
+
+         return null;
+      }
+   }
+
+
+   // Step 8
+
+   // Use the FactoryProducer to get AbstractFactory in order to get factories of
+   // concrete classes by passing an information such as type.
+
+   // AbstractFactoryPatternDemo.java
+
+
+   public class AbstractFactoryPatternDemo {
+      public static void main(String[] args) {
+
+         //get shape factory
+         AbstractFactory shapeFactory = FactoryProducer.getFactory("SHAPE");
+
+         //get an object of Shape Circle
+         Shape shape1 = shapeFactory.getShape("CIRCLE");
+
+         //call draw method of Shape Circle
+         shape1.draw();
+
+         //get an object of Shape Rectangle
+         Shape shape2 = shapeFactory.getShape("RECTANGLE");
+
+         //call draw method of Shape Rectangle
+         shape2.draw();
+
+         //get an object of Shape Square
+         Shape shape3 = shapeFactory.getShape("SQUARE");
+
+         //call draw method of Shape Square
+         shape3.draw();
+
+         //get color factory
+         AbstractFactory colorFactory = FactoryProducer.getFactory("COLOR");
+
+         //get an object of Color Red
+         Color color1 = colorFactory.getColor("RED");
+
+         //call fill method of Red
+         color1.fill();
+
+         //get an object of Color Green
+         Color color2 = colorFactory.getColor("Green");
+
+         //call fill method of Green
+         color2.fill();
+
+         //get an object of Color Blue
+         Color color3 = colorFactory.getColor("BLUE");
+
+         //call fill method of Color Blue
+         color3.fill();
+      }
+   }
+
+
+   Step 9
+
+   Verify the output.
+
+
+   Inside Circle::draw() method.
+   Inside Rectangle::draw() method.
+   Inside Square::draw() method.
+   Inside Red::fill() method.
+   Inside Green::fill() method.
+   Inside Blue::fill() method.
+ #+END_SRC
+
+** singleton                                                         :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 17:36]
+:ID:       22c29988-60dc-4616-8938-6e421e5404e7
+:END:
+- note : 
+  - 
+*** code 
+ #+BEGIN_SRC java
+
+   public class SingleObject {
+
+      //create an object of SingleObject
+      private static SingleObject instance = new SingleObject();
+
+      //make the constructor private so that this class cannot be
+      //instantiated
+      private SingleObject(){}
+
+      //Get the only object available
+      public static SingleObject getInstance(){
+         return instance;
+      }
+
+      public void showMessage(){
+         System.out.println("Hello World!");
+      }
+   }
+
+
+
+   public class SingletonPatternDemo {
+      public static void main(String[] args) {
+
+         //illegal construct
+         //Compile Time Error: The constructor SingleObject() is not visible
+         //SingleObject object = new SingleObject();
+
+         //Get the only object available
+         SingleObject object = SingleObject.getInstance();
+
+         //show the message
+         object.showMessage();
+      }
+   }
+
+
+   Step 3
+
+   Verify the output.
+
+
+   Hello World!
+
+ #+END_SRC
+
+** builder                                                           :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 17:37]
+:ID:       7384834e-81ac-4aa3-b7c3-07f458b4922d
+:END:
+- note : 
+  - 
+*** code 
+ #+BEGIN_SRC java
+
+   public interface Item {
+      public String name();
+      public Packing packing();
+      public float price();
+   }
+
+
+   Packing.java
+
+
+   public interface Packing {
+      public String pack();
+   }
+
+
+
+   public class Wrapper implements Packing {
+
+      @Override
+      public String pack() {
+         return "Wrapper";
+      }
+   }
+
+
+   Bottle.java
+
+
+   public class Bottle implements Packing {
+
+      @Override
+      public String pack() {
+         return "Bottle";
+      }
+   }
+
+
+   Step 3
+
+   Create abstract classes implementing the item interface providing default functionalities.
+
+   Burger.java
+
+
+   public abstract class Burger implements Item {
+
+      @Override
+      public Packing packing() {
+         return new Wrapper();
+      }
+
+      @Override
+      public abstract float price();
+   }
+
+
+   ColdDrink.java
+
+
+   public abstract class ColdDrink implements Item {
+
+     @Override
+     public Packing packing() {
+          return new Bottle();
+     }
+
+     @Override
+     public abstract float price();
+   }
+
+
+   Step 4
+
+   Create concrete classes extending Burger and ColdDrink classes
+
+   VegBurger.java
+
+
+   public class VegBurger extends Burger {
+
+      @Override
+      public float price() {
+         return 25.0f;
+      }
+
+      @Override
+      public String name() {
+         return "Veg Burger";
+      }
+   }
+
+
+   ChickenBurger.java
+
+
+   public class ChickenBurger extends Burger {
+
+      @Override
+      public float price() {
+         return 50.5f;
+      }
+
+      @Override
+      public String name() {
+         return "Chicken Burger";
+      }
+   }
+
+
+   Coke.java
+
+
+   public class Coke extends ColdDrink {
+
+      @Override
+      public float price() {
+         return 30.0f;
+      }
+
+      @Override
+      public String name() {
+         return "Coke";
+      }
+   }
+
+
+   Pepsi.java
+
+
+   public class Pepsi extends ColdDrink {
+
+      @Override
+      public float price() {
+         return 35.0f;
+      }
+
+      @Override
+      public String name() {
+         return "Pepsi";
+      }
+   }
+
+
+   Step 5
+
+   Create a Meal class having Item objects defined above.
+
+   Meal.java
+
+
+   import java.util.ArrayList;
+   import java.util.List;
+
+   public class Meal {
+      private List<Item> items = new ArrayList<Item>();
+
+      public void addItem(Item item){
+         items.add(item);
+      }
+
+      public float getCost(){
+         float cost = 0.0f;
+
+         for (Item item : items) {
+            cost += item.price();
+         }
+         return cost;
+      }
+
+      public void showItems(){
+
+         for (Item item : items) {
+            System.out.print("Item : " + item.name());
+            System.out.print(", Packing : " + item.packing().pack());
+            System.out.println(", Price : " + item.price());
+         }
+      }
+   }
+
+
+   Step 6
+
+   Create a MealBuilder class, the actual builder class responsible to create Meal objects.
+
+   MealBuilder.java
+
+
+   public class MealBuilder {
+
+      public Meal prepareVegMeal (){
+         Meal meal = new Meal();
+         meal.addItem(new VegBurger());
+         meal.addItem(new Coke());
+         return meal;
+      }
+
+      public Meal prepareNonVegMeal (){
+         Meal meal = new Meal();
+         meal.addItem(new ChickenBurger());
+         meal.addItem(new Pepsi());
+         return meal;
+      }
+   }
+
+
+   Step 7
+
+   BuiderPatternDemo uses MealBuider to demonstrate builder pattern.
+
+   BuilderPatternDemo.java
+
+
+   public class BuilderPatternDemo {
+      public static void main(String[] args) {
+
+         MealBuilder mealBuilder = new MealBuilder();
+
+         Meal vegMeal = mealBuilder.prepareVegMeal();
+         System.out.println("Veg Meal");
+         vegMeal.showItems();
+         System.out.println("Total Cost: " + vegMeal.getCost());
+
+         Meal nonVegMeal = mealBuilder.prepareNonVegMeal();
+         System.out.println("\n\nNon-Veg Meal");
+         nonVegMeal.showItems();
+         System.out.println("Total Cost: " + nonVegMeal.getCost());
+      }
+   }
+
+
+   Step 8
+
+   Verify the output.
+
+
+   Veg Meal
+   Item : Veg Burger, Packing : Wrapper, Price : 25.0
+   Item : Coke, Packing : Bottle, Price : 30.0
+   Total Cost: 55.0
+
+
+   Non-Veg Meal
+   Item : Chicken Burger, Packing : Wrapper, Price : 50.5
+   Item : Pepsi, Packing : Bottle, Price : 35.0
+   Total Cost: 85.5
+ #+END_SRC
+
+** adapter                                                           :drill:
+:PROPERTIES:
+:DATE: [2017-09-12 Tue 17:43]
+:ID:       6e9e6e75-5213-4a7f-a244-4bef099bf7cd
+:END:
+- note : 
+  - 
+*** code 
+ #+BEGIN_SRC java
+    Step 1
+
+   Create interfaces for Media Player and Advanced Media Player.
+
+   MediaPlayer.java
+
+
+   public interface MediaPlayer {
+      public void play(String audioType, String fileName);
+   }
+
+
+   AdvancedMediaPlayer.java
+
+
+   public interface AdvancedMediaPlayer {
+      public void playVlc(String fileName);
+      public void playMp4(String fileName);
+   }
+
+
+   Step 2
+
+   Create concrete classes implementing the AdvancedMediaPlayer interface.
+
+   VlcPlayer.java
+
+
+   public class VlcPlayer implements AdvancedMediaPlayer{
+      @Override
+      public void playVlc(String fileName) {
+         System.out.println("Playing vlc file. Name: "+ fileName);
+      }
+
+      @Override
+      public void playMp4(String fileName) {
+         //do nothing
+      }
+   }
+
+
+   Mp4Player.java
+
+
+   public class Mp4Player implements AdvancedMediaPlayer{
+
+      @Override
+      public void playVlc(String fileName) {
+         //do nothing
+      }
+
+      @Override
+      public void playMp4(String fileName) {
+         System.out.println("Playing mp4 file. Name: "+ fileName);
+      }
+   }
+
+
+   Step 3
+
+   Create adapter class implementing the MediaPlayer interface.
+
+   MediaAdapter.java
+
+
+   public class MediaAdapter implements MediaPlayer {
+
+      AdvancedMediaPlayer advancedMusicPlayer;
+
+      public MediaAdapter(String audioType){
+
+         if(audioType.equalsIgnoreCase("vlc") ){
+            advancedMusicPlayer = new VlcPlayer();
+
+         }else if (audioType.equalsIgnoreCase("mp4")){
+            advancedMusicPlayer = new Mp4Player();
+         }
+      }
+
+      @Override
+      public void play(String audioType, String fileName) {
+
+         if(audioType.equalsIgnoreCase("vlc")){
+            advancedMusicPlayer.playVlc(fileName);
+         }
+         else if(audioType.equalsIgnoreCase("mp4")){
+            advancedMusicPlayer.playMp4(fileName);
+         }
+      }
+   }
+
+
+   Step 4
+
+   Create concrete class implementing the MediaPlayer interface.
+
+   AudioPlayer.java
+
+
+   public class AudioPlayer implements MediaPlayer {
+      MediaAdapter mediaAdapter;
+
+      @Override
+      public void play(String audioType, String fileName) {
+
+         //inbuilt support to play mp3 music files
+         if(audioType.equalsIgnoreCase("mp3")){
+            System.out.println("Playing mp3 file. Name: " + fileName);
+         }
+
+         //mediaAdapter is providing support to play other file formats
+         else if(audioType.equalsIgnoreCase("vlc") || audioType.equalsIgnoreCase("mp4")){
+            mediaAdapter = new MediaAdapter(audioType);
+            mediaAdapter.play(audioType, fileName);
+         }
+
+         else{
+            System.out.println("Invalid media. " + audioType + " format not supported");
+         }
+      }
+   }
+
+
+   Step 5
+
+   Use the AudioPlayer to play different types of audio formats.
+
+   AdapterPatternDemo.java
+
+
+   public class AdapterPatternDemo {
+      public static void main(String[] args) {
+         AudioPlayer audioPlayer = new AudioPlayer();
+
+         audioPlayer.play("mp3", "beyond the horizon.mp3");
+         audioPlayer.play("mp4", "alone.mp4");
+         audioPlayer.play("vlc", "far far away.vlc");
+         audioPlayer.play("avi", "mind me.avi");
+      }
+   }
+
+
+   Step 6
+
+   Verify the output.
+
+
+   Playing mp3 file. Name: beyond the horizon.mp3
+   Playing mp4 file. Name: alone.mp4
+   Playing vlc file. Name: far far away.vlc
+   Invalid media. avi format not supported
+ #+END_SRC
+
+** observer pattern 
+* java2s - java
+http://www.java2s.com/Code/Java/Design-Pattern/CatalogDesign-Pattern.htm
+https://www.tutorialspoint.com/design_pattern/observer_pattern.htm

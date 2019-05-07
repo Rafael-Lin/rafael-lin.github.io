@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\string特性\StringAttribute\bin\Debug\StringAttribute.exe
+C:\Users\hatelove\Desktop\string特性\StringAttribute\bin\Debug\StringAttribute.pdb
+C:\Users\hatelove\Desktop\string特性\StringAttribute\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\string特性\StringAttribute\obj\Debug\StringAttribute.exe
+C:\Users\hatelove\Desktop\string特性\StringAttribute\obj\Debug\StringAttribute.pdb

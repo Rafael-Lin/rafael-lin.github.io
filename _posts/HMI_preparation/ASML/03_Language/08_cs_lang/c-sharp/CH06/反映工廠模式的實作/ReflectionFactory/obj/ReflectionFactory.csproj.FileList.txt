@@ -1,0 +1,5 @@
+bin\Debug\ReflectionFactory.exe
+bin\Debug\ReflectionFactory.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\ReflectionFactory.exe
+obj\Debug\ReflectionFactory.pdb

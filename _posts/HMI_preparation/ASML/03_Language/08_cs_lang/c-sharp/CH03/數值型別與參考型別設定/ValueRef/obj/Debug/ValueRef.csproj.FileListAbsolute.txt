@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\數值型別與參考型別設定\ValueRef\obj\Debug\ValueRef.exe
+C:\Users\hatelove\Desktop\數值型別與參考型別設定\ValueRef\obj\Debug\ValueRef.pdb
+C:\Users\hatelove\Desktop\數值型別與參考型別設定\ValueRef\bin\Debug\ValueRef.exe
+C:\Users\hatelove\Desktop\數值型別與參考型別設定\ValueRef\bin\Debug\ValueRef.pdb
+C:\Users\hatelove\Desktop\數值型別與參考型別設定\ValueRef\obj\Debug\ResolveAssemblyReference.cache

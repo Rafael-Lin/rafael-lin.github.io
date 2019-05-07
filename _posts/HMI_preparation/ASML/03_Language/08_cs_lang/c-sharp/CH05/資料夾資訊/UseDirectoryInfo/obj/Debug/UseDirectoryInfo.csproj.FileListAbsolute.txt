@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\資料夾資訊\UseDirectoryInfo\bin\Debug\UseDirectoryInfo.exe
+C:\Users\hatelove\Desktop\資料夾資訊\UseDirectoryInfo\bin\Debug\UseDirectoryInfo.pdb
+C:\Users\hatelove\Desktop\資料夾資訊\UseDirectoryInfo\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\資料夾資訊\UseDirectoryInfo\obj\Debug\UseDirectoryInfo.exe
+C:\Users\hatelove\Desktop\資料夾資訊\UseDirectoryInfo\obj\Debug\UseDirectoryInfo.pdb

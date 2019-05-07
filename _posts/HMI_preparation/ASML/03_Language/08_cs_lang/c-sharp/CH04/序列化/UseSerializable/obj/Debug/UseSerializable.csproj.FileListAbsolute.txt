@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\序列化\UseSerializable\bin\Debug\UseSerializable.exe
+C:\Users\hatelove\Desktop\序列化\UseSerializable\bin\Debug\UseSerializable.pdb
+C:\Users\hatelove\Desktop\序列化\UseSerializable\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\序列化\UseSerializable\obj\Debug\UseSerializable.exe
+C:\Users\hatelove\Desktop\序列化\UseSerializable\obj\Debug\UseSerializable.pdb

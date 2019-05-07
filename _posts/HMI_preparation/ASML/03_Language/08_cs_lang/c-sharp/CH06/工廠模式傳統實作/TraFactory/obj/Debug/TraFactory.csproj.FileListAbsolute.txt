@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\工廠模式傳統實作\TraFactory\obj\Debug\TraFactory.exe
+C:\Users\hatelove\Desktop\工廠模式傳統實作\TraFactory\obj\Debug\TraFactory.pdb
+C:\Users\hatelove\Desktop\工廠模式傳統實作\TraFactory\bin\Debug\TraFactory.exe
+C:\Users\hatelove\Desktop\工廠模式傳統實作\TraFactory\bin\Debug\TraFactory.pdb
+C:\Users\hatelove\Desktop\工廠模式傳統實作\TraFactory\obj\Debug\ResolveAssemblyReference.cache

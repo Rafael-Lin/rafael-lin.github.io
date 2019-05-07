@@ -1,0 +1,5 @@
+bin\Debug\TraFactory.exe
+bin\Debug\TraFactory.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\TraFactory.exe
+obj\Debug\TraFactory.pdb

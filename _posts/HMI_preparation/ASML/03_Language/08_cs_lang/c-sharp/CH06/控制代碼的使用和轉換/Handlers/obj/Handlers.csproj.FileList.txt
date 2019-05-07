@@ -1,0 +1,5 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\Debug\Handlers.exe
+bin\Debug\Handlers.pdb
+obj\Debug\Handlers.exe
+obj\Debug\Handlers.pdb

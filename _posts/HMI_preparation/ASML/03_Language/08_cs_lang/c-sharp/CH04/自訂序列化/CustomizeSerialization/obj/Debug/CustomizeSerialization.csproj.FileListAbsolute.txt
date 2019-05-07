@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\自訂序列化\CustomizeSerialization\obj\Debug\CustomizeSerialization.exe
+C:\Users\hatelove\Desktop\自訂序列化\CustomizeSerialization\obj\Debug\CustomizeSerialization.pdb
+C:\Users\hatelove\Desktop\自訂序列化\CustomizeSerialization\bin\Debug\CustomizeSerialization.exe
+C:\Users\hatelove\Desktop\自訂序列化\CustomizeSerialization\bin\Debug\CustomizeSerialization.pdb
+C:\Users\hatelove\Desktop\自訂序列化\CustomizeSerialization\obj\Debug\ResolveAssemblyReference.cache

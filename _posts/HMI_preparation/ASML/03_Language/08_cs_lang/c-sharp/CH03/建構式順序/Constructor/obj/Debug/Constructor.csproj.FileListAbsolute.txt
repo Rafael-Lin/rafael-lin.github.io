@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\建構式順序\Constructor\bin\Debug\Constructor.exe
+C:\Users\hatelove\Desktop\建構式順序\Constructor\bin\Debug\Constructor.pdb
+C:\Users\hatelove\Desktop\建構式順序\Constructor\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\建構式順序\Constructor\obj\Debug\Constructor.exe
+C:\Users\hatelove\Desktop\建構式順序\Constructor\obj\Debug\Constructor.pdb

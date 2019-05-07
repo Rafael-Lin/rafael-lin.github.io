@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\屬性\Properties\obj\Debug\Properties.exe
+C:\Users\hatelove\Desktop\屬性\Properties\obj\Debug\Properties.pdb
+C:\Users\hatelove\Desktop\屬性\Properties\bin\Debug\Properties.exe
+C:\Users\hatelove\Desktop\屬性\Properties\bin\Debug\Properties.pdb
+C:\Users\hatelove\Desktop\屬性\Properties\obj\Debug\ResolveAssemblyReference.cache

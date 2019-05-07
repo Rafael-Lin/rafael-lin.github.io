@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\使用ThreadStatic\ThreadStatic\obj\Debug\ThreadStatic.exe
+C:\Users\hatelove\Desktop\使用ThreadStatic\ThreadStatic\obj\Debug\ThreadStatic.pdb
+C:\Users\hatelove\Desktop\使用ThreadStatic\ThreadStatic\bin\Debug\ThreadStatic.exe
+C:\Users\hatelove\Desktop\使用ThreadStatic\ThreadStatic\bin\Debug\ThreadStatic.pdb
+C:\Users\hatelove\Desktop\使用ThreadStatic\ThreadStatic\obj\Debug\ResolveAssemblyReference.cache

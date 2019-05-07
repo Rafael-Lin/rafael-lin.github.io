@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\字串和位元組陣列轉換\StringByte\bin\Debug\StringByte.exe
+C:\Users\hatelove\Desktop\字串和位元組陣列轉換\StringByte\bin\Debug\StringByte.pdb
+C:\Users\hatelove\Desktop\字串和位元組陣列轉換\StringByte\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\字串和位元組陣列轉換\StringByte\obj\Debug\StringByte.exe
+C:\Users\hatelove\Desktop\字串和位元組陣列轉換\StringByte\obj\Debug\StringByte.pdb

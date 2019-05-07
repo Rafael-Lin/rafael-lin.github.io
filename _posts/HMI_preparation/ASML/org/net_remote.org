@@ -1,0 +1,343 @@
+一、引言
+ 　　上一篇博文分享了消息队列（MSMQ）技术来实现分布式应用，在这篇博文继续分享下.NET平台下另一种分布式技术——.NET Remoting。
+
+二、.NET Remoting 介绍
+2.1 .NET Remoting简介
+.NET REmoting與MSMQ不同，它不支持離線可得，另外只適合.NET平台的程序進行通信。
+它提供了一種允許對象通過應用程序域與另一個對象進行交互的框架..NET應用程序都在
+一個主應用程序域中執行的，在一個應用程序域中的代碼不能訪問另一個應用程序域的數據，
+然而在某些情況下，我們需要跨應用程序域，與另外的應用程序域進行通信，這時候就可以
+採用.NET Remoting技術來實現與另一個程序域中的對象進行交互。
+
+2.2 .NET Remoting基本原理
+
+.NET Remoting技術是通過通道來實現兩個應用程序之間對象的通信的。首先，客戶端
+ 通過遠程處理技術，訪問通道來獲得服務器端對象，再通過代理解析為客戶端對象，也稱
+ 作透明代理，此時獲得客戶端對象只是服務器對象的一個引用。這既保證了客戶端和服務
+ 端有關對象的鬆散耦合，同時優化了通信的性能。在這個過程中，當客戶端通過透明代理
+ 來調用遠程對象的方法時，此時會將調用封裝到一個消息對象中，該消息對象包括遠程對
+ 象信息，被調用的方法名和參數，然後透明代理會將調用委託給真實代理（RealProxy對象）
+ 的調用方法來生成一個IMethodCallMessage，接著通過序列化把這個消息對象序列化成
+ 數據流發送到通道，通道會把數據流傳送到服務器端。當服務器接收到經過格式化的數據
+ 之後，首先從中通過反序列化來還原消息對象，之後在服務器端來激活遠程對象，並調用
+ 對應的方法，而方法的返回結果過程則是按照之前的方法反向重複一遍，具體的實現原理
+ 圖如下所示：
+
+
+2.3 .NET Remoting几个重要概念
+ 　　上面简单介绍了下.NET Remoting实现分布式应用程序的基本原理，这里介绍下在.NET Remoting中涉及的几个重要概念。
+
+遠程對象：是運行在服務器端的對象，客戶端不能直接調用，由於.NET Remoting傳遞的對
+像是以引用的方式，因此所傳遞的遠程對象必須繼承MarshalByRefObject類，這個類可以使
+遠程對像在.NET Remoting應用通信中使用，支持對象的跨域邊界訪問。
+
+遠程對象的激活方式：。在訪問服務器端的一個對象實例之前，必須通過一個名為激活的進
+程創建它並進行初始化這種客戶端通過通道來創建遠程對象的方式稱為對象的激活在.NET遠
+程處理中，遠程對象的激活分為兩大類：服務器端激活和客戶端激活。
+
+服務器端激活，又叫做WellKnow（知名對象）激活模式，為什麼稱為知名對象激活模式呢？
+是因為服務應用程序在激活對象實例之前會在一個眾所周知的統一資源標示符（URI）上發
+布這個類型，然後該服務器進行會為此類型配置一個WellKnow對象，並根據指定的端口或地
+址來發布對象.. NET Remoting把服務器端激活又分為SingleTon模式和SingleCall模式兩種。
+
+SingleTon模式：此為有狀態模式。如果設置為SingleTon激活模式，則.NET Remoting將為
+所有客戶端建立同一個對象實例。當對象處於活動狀態時，SingleTon實例會處理所有後來
+的客戶端訪問請求，而不管它們是同一個客戶端，還是其他客戶端.SingleTon實例將在方法
+調用中一直維護其狀態，類似靜態成員的概念
+
+SingleCall模式：是一種無狀態模式一旦設置為SingleCall模式，則當客戶端調用遠程對象
+的方法時，遠程處理會為每一個客戶端建立一個遠程對象實例，對象實例的銷毀則是由GC自
+動管理。類似實例成員的概念。
+
+
+客戶端激活：與Wellknow模式不同，.NET Remoting在激活每個對象實例的時候，會給每個
+客戶端激活的類型指派一個URI。客戶端激活模式一旦獲得客戶端的請求，將為每一個客戶
+端都建立一個實例引用.SingleCall模式與客戶端激活模式的區別有：首先，對象實例創建
+的時間不同客戶端激活方式是客戶一旦發出調用請求就實例化，而SingleCall則要等到調用
+對象方法時再創建。其次，SingleCall模式激活的對象是無狀態的，對象聲明週期由GC管理，
+而客戶端激活的對象是有狀態的，其生命週期可自定義。第三，兩種激活模式在服務器端和
+客戶端實現的方法不一樣，尤其是在客戶端，SingleCall模式由GetObject的的（）來激活，
+它調用對象默認的構造函數，而客戶端激活模式，則通過的的CreateInstance（）來激活，
+它可以傳遞參數，所以可以調用自定義的構造函數來創建實例。
+
+3.通訊：在.NET Remoting中時通過通道來實現兩個應用程序域之間對象的通信..NET
+Remoting中包括4中通道類型：
+
+TcpChannel：Tcp通道使用Tcp協議來跨越.Net Remoting邊界來傳輸序列化的消息流，
+TcpChannel默認使用二進制格式序列化消息對象，因此具有更高的傳輸性能，但不提供任何
+內置的安全功能。
+
+的的HTTPChannel是：HTTP通道使用的的Http協議在客戶端和服務器之間發生消息，使其在
+互聯網上穿越防火牆來傳輸序列化的消息流（這裡準確講不能說穿越，主要是因為防火牆都
+開放了80端口，所以使用的的Http協議可以穿過防火牆進行數據的傳輸，如果防火牆限制了
+80端口，HTTP協議也照樣不能穿越防火牆）。默認情況下，的的HTTPChannel使用肥皂格式
+序列化消息對象，因此它具有更好的互操作性，並且可以使用的的Http協議中的加密機制來
+對消息進行加密來保證安全性。因此，通常在局域網內，我們更多地使用的的TcpChannel，
+如果要穿越防火牆，則使用的的HTTPChannel 。
+
+IpcChannel：進程間通信，只使用同一個系統進程之間的通信，不需要主機名和端口號而使
+用的的Http通道和的TCP通道都要指定主機名和端口號。
+
+自定義通道：自定義的傳輸通道可以使用任何基本的傳輸協議來進行通信，如UDP協議，
+SMTP協議等。
+
+
+三，利用.NET Remoting技術開發分佈式應用三部曲
+ 前面詳細介紹了.NET Remoting相關內容，下面具體看看如何使用.NET Remoting技術來開發分佈式應用程序。開發.NET Remoting應用分三步走。
+
+第一步：創建遠程對象，該對象必須繼承MarshalByRefObject的對象具體的示例代碼如下：
+
+
+
+复制代码
+ 1 namespace RemotingObject
+ 2 {
+ 3     // 第一步：创建远程对象
+ 4     // 创建远程对象——必须继承MarshalByRefObject,该类支持对象的跨域边界访问
+ 5     public class MyRemotingObject :MarshalByRefObject
+ 6     {
+ 7         // 用来测试Tcp通道 
+ 8         public int AddForTcpTest(int a, int b)
+ 9         {
+10             return a + b;
+11         }
+12 
+13         // 用来测试Http通道
+14         public int MinusForHttpTest(int a, int b)
+15         {
+16             return a - b;
+17         }
+18 
+19         // 用来测试IPC通道
+20         public int MultipleForIPCTest(int a, int b)
+21         {
+22             return a * b;
+23         }
+24     }
+25 }
+复制代码
+　　远程对象分别定义3个方法，目的是为了测试3中不同的通道方式的效果。
+
+第二步：创建服务器端，需要添加System.Runtime.Remoting.dll引用，具体实现代码如下所示：
+
+复制代码
+ 1 using System;
+ 2 using System.Runtime.Remoting;
+ 3 using System.Runtime.Remoting.Channels;
+ 4 using System.Runtime.Remoting.Channels.Http;
+ 5 using System.Runtime.Remoting.Channels.Ipc;
+ 6 using System.Runtime.Remoting.Channels.Tcp;
+ 7 
+ 8 namespace RemotingServerHost
+ 9 {
+10     // 第二步：创建宿主应用程序
+11     class Server
+12     {
+13         static void Main(string[] args)
+14         {
+15             // 1.创建三种通道
+16 
+17             // 创建Tcp通道，端口号9001
+18             TcpChannel tcpChannel = new TcpChannel(9001);
+19             
+20             // 创建Http通道，端口号9002
+21             HttpChannel httpChannel = new HttpChannel(9002);
+22 
+23             // 创建IPC通道，端口号9003
+24             IpcChannel ipcChannel = new IpcChannel("IpcTest");
+25 
+26             // 2.注册通道
+27             ChannelServices.RegisterChannel(tcpChannel, false);
+28             ChannelServices.RegisterChannel(httpChannel, false);
+29             ChannelServices.RegisterChannel(ipcChannel, false);
+30 
+31             // 打印通道信息
+32             // 打印Tcp通道的名称
+33             Console.WriteLine("The name of the TcpChannel is {0}", tcpChannel.ChannelName);
+34             // 打印Tcp通道的优先级
+35             Console.WriteLine("The priority of the TcpChannel is {0}", tcpChannel.ChannelPriority);
+36 
+37             Console.WriteLine("The name of the HttpChannel is {0}", httpChannel.ChannelName);
+38             Console.WriteLine("The priority of the httpChannel is {0}", httpChannel.ChannelPriority);
+39 
+40             Console.WriteLine("The name of the IpcChannel is {0}", ipcChannel.ChannelName);
+41             Console.WriteLine("The priority of the IpcChannel is {0}", ipcChannel.ChannelPriority);
+42 
+43             // 3. 注册对象
+44             // 注册MyRemotingObject到.NET Remoting运行库中
+45             RemotingConfiguration.RegisterWellKnownServiceType(typeof(RemotingObject.MyRemotingObject), "MyRemotingObject", WellKnownObjectMode.Singleton);
+46             Console.WriteLine("Press any key to exit");
+47             Console.ReadLine();
+48         }
+49     }
+50 }
+复制代码
+第三步：创建客户端程序，具体的实现代码如下所示：
+
+复制代码
+ 1 using RemotingObject;
+ 2 using System;
+ 3 
+ 4 namespace RemotingClient
+ 5 {
+ 6     class Client
+ 7     {
+ 8         static void Main(string[] args)
+ 9         {
+10             // 使用Tcp通道得到远程对象
+11             //TcpChannel tcpChannel = new TcpChannel();
+12             //ChannelServices.RegisterChannel(tcpChannel, false);
+13             MyRemotingObject proxyobj1 = Activator.GetObject(typeof(MyRemotingObject), "tcp://localhost:9001/MyRemotingObject") as MyRemotingObject;
+14             if (proxyobj1 == null)
+15             {
+16                 Console.WriteLine("连接TCP服务器失败");
+17             }
+18 
+19             //HttpChannel httpChannel = new HttpChannel();
+20             //ChannelServices.RegisterChannel(httpChannel, false);
+21             MyRemotingObject proxyobj2 = Activator.GetObject(typeof(MyRemotingObject), "http://localhost:9002/MyRemotingObject") as MyRemotingObject;
+22             if (proxyobj2 == null)
+23             {
+24                 Console.WriteLine("连接Http服务器失败");
+25             }
+26 
+27             //IpcChannel ipcChannel = new IpcChannel();
+28             //ChannelServices.RegisterChannel(ipcChannel, false);
+29             MyRemotingObject proxyobj3 = Activator.GetObject(typeof(MyRemotingObject), "ipc://IpcTest/MyRemotingObject") as MyRemotingObject;
+30             if (proxyobj3 == null)
+31             {
+32                 Console.WriteLine("连接Ipc服务器失败");
+33             }
+34             // 输出信息
+35             Console.WriteLine("This call object by TcpChannel, 100 + 200 = {0}", proxyobj1.AddForTcpTest(100, 200));
+36             Console.WriteLine("This call object by HttpChannel, 100 - 200 = {0}", proxyobj2.MinusForHttpTest(100, 200));
+37             Console.WriteLine("This call object by IpcChannel, 100 * 200 = {0}", proxyobj1.MultipleForIPCTest(100, 200));
+38             Console.WriteLine("Press any key to exit!");
+39             Console.ReadLine();
+40         }
+41     }
+42 }
+复制代码
+　　经过上面的三步，我们就完成了这个分布式应用的开发工作，下面测试下该程序是否可以正常运行，首先，运行服务器端，你将看到如下界面：
+
+
+
+　　在.NET Remoting中，是允许同时创建多个通道的，但是.NET Remoting要求通道的名字必须不同，因为名字是用来标识通道的唯一标识符。但上面代码中，我们并没有指明通道的名字，为什么还可以允许成功呢？从上面图片可知，当我们创建通道时，如果没有为其显式指定通道名，则会使用对应的通道类型作为该通道名，如TcpChannel将会以tcp作为通道名，如果想注册多个Tcp通道则必须显式指定其名字。
+
+　　下面看看运行客户端所获得的结果，具体客户端运行效果如下图所示：
+
+
+
+ 四、使用配置文件来重写上面的分布式程序
+　　在第三部分中，我们是把服务器的各种通道方式和地址写死在程序中的，这样的实现方式部署起来不方便，下面使用配置文件的方式来配置服务器端的通道类型和服务器地址。　　远程对象的定义不需要改变，下面直接看服务器端使用配置文件后的实现代码如下所示：
+
+复制代码
+ 1 using System;
+ 2 using System.Runtime.Remoting;
+ 3 using System.Runtime.Remoting.Channels;
+ 4 
+ 5 namespace RemotingServerHostByConfig
+ 6 {
+ 7     class Program
+ 8     {
+ 9         static void Main(string[] args)
+10         {
+11             RemotingConfiguration.Configure("RemotingServerHostByConfig.exe.config", false);
+12 
+13             foreach (var channel in ChannelServices.RegisteredChannels)
+14             {
+15                 // 打印通道的名称
+16                 Console.WriteLine("The name of the Channel is {0}", channel.ChannelName);
+17                 // 打印通道的优先级
+18                 Console.WriteLine("The priority of the Channel is {0}", channel.ChannelPriority);
+19             }
+20             Console.WriteLine("按任意键退出……");
+21             Console.ReadLine();
+22         }
+23     }
+24 }
+复制代码
+　　服务端的配置文件的内容为:
+
+复制代码
+ 1 <?xml version="1.0" encoding="utf-8" ?>
+ 2 <!--服务端App.config的内容-->
+ 3 <configuration>
+ 4     <startup> 
+ 5         <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
+ 6     </startup>
+ 7   <system.runtime.remoting>
+ 8     <application>
+ 9       <service>
+10         <wellknown  mode="Singleton"
+11                     type="RemotingObject.MyRemotingObject,RemotingObject"
+12                     objectUri="MyRemotingObject"/>
+13       </service>
+14       <channels>
+15         <channel port="9001" ref="tcp"/>
+16         <channel port="9002" ref="http"/>
+17         <channel portName="IpcTest" ref="ipc"/> <!--Ipc通道不需要端口号-->
+18       </channels>
+19     </application>
+20   </system.runtime.remoting>
+21 </configuration>
+复制代码
+　　此时，客户端程序的实现代码如下所示：
+
+复制代码
+ 1 using RemotingObject;
+ 2 using System;
+ 3 using System.Runtime.Remoting;
+ 4 
+ 5 namespace RemotingClientByConfig
+ 6 {
+ 7     class Program
+ 8     {
+ 9         static void Main(string[] args)
+10         {
+11             //使用HTTP通道得到远程对象
+12             RemotingConfiguration.Configure("RemotingClientByConfig.exe.config", false);
+13             MyRemotingObject proxyobj1 = new MyRemotingObject();
+14             if (proxyobj1 == null)
+15             {
+16                 Console.WriteLine("连接服务器失败");
+17             }
+18 
+19             Console.WriteLine("This call object by TcpChannel, 100 + 200 = {0}", proxyobj1.AddForTcpTest(100, 200));
+20             Console.WriteLine("This call object by HttpChannel, 100 - 200 = {0}", proxyobj1.MinusForHttpTest(100, 200));
+21             Console.WriteLine("This call object by IpcChannel, 100 * 200 = {0}", proxyobj1.MultipleForIPCTest(100, 200));
+22             Console.WriteLine("Press any key to exit!");
+23             Console.ReadLine();
+24         }
+25     }
+26 }
+复制代码
+　　客户端配置文件为：
+
+复制代码
+ 1 <?xml version="1.0" encoding="utf-8" ?>
+ 2 <configuration>
+ 3     <startup> 
+ 4         <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
+ 5     </startup>
+ 6   <system.runtime.remoting>
+ 7     <application>
+ 8       <client>
+ 9         <wellknown  type="RemotingObject.MyRemotingObject,RemotingObject"
+10                     url="http://localhost:9002/MyRemotingObject" />
+11       </client>
+12       <channels>    
+13         <channel ref="tcp" port="0"></channel>
+14         <channel ref="http" port="0"></channel>
+15         <channel ref="ipc" port="0"></channel>
+16       </channels>
+17     </application>
+18   </system.runtime.remoting>
+19 </configuration>
+复制代码
+　　使用配置文件修改后的分布式程序的运行结果与前面的运行结果一样，这里就不一一贴图了。
+
+五、总结
+ 　　到这里，.NET Remoting技术的分享就结束了，本文只是对.NET Remoting技术做了一个基本的介绍，如果想深入了解.NET Remoting技术的话，推荐大家可以看看下面的专题细细品味C#——.Net Remoting专题。在下一篇文章中，继续为大家分享另一种分布式技术——Web Service。
+
+　　 本文的示例代码文件下载：.NETRemotingSample

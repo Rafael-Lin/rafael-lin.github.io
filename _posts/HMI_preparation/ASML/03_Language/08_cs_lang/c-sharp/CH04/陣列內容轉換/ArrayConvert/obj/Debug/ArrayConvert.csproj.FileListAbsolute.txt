@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\陣列內容轉換\ArrayConvert\bin\Debug\ArrayConvert.exe
+C:\Users\hatelove\Desktop\陣列內容轉換\ArrayConvert\bin\Debug\ArrayConvert.pdb
+C:\Users\hatelove\Desktop\陣列內容轉換\ArrayConvert\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\陣列內容轉換\ArrayConvert\obj\Debug\ArrayConvert.exe
+C:\Users\hatelove\Desktop\陣列內容轉換\ArrayConvert\obj\Debug\ArrayConvert.pdb

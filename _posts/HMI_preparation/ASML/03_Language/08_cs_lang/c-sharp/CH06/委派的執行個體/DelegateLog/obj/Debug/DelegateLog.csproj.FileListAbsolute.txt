@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\委派的執行個體\DelegateLog\obj\Debug\DelegateLog.exe
+C:\Users\hatelove\Desktop\委派的執行個體\DelegateLog\obj\Debug\DelegateLog.pdb
+C:\Users\hatelove\Desktop\委派的執行個體\DelegateLog\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\委派的執行個體\DelegateLog\bin\Debug\DelegateLog.exe
+C:\Users\hatelove\Desktop\委派的執行個體\DelegateLog\bin\Debug\DelegateLog.pdb

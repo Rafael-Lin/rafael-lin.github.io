@@ -1,0 +1,5 @@
+bin\Debug\UseStream.exe
+bin\Debug\UseStream.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\UseStream.exe
+obj\Debug\UseStream.pdb

@@ -1,0 +1,5 @@
+bin\Debug\UseMutex.exe
+bin\Debug\UseMutex.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\UseMutex.exe
+obj\Debug\UseMutex.pdb

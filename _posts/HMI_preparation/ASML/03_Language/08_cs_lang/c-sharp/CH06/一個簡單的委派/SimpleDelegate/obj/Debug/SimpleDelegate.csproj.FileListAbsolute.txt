@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\一個簡單的委派\SimpleDelegate\obj\Debug\SimpleDelegate.exe
+C:\Users\hatelove\Desktop\一個簡單的委派\SimpleDelegate\obj\Debug\SimpleDelegate.pdb
+C:\Users\hatelove\Desktop\一個簡單的委派\SimpleDelegate\bin\Debug\SimpleDelegate.exe
+C:\Users\hatelove\Desktop\一個簡單的委派\SimpleDelegate\bin\Debug\SimpleDelegate.pdb
+C:\Users\hatelove\Desktop\一個簡單的委派\SimpleDelegate\obj\Debug\ResolveAssemblyReference.cache

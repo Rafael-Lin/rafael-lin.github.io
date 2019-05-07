@@ -1,0 +1,10 @@
+K:\电子的三本书\07675-.NET程序员面试指南（江立）\源代码\第5章\UTC和本地时间的转换\UTCLocal\bin\Debug\UTCLocal.exe
+K:\电子的三本书\07675-.NET程序员面试指南（江立）\源代码\第5章\UTC和本地时间的转换\UTCLocal\bin\Debug\UTCLocal.pdb
+K:\电子的三本书\07675-.NET程序员面试指南（江立）\源代码\第5章\UTC和本地时间的转换\UTCLocal\obj\Debug\ResolveAssemblyReference.cache
+K:\电子的三本书\07675-.NET程序员面试指南（江立）\源代码\第5章\UTC和本地时间的转换\UTCLocal\obj\Debug\UTCLocal.exe
+K:\电子的三本书\07675-.NET程序员面试指南（江立）\源代码\第5章\UTC和本地时间的转换\UTCLocal\obj\Debug\UTCLocal.pdb
+C:\Users\hatelove\Desktop\UTC和本地時間的轉換\UTCLocal\obj\Debug\UTCLocal.exe
+C:\Users\hatelove\Desktop\UTC和本地時間的轉換\UTCLocal\obj\Debug\UTCLocal.pdb
+C:\Users\hatelove\Desktop\UTC和本地時間的轉換\UTCLocal\bin\Debug\UTCLocal.exe
+C:\Users\hatelove\Desktop\UTC和本地時間的轉換\UTCLocal\bin\Debug\UTCLocal.pdb
+C:\Users\hatelove\Desktop\UTC和本地時間的轉換\UTCLocal\obj\Debug\ResolveAssemblyReference.cache

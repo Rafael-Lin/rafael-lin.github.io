@@ -1,0 +1,5 @@
+bin\Debug\CustomizeSerialization.exe
+bin\Debug\CustomizeSerialization.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\CustomizeSerialization.exe
+obj\Debug\CustomizeSerialization.pdb

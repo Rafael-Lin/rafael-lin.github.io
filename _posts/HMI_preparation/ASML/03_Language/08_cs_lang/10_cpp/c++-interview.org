@@ -1,0 +1,1377 @@
+; #+STARTUP: overview
+
+#+STARTUP: indent
+#+STARTUP: hidestars
+#+STARTUP: logdone
+#+PROPERTY: Effort_ALL  0:10 0:20 0:30 1:00 2:00 4:00 6:00 8:00
+#+COLUMNS: %38ITEM(Details) %TAGS(Context) %7TODO(To Do) %5Effort(Time){:} %6CLOCKSUM{Total}
+* Constructor
+1. there is no virtual constructor
+2. ctor :
+   1. create a obj and init it
+   2. create vtables for virtual functions
+3. virtual destructor :
+   1. call at runtime depending the type of the caller
+4. copy constructor vs assignment operator
+   1. copy : by using the content of the argument object
+   2. assignment : assign the contents of an existing obj to another existing obj of the same class
+5. the constructor never throws an error
+6. default constructor
+   1. constructor with no args
+   2. or all args have default values
+7. copy constructor
+   1. auto implement by compiler
+   2. init one obj by shallow copying
+      #+BEGIN_SRC cpp
+        (a) Boo Obj1(10); // calling Boo constructor
+        (b) Boo Obj2(Obj1); // calling boo copy constructor
+        (c) Boo Obj2 = Obj1;// calling boo copy constructor
+      #+END_SRC
+8. when did copy constructor called :
+   #+BEGIN_EXAMPLE
+     (a) when a function returns an object of that class by value
+     (b) when the object of that class is passed by value as an argument to a function
+     (c) when you construct an object based on another object of the same class 
+     (d) When compiler generates a temporary object 
+   #+END_EXAMPLE
+9. copy constructor must be passed by "reference"
+10. conversion constructor :
+    1. ctor with single arg, used for type conversion
+    #+BEGIN_SRC cpp
+      class Boo
+      {
+      public:
+        Boo( int i );
+      };
+      Boo BooObject = 10 ; // assigning int 10 Boo object
+    #+END_SRC
+11. conversion operator :
+    1. obj having a public method for data conversions : 
+       #+BEGIN_SRC cpp
+         class Boo
+         {
+           double value;
+         public:
+           Boo(int i )
+             operator double()
+           {
+             return value;
+           }
+         };
+         Boo BooObject;
+         double i = BooObject; // assigning object to variable i of type double.
+       #+END_SRC
+12. if ctor failed ?
+    1. throw an exception
+13. if destructor failed ?
+    1. write a message to a log.
+    2. don't throw an exception
+    3. ex : stack unwinding
+       1. http://www.geeksforgeeks.org/stack-unwinding-in-c/
+       2. http://teddy-chen-tw.blogspot.tw/2013/11/3resolution.html
+       3. https://stackoverflow.com/questions/2331316/what-is-stack-unwinding
+14. virtual destructor
+    1. destroy obj without knowing its type
+    2. by using virtual function mechanism
+       1. how about pure virtual class
+15. copy ctor didn't accept the obj with same class as a parameter, instead it need it as reference of the obj
+16. the order of local objs destructed :
+    1. revese order : first construct, last destructed.
+17. the order that objs in an array are destructed ?
+    1. same as above
+18. overload the destructor?
+    1. no
+    2. it never accept para, never return values
+19. explicitly call the destructor?
+    1. no, it would called when } is meeted
+    2. use artificial block to force the desctructor to be executed
+       #+BEGIN_SRC cpp
+         class File {
+         public:
+           void close();
+           ~File();
+           ...
+           private:
+           int fileHandle_; // fileHandle_ >= 0 if/only-if it's open
+         };
+         File::~File()
+         {
+           close();
+         }
+         void File::close()
+         {
+           if (fileHandle_ >= 0) {
+             ...insert code to call the OS to close the file...
+               fileHandle_ = -1;
+           }
+         }
+       #+END_SRC
+20. if you new, you need to explicitly delete it
+    1. delete : call the destructor, 2. de-allocate the memory
+21. placement new
+    1. place an obj at a particular location in memory
+    #+BEGIN_SRC cpp
+      #include // Must #include this to use "placement new"
+      #include "Fred.h" // Declaration of class Fred
+      void someCode()
+      {
+        char memory[sizeof(Fred)]; // Line #1
+        void* place = memory; // Line #2
+        Fred* f = new(place) Fred(); // Line #3 (see "DANGER" below)
+        // The pointers f and place will be equal
+        //...
+      }
+
+
+      void someCode()
+      {
+        char memory[sizeof(Fred)];
+        void* p = memory;
+        Fred* f = new(p) Fred();
+        //...
+          f->~Fred(); // Explicitly call the destructor for the placed object
+      }
+    #+END_SRC
+22. destructor :
+    1. no need to call it except "placement new"
+
+    2. members are destroyed in the reverse order.
+      #+BEGIN_SRC cpp
+        class Member {
+        public:
+          ~Member();
+          ...
+        };
+        class Fred {
+        public:
+          ~Fred();
+          ...
+          private:
+          Member x_;
+          Member y_;
+          Member z_;
+        }
+          ;
+        Fred::~Fred()
+        {
+          // Compiler automagically calls z_.~Member()
+          // Compiler automagically calls y_.~Member()
+          // Compiler automagically calls x_.~Member()
+        }
+      #+END_SRC
+
+23. the order of calling of the destructor of base class and derived class?
+
+    1. derived first, base later
+       #+BEGIN_SRC cpp
+         class Member {
+         public:
+           ~Member();
+           ...
+         };
+         class Base {
+         public:
+           virtual ~Base(); // A virtual destructor
+           ...
+         };
+         class Derived : public Base {
+         public:
+           ~Derived();
+           ...
+           private:
+           Member x_;
+         };
+         Derived::~Derived()
+         {
+           // Compiler automagically calls x_.~Member()
+           // Compiler automagically calls Base::~Base()
+         }
+       #+END_SRC
+
+24. Can one constructor of a class call another constructor of the same class to initialize the this object?
+
+    1. 
+       #+BEGIN_SRC cpp
+         class Foo {
+         public:
+           Foo(char x);
+           Foo(char x, int y);
+           //...
+         };
+         Foo::Foo(char x)
+         {
+           //...
+           Foo(x, 0); // this line does NOT help initialize the this object!!
+           //...
+         }
+         //You can sometimes combine two constructors via a default parameter:
+         class Foo {
+         public:
+           Foo(char x, int y=0); // this line combines the two constructors
+           //...
+         };
+         // If that doesn't work, e.g., if there isn't an appropriate default parameter that combines the two
+         // constructors, sometimes you can share their common code in a private init() member function:
+         class Foo {
+         public:
+           Foo(char x);
+           Foo(char x, int y);
+           //...
+         private:
+           void init(char x, int y);
+         };
+         Foo::Foo(char x)
+         {
+           init(x, int(x) + 7);
+           //...
+         }
+         Foo::Foo(char x, int y)
+         {
+           init(x, y);
+           //...
+         }
+         void Foo::init(char x, int y)
+         {
+           //...
+         }
+       #+END_SRC
+
+25. default constructors :
+
+    1. it's a ctor without any args, or given by default values
+
+       #+BEGIN_SRC cpp
+         class Fred {
+         public:
+           Fred(); // Default constructor: can be called with no args
+           //...
+         };
+         class Fred {
+         public:
+           Fred(int i=3, int j=5); // Default constructor: can be called with no args
+           // ...
+         };
+       #+END_SRC
+
+26. which ctor is called when allocating an array of Fred
+    A : default constructor
+    #+BEGIN_SRC cpp
+      class Fred {
+      public:
+        Fred();
+      };
+      int main()
+      {
+        Fred a[10]; //calls the default constructor 10 times
+        Fred* p = new Fred[10]; //calls the default constructor 10 times
+      }
+    #+END_SRC
+    #+BEGIN_SRC cpp
+      class Fred {
+      public:
+        Fred(int i, int j); //assume there is no default constructor
+      };
+      int main()
+      {
+        Fred a[10]; //ERROR: Fred doesn't have a default constructor
+        Fred* p = new Fred[10]; //ERROR: Fred doesn't have a default constructor
+      }
+    #+END_SRC
+      vector example : 
+    #+BEGIN_SRC cpp
+      #include
+      int main()
+      {
+        std::vector a(10, Fred(5,7)); //the 10 Fred objects in std::vector a will be initialized with Fred(5,7)
+      }
+    #+END_SRC
+      array example : 
+    #+BEGIN_SRC cpp
+      class Fred {
+      public:
+        Fred(int i, int j); //assume there is no default constructor
+      };
+      int main()
+      {
+        Fred a[10] = {
+          Fred(5,7), Fred(5,7), Fred(5,7), Fred(5,7), Fred(5,7), // The 10 Fred objects are
+          Fred(5,7), Fred(5,7), Fred(5,7), Fred(5,7), Fred(5,7) // initialized using Fred(5,7)
+        };
+      }
+    #+END_SRC
+27. initialization lists vs. assignment 
+    - initialization lists is are better because of improved performance.
+
+    - the compiler didn't make a copy of each object.
+    
+      #+BEGIN_SRC cpp
+        Fred::Fred() : x_(whatever) { }
+      #+END_SRC
+
+    - less efficient aaproach : 
+      #+BEGIN_SRC cpp
+        Fred::Fred() {
+          x_ = whatever;
+        }
+      #+END_SRC
+
+      - temporary obj is created and passed into x_
+
+      - then it would be destructed at the end
+
+28. using ptr in the constructor?
+
+    1. you can but need to be careful
+
+    2. .... too many words
+
+29. Named Constructor Idiom
+    - a technique that provides more intuitive/safer constructor operations
+
+      - declare all constructor as private/protected
+
+      - provide public static method to return an object--> "Named Constructor"
+        #+BEGIN_SRC cpp
+          class Point {
+          public:
+            Point(float x, float y); // Rectangular coordinates
+            Point(float r, float a); // Polar coordinates (radius and angle)
+            // ERROR: Overload is Ambiguous: Point::Point(float,float)
+          };
+          int main()
+          {
+            Point p = Point(5.7, 1.2); // Ambiguous: Which coordinate system?
+            //...
+          }
+        #+END_SRC
+
+      - ex : 
+        #+BEGIN_SRC cpp
+          #include // To get sin() and cos()
+          class Point {
+          public:
+            static Point rectangular(float x, float y); // Rectangular coord's
+            static Point polar(float radius, float angle); // Polar coordinates
+            // These static methods are the so-called "named constructors"
+            //...
+            private:
+            Point(float x, float y); // Rectangular coordinates
+            float x_, y_;
+          };
+          inline Point::Point(float x, float y)
+            : x_(x), y_(y) { }
+
+          inline Point Point::rectangular(float x, float y)
+          { return Point(x, y); }
+
+          inline Point Point::polar(float radius, float angle)
+          { return Point(radius*cos(angle), radius*sin(angle)); }
+
+
+          int main()
+          {
+            Point p1 = Point::rectangular(5.7, 1.2); // Obviously rectangular
+            Point p2 = Point::polar(5.7, 1.2); // Obviously polar
+          }
+        #+END_SRC
+    - always created via new.
+
+    - not make any extra copies of your object.
+
+
+
+* Virtual 
+1. what is virtual function : 
+   #+BEGIN_SRC cpp
+     class parent
+     {
+       void Show()
+       {
+         cout << "i'm parent" << endl;
+       }
+     };
+     class child: public parent
+     {
+       void Show()
+       {
+         cout << "i'm child" << endl;
+       }
+     };
+     parent * parent_object_ptr = new child;
+     parent_object_ptr->show() // calls parent->show()
+
+     //now we goto virtual world...
+     class parent
+     {
+       virtual void Show()
+       {
+         cout << "i'm parent" << endl;
+       }
+     };
+     class child: public parent
+     {
+       void Show()
+       {
+         cout << "i'm child" << endl;
+       }
+     };
+     parent * parent_object_ptr = new child;
+     parent_object_ptr->show() // calls child->show()
+   #+END_SRC
+2. pure virtual function :
+   1. no implementation in base class
+
+   2. all derived class must implement it, otherwise compiler error
+
+3. how virtual functions implementation?
+
+   1. a table of function ptrs, called vtable.
+
+      1. one entry per virtual functions
+
+      2. created by constructor :
+
+         1. when derived class construct, the base class fill the vtable
+
+         2. never call virtual constructors in a constructors because the vtable is not set up
+
+            1. so you would call base class's function
+
+4. what is pure virtual function :
+
+   1. abstract class
+
+   2. users can't instantiate an obj by using the base class.
+      #+BEGIN_SRC cpp
+        class Boo
+        {
+          void foo() = 0;
+        }
+        Boo MyBoo; // compilation error
+      #+END_SRC
+
+5. virtual destructor ?
+
+   1. destructor which has a virtual property.
+      #+BEGIN_EXAMPLE
+        If you destroy an object through a caller or reference to a base class, and the
+        base-class destructor is not virtual, the derived-class destructors are not
+        executed, and the destruction might not be complete.
+      #+END_EXAMPLE
+
+* Inheritance : 
+1. what is it?
+   1. one class to resued the component of another class
+2. when should use multiple inheritance
+   1. *Never, Rarely, and when you must*
+3. ISA vs HASA :
+   1. XXX is a YYY
+   2. Employee has some money
+4. template vs base class
+   1. when you are designning a generic class
+   2. when the types are unknown
+   3. when the format and behavior are unimportant
+5. multiple inheritance adv, disadv :
+   1. adv :
+      1. a child can get functions of more than one base class
+   2. disadv :
+      1. lead to confusion when 2 base classes functions with the same name
+6. what a derived class inherit and not?
+   1. inherit :
+      - Every data member defined in the parent class
+      - Every ordinary member function of the parent class
+      - The same initial data layout as the base class.
+   2. Doesn't Inherit :
+      - The base class's constructors and destructor.
+      - The base class's assignment operator.
+      - The base class's friends
+
+* Polymorphism 
+1. what's it?
+  #+BEGIN_EXAMPLE
+    Base class object's pointer can invoke methods in derived class objects. You can also achieve polymorphism in C++
+    by function overloading and operator overloading.
+  #+END_EXAMPLE
+2. what's the cost of runtime type identification?
+   1. comes at a cost of performance penalty
+
+* Classes : 
+
+1. data + functions
+2. struct vs class
+   1. struct has all the features classes got
+      1. inheritance, function, overloaded operators,
+      2. struct default public member access and public base class inheritance
+3. when virtual destructor is needed?
+   1. when you has at least one virtual functions, you should make the destructor virtual
+    
+4. what's encapsulation?
+
+   1. Containing and hiding Information about an object
+
+5. what's this ptr?
+
+   1. used by member function of a class/struct or union
+
+   2. static member do not have a this ptr
+
+   3. acted as a hidden para to a function 
+      #+BEGIN_SRC cpp
+        myDate.setMonth( 3 );
+        //can be interpreted this way:
+        setMonth( &myDate, 3 );
+      #+END_SRC
+
+6. how about "delete this"
+
+   1. execute it in extern, static or automatic obj
+
+   2. crash immediately
+
+   3. should never do it
+
+7. what's assignment operator?
+
+   1. handle assigning of the same class
+
+   2. shallow copy
+
+8. auto gen function by compilers :
+
+  #+BEGIN_EXAMPLE
+    (a) default ctor
+    (b) copy ctor
+    (c) assignment operator
+    (d) default destructor
+    (e) address operator
+  #+END_EXAMPLE
+
+9. container class ?
+
+   1. used to hold objects in memory or external storage
+
+   2. have predefined behaviour and well-known interface
+
+   3. used to hide the internal mechanism
+
+      1. heterogeneous container, homogeneous container
+
+10. over-riding :
+    #+BEGIN_EXAMPLE
+    · Must have same method name.
+    · Must have same data type.
+    · Must have same argument list.
+    Overriding a method means that replacing a method functionality in child class.
+    #+END_EXAMPLE
+11. how to access static member?
+    ::
+12. local class : 
+    #+BEGIN_SRC cpp
+      // Example 2: Local class
+      //
+      int f()
+      {
+        class LocalClass
+        {//
+          ...
+        };
+        // ...
+      };
+    #+END_SRC
+13. derived class can add :
+  #+BEGIN_EXAMPLE
+  New member functions
+  New constructors and destructor
+  New friends
+  #+END_EXAMPLE
+14. how to create a subscript operator
+    1. using operator() rather than operator[]
+
+       1. reason : [] only take one para, but () can take multiple para
+        #+BEGIN_SRC cpp
+          class Matrix {
+          public:
+            Matrix(unsigned rows, unsigned cols);
+            double& operator() (unsigned row, unsigned col); //subscript operators often come in pairs
+            double operator() (unsigned row, unsigned col) const; //subscript operators often come in pairs
+            ~Matrix(); // Destructor
+            Matrix(const Matrix& m); // Copy constructor
+            Matrix& operator= (const Matrix& m); // Assignment operator
+            private:
+            unsigned rows_, cols_;
+            double* data_;
+          };
+
+          inline Matrix::Matrix(unsigned rows, unsigned cols)
+            : rows_ (rows)
+            , cols_ (cols)
+              //data_ <--initialized below (after the 'if/throw' statement)
+          {if (rows == 0 || cols == 0)
+              throw BadIndex("Matrix constructor has 0 size");
+            data_ = new double[rows * cols];
+          }
+
+
+          inline Matrix::~Matrix()
+          {
+            delete[] data_;
+          }
+          inline double& Matrix::operator() (unsigned row, unsigned col)
+          {
+            if (row >= rows_ || col >= cols_)
+              throw BadIndex("Matrix subscript out of bounds");
+            return data_[cols_*row + col];
+          }
+
+          inline double Matrix::operator() (unsigned row, unsigned col) const
+          {
+            if (row >= rows_ || col >= cols_)
+              throw BadIndex("const Matrix subscript out of bounds");
+            return data_[cols_*row + col];
+          }
+          //Then you can access an element of Matrix m using m(i,j) rather than m[i][j]:
+
+
+          int main()
+          {
+            Matrix m(10,10);
+            m(5,8) = 106.15;
+            std::cout << m(5,8);
+          }
+        #+END_SRC
+
+15. Should I design my classes from the outside (interfaces first) or from the inside (data first)?
+
+    1. From the outside!
+
+       #+BEGIN_SRC cpp
+         #include // Poor man's exception handling
+         class LinkedListIterator;
+         class LinkedList;
+         class Node {
+           // No public members; this is a "private class"
+           friend class LinkedListIterator; // A friend class
+           friend class LinkedList;
+           Node* next_;
+           int elem_;
+         };
+         class LinkedListIterator {
+         public:
+           bool operator== (LinkedListIterator i) const;
+           bool operator!= (LinkedListIterator i) const;
+           void operator++ (); // Go to the next element
+           int& operator* (); // Access the current element
+         private:
+           LinkedListIterator(Node* p);
+           Node* p_;
+           friend class LinkedList; // so LinkedList can construct a LinkedListIterator
+         };
+         class LinkedList {
+         public:
+           void append(int elem); // Adds elem after the end
+           void prepend(int elem); // Adds elem before the beginning
+           ...
+           LinkedListIterator begin();
+           LinkedListIterator end();
+           ...
+           private:
+           Node* first_;
+         };
+         //Here are the methods that are obviously inlinable (probably in the same header
+         //file):
+           inline bool LinkedListIterator::operator== (LinkedListIterator i) const
+         {
+           return p_ == i.p_;
+         }
+         inline bool LinkedListIterator::operator!= (LinkedListIterator i) const
+         {
+           return p_ != i.p_;
+         }
+         inline void LinkedListIterator::operator++()
+         {
+           assert(p_ != NULL); // or if (p_==NULL) throw ...
+           p_ = p_->next_;
+         }
+         inline int& LinkedListIterator::operator*()
+         {
+           assert(p_ != NULL); // or if (p_==NULL) throw ...
+           return p_->elem_;
+         }
+         inline LinkedListIterator::LinkedListIterator(Node* p)
+           : p_(p)
+         { }
+         inline LinkedListIterator LinkedList::begin()
+         {
+           return first_;
+         }
+         inline LinkedListIterator LinkedList::end()
+         {
+           return NULL;
+         }
+       #+END_SRC
+
+* Memory allocation : 
+1. new/delete v.s. malloc/free
+   1. new/delete call ctor/desctructor
+   2. malloc : need typecasting
+   3. new : no need to do it
+   4. new/delete can be overloaded
+2. new by new [] -> then delete by delete []
+   #+BEGIN_SRC cpp
+     Int_t *my_ints = new Int_t[10];
+     delete []my_ints;
+   #+END_SRC
+3. Q: What is the difference between "new" and "operator new" ?
+   1. "operator new" works like malloc.
+4. What is Memory alignment??
+   #+BEGIN_EXAMPLE
+     A: The term alignment primarily means the tendency of an address pointer value to be a multiple
+     of some power of two. So a pointer with two byte alignment has a zero in the least signi_cant bit.
+     And a pointer with four byte alignment has a zero in both the two least signi_cant bits. And so
+     on. More alignment means a longer sequence of zero bits in the lowest bits of a pointer.
+     1. more alignment : more zero in LSB
+   
+   #+END_EXAMPLE
+5. Is there a way to force new to allocate memory from a specific memory area?
+   1. placement new and allocate() 
+      #+BEGIN_SRC cpp
+        void* raw = allocate(sizeof(Foo)); // line 1
+        Foo* p = new(raw) Foo(); // line 2
+
+
+        inline void* operator new(size_t nbytes, Pool& pool)
+        {
+          return pool.alloc(nbytes);
+        }
+
+        void sample(Pool& p
+        {
+          Foo* p = new(pool) Foo();
+          ...
+            p->~Foo(); // explicitly call dtor
+            pool.dealloc(p); // explicitly release the memory
+        }
+      #+END_SRC
+
+* Pointer : 
+1. dangling ptr : 
+   - use the ptr whose lifetime is over.
+   - use the addr of the mem block after it's freed.
+2. memory leak : 
+   an allocated region which didn't freed/deleted
+  #+BEGIN_SRC cpp
+    {
+      Base *b = new base();
+    }
+
+    // ptr b is removed after '}'
+  #+END_SRC
+3. auto pointer : 
+   - auto_ptr
+
+   - only take care of mem leak, do nothing about dangling ptr
+     #+BEGIN_SRC cpp
+       template class auto_ptr
+       {
+         T * ptr;
+       public:
+         explicit auto_ptr(T* p = 0) : ptr(p) {}
+         ~auto_ptr() {delete ptr;}
+         T& operator*() {return *ptr;}
+         T* operator->() {return ptr;}
+         // ...
+       };
+
+
+       //--
+
+       void foo()
+       {
+           MyClass* p(new MyClass);
+         p->DoSomething();
+         delete p ;
+       }
+
+       // --
+       void foo()
+       {
+         auto_ptr p(new MyClass);
+         p->DoSomething();
+       }
+     #+END_SRC
+
+4. smart pointer : 
+
+  #+BEGIN_SRC cpp
+    template
+    class SmartPtr
+    {
+    public:
+      explicit SmartPtr(T* pointee) : pointee_(pointee);
+      SmartPtr& operator=(const SmartPtr& other);
+      ~SmartPtr();
+      T& operator*() const
+      {
+    
+        return *pointee_;
+      }
+      T * operator->() const
+      {
+    
+        return pointee_;
+      }
+    private:
+      T* pointee_;
+    };
+  #+END_SRC
+   - usage : 
+     #+BEGIN_SRC cpp
+       class Widget
+       {
+       public:
+         void Fun();
+       };
+
+       SmartPtr sp(new Widget);
+       sp->Fun();
+       (*sp).Fun();
+     #+END_SRC
+
+5. what's the problem of below : 
+   - char*a=NULL; char& p = *a;
+
+   - a ref should always ptr to something meaningful/some obj
+
+6. reference vs pointer : 
+   - ref : always ptr to sth which is initialized
+
+   - ptr : didn't have this restriction
+
+   - ptr : can reassign to another obj
+
+   - ref : always refer to sth
+
+7. const char * ptr vs char *const myptr
+   - const char * ptr : ptr to const data
+
+   - char *const ptr : constant ptr ptr to non-constant data
+
+8. ref vs ptr 
+   - ref : when you can
+
+   - ptr : whey you have to
+
+9.
+
+* String : 
+1. 
+2. 
+3. 
+4. 
+5. 
+6. int to string : 
+  #+BEGIN_SRC cpp
+    string itos(int i) // convert int to string
+    {
+      stringstream s;
+      s << i;
+      return s.str();
+    }
+    int main()
+    {
+      int i = 127;
+      string ss = itos(i);
+      const char* p = ss.c_str();
+      cout << ss << " " << p << "\n";
+    }
+  #+END_SRC
+
+* C vs C++ :  
+1. c++ program link to c 
+   - by "extern"
+2. name mangling ?
+   1. what if  extern "c" int func( int *, foo ) complish?
+3. private : only friend could access
+4. safety vs usability  -> meaning ( info hiding and multiple instances)
+   1. since the class and the privilege in c++ , it can achieve both
+5. 
+
+* overloading overator  
+1. we can't overload below : 
+   - :sizeof, ., .*, .->, ::, ?:
+2. what's overload
+   1. same func name, but different meaning 
+   2. overload function
+      1. based on the difference of para list 
+   3. overload operator
+3. prefix vs postfix  in operator++
+   1. prefix : didn't have dummy para
+   2. postfix : got dummy para
+4. overload a func based on the para's type is value or ref ?
+   1. can't
+5. overload operator :
+   1. more convenient
+   2. reduce learning curve 
+      #+BEGIN_SRC cpp
+
+        class Fred {
+        public:
+          ...
+        };
+        #if 0
+        // Without operator overloading:
+        Fred add(const Fred& x, const Fred& y);
+        Fred mul(const Fred& x, const Fred& y);
+        Fred f(const Fred& a, const Fred& b, const Fred& c)
+        {
+          return add(add(mul(a,b), mul(b,c)), mul(c,a)); // Yuk...
+        }
+        #else
+        // With operator overloading:
+        Fred operator+ (const Fred& x, const Fred& y);
+        Fred operator* (const Fred& x, const Fred& y);
+        Fred f(const Fred& a, const Fred& b, const Fred& c)
+        {
+          return a*b + b*c + c*a;
+        }
+        #endif
+      #+END_SRC
+* Algo : 
+1. linked list is ascending or not
+2. revser linked list
+3. binary heap
+4. BST
+
+* Friends :
+1. declare one friend function in one class
+2. this func is not belonging to this class
+3. this func can use the private of this class
+4. the parameter of the friend class is that class
+5. adv : 
+   1. more readable
+   2. think it as a public interface to the public, x.f() -> f(x)
+6. virtual friend function idiom : 
+
+#+BEGIN_SRC cpp
+  class Base {
+  public:
+    friend void f(Base& b);
+    ...
+    protected:
+    virtual void do_f();
+    ...
+  };
+  inline void f(Base& b)
+  {
+    b.do_f();
+    // if b is derived, it call it's virtual func
+    // if b is base, it call it's orig cunf
+    // in derived, no need to add one more friend func
+  }
+  class Derived : public Base {
+  public:
+    ...
+  protected:
+    virtual void do_f(); // "Override" the behavior of f(Base& b)
+    ...
+  };
+  void userCode(Base& b)
+  {
+    f(b);
+  }
+#+END_SRC
+
+#+BEGIN_SRC cpp
+  #include <iostream>
+ 
+  using namespace std;
+ 
+  class Box {
+    double width;
+  public:
+    friend void printWidth( Box box );
+    void setWidth( double wid );
+  };
+
+  // Member function definition
+  void Box::setWidth( double wid ) {
+    width = wid;
+  }
+
+  // Note: printWidth() is not a member function of any class.
+  void printWidth( Box box ) {
+    /* Because printWidth() is a friend of Box, it can
+       directly access any member of this class */
+    cout << "Width of box : " << box.width <<endl;
+  }
+ 
+  // Main function for the program
+  int main( ) {
+    Box box;
+ 
+    // set box width with member function
+    box.setWidth(10.0);
+   
+    // Use friend function to print the wdith.
+    printWidth( box );
+ 
+    return 0;
+  }
+#+END_SRC
+
+1. "friendship isn't inherited, transitive, or reciprocal"
+2. use member function when you can
+3. use friend func when you have to
+4. Use operator overloading to provide a friend left-shift operator, operator<<.
+   #+BEGIN_SRC cpp
+     class Fred {
+     public:
+       friend ostream& operator<< (ostream& o, const Fred& fred);
+       ...
+       private:
+       int i_; // Just for illustration
+     };
+     ostream& operator<< (ostream& o, const Fred& fred)
+     {
+       return o << fred.i_;
+     }
+     int main()
+     {
+       Fred f;
+       cout << "My Fred object: " << f << "\n";
+       ...
+     }
+   #+END_SRC
+
+#+BEGIN_SRC cpp
+  #include
+  class Fred {
+  public:
+    void printOn(ostream& o) const;
+    ...
+  };
+  // operator<< can be declared as a non-friend [NOT recommended!]
+  ostream& operator<< (ostream& o, const Fred& fred);
+  // The actual printing is done inside the printOn() method [NOT recommended!]
+  void Fred::printOn(ostream& o) const
+  {
+    ...
+  }
+  // operator<< calls printOn() [NOT recommended!]
+  ostream& operator<< (ostream& o, const Fred& fred)
+  {
+    fred.printOn(o);
+    return o;}
+#+END_SRC
+
+
+#+BEGIN_SRC cpp
+  class Base {
+  public:
+    friend ostream& operator<< (ostream& o, const Base& b);
+    ...
+    protected:
+    virtual void printOn(ostream& o) const;
+  };
+  inline ostream& operator<< (ostream& o, const Base& b)
+  {
+    b.printOn(o);
+    return o;
+  }
+  class Derived : public Base {
+  protected:
+    virtual void printOn(ostream& o) const;
+  };
+#+END_SRC
+
+* others : 
+1. in cpp , NULL = 0
+2. inline func can't have a recursion
+   1. since compile can't know the depth
+3. Explain the scope resolution operator?
+   1. a program can ref a identifier in the global scope, which is hidden
+4. declare 
+   #+BEGIN_SRC cpp
+     (a) int foo = 123;
+     (b) int bar(123);
+   #+END_SRC
+5. delete this
+   1. dont' use it
+6. debug method :
+  (a) GDB, DBG, Forte, Visual Studio.
+  (b) Analyzing the Core dump.
+  (c) Using tusc to trace the last system call before crash.
+  (d) Putting Debug statements in the program source code.
+7. exec includes :
+  (a) Data Section (uninitialized data variable section, initialized data variable section )
+  (b) Code Section
+  (c) Remember that all static variables are allocated in the initialized variable section.
+8. fail when main() exec? when?
+  C++ allows for dynamic initialization of global variables before main() is invoked.
+9. name mangling
+   1. How does C++ compiler distinguishes between different functions when it
+      generates object code –
+   2. it changes names by adding information about
+       arguments. 
+       #+BEGIN_SRC cpp
+         int  f (void) { return 1; }
+         int  f (int)  { return 0; }
+         void g (void) { int i = f(), j = f(0); }
+
+         ->
+         int  __f_v (void) { return 1; }
+         int  __f_i (int)  { return 0; }
+         void __g_v (void) { int i = __f_v(), j = __f_i(0); }
+       #+END_SRC
+10. template vs macro : 
+    1. macro : #define STRING_TO_BE_REPLACED "ValueToReplaceWith"
+
+    2. template : a way to make functions independent of data-types
+
+11. storage classes :
+
+    1. auto
+
+    2. register : a type of auto, it could be used by cpu register for performance
+
+    3. static : never be destroyed after the end of the func
+
+    4. extern :: 
+      a static variable whose definition and placement is determined when all object and library
+      modules are combined (linked) to form the executable code file. It can be visible outside
+      the file where it is defined.
+
+    5. storage qualifiers :
+
+       1. Const:: should not be altered by a program.
+
+       2. Volatile:: can be altered even though nothing in the program code modifies the contents.
+
+          1. for example 
+            if you have a pointer to hardware location that contains the time,
+             where hardware changes the value of this pointer variable and not
+             the program.
+
+          2. The intent of this keyword to improve the optimization ability of the compiler.
+
+       3. Mutable:: 
+          Iindicates that particular member of a structure or class can be altered even if a
+          particular structure variable, class, or class member function is constant.
+
+          #+BEGIN_SRC cpp
+            struct data
+            {
+              char name[80];
+              mutable double salary;
+            }
+              const data MyStruct = { "Satish Shetty", 1000 };
+            //initlized by complier
+            strcpy ( MyStruct.name, "Shilpa Shetty"); // compiler
+            error
+            MyStruct.salaray = 2000 ; // complier is happy
+            allowed
+          #+END_SRC
+- What is the need of mutable?
+- most members should be constant, but a few need to updateable
+
+
+       #+BEGIN_SRC cpp
+         /*
+         Total payable amount: 150 
+         Closely observe the output of above program. The values of placedorder and bill data members are changed from const function because they are declared as mutable.
+         ,*/
+         #include <iostream>
+         #include <string.h>
+         using std::cout;
+         using std::endl;
+
+         class Customer
+         {
+           char name[25];
+           mutable char placedorder[50];
+           int tableno;
+           mutable int bill;
+         public:
+           Customer(char* s, char* m, int a, int p)
+           {
+             strcpy(name, s);
+             strcpy(placedorder, m);
+             tableno = a;
+             bill = p;
+           }
+           void changePlacedOrder(char* p) const
+           {
+             strcpy(placedorder, p);
+           }
+           void changeBill(int s) const
+           {
+             bill = s;
+           }
+           void display() const
+           {
+             cout << "Customer name is: " << name << endl;
+             cout << "Food ordered by customer is: " << placedorder << endl;
+             cout << "table no is: " << tableno << endl;
+             cout << "Total payable amount: " << bill << endl;
+           }
+         };
+
+         int main()
+         {
+           const Customer c1("Pravasi Meet", "Ice Cream", 3, 100);
+           c1.display();
+           c1.changePlacedOrder("GulabJammuns");
+           c1.changeBill(150);
+           c1.display();
+           return 0;
+         }
+       #+END_SRC
+
+1. reference : act as an alias
+   #+BEGIN_SRC cpp
+     int a;
+     int &b = a;
+   #+END_SRC
+2. const in func : 
+
+   1. allow functo process const and non-const para 
+   2. could generate and use a temporary variable
+   3. protects you against programming errors that inadvertently alter data.
+    
+3. temporary var -> const reference 
+   1. The actual argument is the correct type, but it isn't Lvalue
+      #+BEGIN_SRC cpp
+        double Cube(const double & num)
+        {
+          num = num * num * num;
+          return num;
+        }
+        double temp = 2.0;
+        double value = cube(3.0 + temp); // argument is a expression and not a Lvalue;
+      #+END_SRC
+
+   2. The actual argument is of the wrong type, but of a type that can be converted to the correct type
+      #+BEGIN_SRC cpp
+        long temp = 3L;
+        double value = cuberoot ( temp); // long to double conversion
+      #+END_SRC
+
+   3. namespace : prevent collision
+
+   4. using : use the name from a name space without using the scope operator
+
+   5. stack unwinding : 
+      1. desctructor -> exception happened -> the process to handle it
+
+      2. 
+
+   6. pointer hopping
+      #+BEGIN_SRC cpp
+        #include
+        // Test to see if pointer hopping is worthwhile.
+        // strlen implemented with usual indexing mechanism.
+        int strlen1( const char str[ ] )
+        {
+          int i;
+          for( i = 0; str[ i ] != '\0'; i++ )
+            ;
+          return i;
+        }
+        // strlen implemented with pointer hopping.
+        int strlen2( const char *str )
+        {
+          const char *sp = str;
+          while( *sp++ != '\0' );
+          return sp - str - 1;
+        }
+        // Quick and dirty main
+        int main( )
+        {
+          char str[ 512 ];
+          cout << "Enter strings; use EOF-marker to terminate: " << endl;
+          while( cin >> str )
+            {
+              if( strlen1( str ) != strlen2( str ) )
+                cerr << "Oops!!!" << endl;
+            }
+          return 0;
+        }
+      #+END_SRC
+   7. inline func ?
+   8. static desctructor
+      1. accept one para -> a ptr to the obj of that class
+
+      2. used in factory method
+
+   9. static member func :
+
+      1. can only access static member data
+
+         1. can't be virtual
+
+         2. can't access 'this'
+
+   10. static :
+
+       1. maintain it's value after the end of each func
+
+       2. save in separated memory to keep the latest value
+
+   11. virtual :
+
+       1. could be overide by derived
+
+       2. different from overloading
+
+       3. non-virtual : resolved in compile time
+
+       4. virtual : resolved during run-time - dynamic binding
+
+   12. i++ vs ++i , which is faster
+
+       1. ++i :
+
+          1. incremented
+
+          2. return
+
+       2. i++ :
+
+          1. old value save in mem
+
+          2. incremented
+
+          3. return old value
+
+          4. -> slower
+
+   13. get the size of int without using sizeof
+       #+BEGIN_SRC cpp
+         int main()
+         {
+           int *i ;
+           int *j = i + 1;
+           cout << " size of an integer variable i = " << (int)j - (int)i << endl;
+         }
+       #+END_SRC
+
+   14. 
+
+   15. read a stream in biary mode : 
+#+BEGIN_SRC cpp
+  #include
+  #include
+  #include
+  void readBinaryFile(const std::string& filename)
+  {
+    std::ifstream input(filename.c_str(), std::ios::in | std::ios::binary);
+    char c;
+    while (input.get(c)) {
+      ...do something with c here...
+              }
+  }
+  Note: input >> c discards leading whitespace, so you won't normally use that
+  when reading binary files.
+#+END_SRC
+
+

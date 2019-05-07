@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelegateReturn", "DelegateReturn\DelegateReturn.csproj", "{57BBB174-D552-41BD-9CB9-FB3849C29FCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57BBB174-D552-41BD-9CB9-FB3849C29FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BBB174-D552-41BD-9CB9-FB3849C29FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BBB174-D552-41BD-9CB9-FB3849C29FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BBB174-D552-41BD-9CB9-FB3849C29FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+C:\Users\hatelove\Desktop\LoadAssembly\LoadFrom\bin\Debug\LoadFrom.exe
+C:\Users\hatelove\Desktop\LoadAssembly\LoadFrom\bin\Debug\LoadFrom.pdb
+C:\Users\hatelove\Desktop\LoadAssembly\LoadFrom\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\LoadAssembly\LoadFrom\obj\Debug\LoadFrom.exe
+C:\Users\hatelove\Desktop\LoadAssembly\LoadFrom\obj\Debug\LoadFrom.pdb
+C:\Users\hatelove\Desktop\LoadAssembly\LoadFrom\bin\Debug\LoadFrom.exe.config

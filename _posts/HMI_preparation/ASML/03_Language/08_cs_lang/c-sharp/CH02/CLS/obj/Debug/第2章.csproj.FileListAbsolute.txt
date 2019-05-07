@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\CLS\bin\Debug\第2章.exe
+C:\Users\hatelove\Desktop\CLS\bin\Debug\第2章.pdb
+C:\Users\hatelove\Desktop\CLS\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\CLS\obj\Debug\第2章.exe
+C:\Users\hatelove\Desktop\CLS\obj\Debug\第2章.pdb

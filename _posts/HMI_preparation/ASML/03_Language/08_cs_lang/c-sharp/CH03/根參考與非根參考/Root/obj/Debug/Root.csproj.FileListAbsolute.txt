@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\根參考與非根參考\Root\bin\Debug\Root.exe
+C:\Users\hatelove\Desktop\根參考與非根參考\Root\bin\Debug\Root.pdb
+C:\Users\hatelove\Desktop\根參考與非根參考\Root\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\根參考與非根參考\Root\obj\Debug\Root.exe
+C:\Users\hatelove\Desktop\根參考與非根參考\Root\obj\Debug\Root.pdb

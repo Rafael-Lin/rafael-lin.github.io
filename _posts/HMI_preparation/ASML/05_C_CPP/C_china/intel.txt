@@ -1,0 +1,155 @@
+* intel：
+A.c 和B.c兩個c文件中使用了兩個相同名字的static變量,編譯的時候會不會有問題?這兩個
+static變量會保存到哪裏（棧還是堆或者其他的）?
+
+static的全局變量，表明這個變量僅在本模塊中有意義，不會影響其他模塊。
+
+他們都放在數據區，但是編譯器對他們的命名是不同的。
+
+如果要使變量在其他模塊也有意義的話，需要使用extern關鍵字。
+
+struct s1
+{
+  int i: 8;
+  int j: 4;
+  int a: 3;
+  double b;
+};
+
+struct s2
+{
+  int i: 8;
+  int j: 4;
+  double b;
+  int a:3;
+};
+
+printf("sizeof(s1)= %d\n", sizeof(s1));
+printf("sizeof(s2)= %d\n", sizeof(s2));
+result: 16, 24
+
+第一個struct s1
+{
+  int i: 8;
+  int j: 4;
+  int a: 3;
+  double b;
+};
+理論上是這樣的，首先是i在相對0的位置，占8位一個字節，然後，j就在相對一個字節的位
+置，由於一個位置的字節數是4位的倍數，因此不用對齊，就放在那裏了，然後是a，要在3
+位的倍數關系的位置上，因此要移一位，在15位的位置上放下，目前總共是18位，折算過來
+是2字節2位的樣子，由於double是8字節的，因此要在相對0要是8個字節的位置上放下，因
+此從18位開始到8個字節之間的位置被忽略，直接放在8字節的位置了，因此，總共是16字節。
+
+第二個最後會對照是不是結構體內最大數據的倍數，不是的話，會補成是最大數據的倍數
+
+上面是基本問題，接下來是編程問題：
+
+
+
+** 1）讀文件file1.txt的內容（例如）：
+ 12
+ 34
+ 56
+ 輸出到file2.txt：
+ 56
+ 34
+ 12
+ （逆序）
+** 2）輸出和為一個給定整數的所有組合
+ 例如n=5
+ 5=1+4；5=2+3（相加的數不能重復）
+ 則輸出
+ 1，4；2，3。
+ 望高手賜教！！
+
+** 第一題,註意可增長數組的應用.
+
+int main(void){
+  int MAX = 10;
+  int *a = (int *)malloc(MAX * sizeof(int));
+  int *b;
+  FILE *fp1, *fp2;
+
+  fp1 = fopen("a.txt","r");
+  if(fp1 == NULL) {
+    printf("error1");
+    exit(-1);
+    }
+
+  fp2 = fopen("b.txt","w");
+  if(fp2 == NULL) {
+    printf("error2");
+    exit(-1);
+  }
+
+  int i = 0, j = 0;
+
+  while(fscanf(fp1,"%d",&a[i]) != EOF){
+    i++;
+    j++;
+    if(i >= MAX){
+      MAX = 2 * MAX;
+      b = (int*)realloc(a,MAX * sizeof(int));
+      if(b == NULL){
+        printf("error3");
+        exit(-1);
+      }
+      a = b;
+    }
+  }
+
+  for(;--j >= 0;)
+    fprintf(fp2,"%d\n",a[j]);
+
+  fclose(fp1);
+  fclose(fp2);
+
+  return 0;
+}
+** 第二題.
+
+#include <stdio.h>
+int main(void){
+  unsigned long int i,j,k;
+
+  printf("please input the number\n");
+  scanf("%d",&i);
+  if( i % 2 == 0)
+    j = i / 2;
+  else
+    j = i / 2 + 1;
+
+  printf("The result is \n");
+  for(k = 0; k < j; k++)
+    printf("%d = %d + %d\n",i,k,i - k);
+  return 0;
+}
+
+#include <stdio.h>
+void main()
+{
+  unsigned long int a,i=1;
+  scanf("%d",&a);
+  if(a%2==0){
+      for(i=1;i<a/2;i++)
+        printf("%d",a,a-i);
+    }else
+    for(i=1;i<=a/2;i++)
+      printf(" %d, %d",i,a-i);
+}
+** reverse 
+void inverse(char *p){
+  if( *p == '\0' )
+    return;
+  inverse( p+1 );
+  printf( "%c", *p );
+}
+
+int main(int argc, char *argv[]){
+  char *s = "abc" ;
+  // inverse( &s  ) ;
+  //inverse( "abc"  ) ;
+  return 0;
+}
+

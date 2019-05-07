@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\初始化器\CCtor\bin\Debug\CCtor.exe
+C:\Users\hatelove\Desktop\初始化器\CCtor\bin\Debug\CCtor.pdb
+C:\Users\hatelove\Desktop\初始化器\CCtor\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\初始化器\CCtor\obj\Debug\CCtor.exe
+C:\Users\hatelove\Desktop\初始化器\CCtor\obj\Debug\CCtor.pdb

@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\反映工廠模式的實作\ReflectionFactory\obj\Debug\ReflectionFactory.exe
+C:\Users\hatelove\Desktop\反映工廠模式的實作\ReflectionFactory\obj\Debug\ReflectionFactory.pdb
+C:\Users\hatelove\Desktop\反映工廠模式的實作\ReflectionFactory\bin\Debug\ReflectionFactory.exe
+C:\Users\hatelove\Desktop\反映工廠模式的實作\ReflectionFactory\bin\Debug\ReflectionFactory.pdb
+C:\Users\hatelove\Desktop\反映工廠模式的實作\ReflectionFactory\obj\Debug\ResolveAssemblyReference.cache

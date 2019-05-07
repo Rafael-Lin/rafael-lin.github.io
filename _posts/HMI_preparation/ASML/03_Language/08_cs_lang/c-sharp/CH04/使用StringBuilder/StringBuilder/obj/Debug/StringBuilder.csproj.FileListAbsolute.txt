@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\使用StringBuilder\StringBuilder\bin\Debug\StringBuilder.exe
+C:\Users\hatelove\Desktop\使用StringBuilder\StringBuilder\bin\Debug\StringBuilder.pdb
+C:\Users\hatelove\Desktop\使用StringBuilder\StringBuilder\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\使用StringBuilder\StringBuilder\obj\Debug\StringBuilder.exe
+C:\Users\hatelove\Desktop\使用StringBuilder\StringBuilder\obj\Debug\StringBuilder.pdb

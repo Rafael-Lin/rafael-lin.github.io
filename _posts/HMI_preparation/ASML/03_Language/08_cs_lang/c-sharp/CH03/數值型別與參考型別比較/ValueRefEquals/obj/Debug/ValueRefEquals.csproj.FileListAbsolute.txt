@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\數值型別與參考型別比較\ValueRefEquals\bin\Debug\ValueRefEquals.exe
+C:\Users\hatelove\Desktop\數值型別與參考型別比較\ValueRefEquals\bin\Debug\ValueRefEquals.pdb
+C:\Users\hatelove\Desktop\數值型別與參考型別比較\ValueRefEquals\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\數值型別與參考型別比較\ValueRefEquals\obj\Debug\ValueRefEquals.exe
+C:\Users\hatelove\Desktop\數值型別與參考型別比較\ValueRefEquals\obj\Debug\ValueRefEquals.pdb

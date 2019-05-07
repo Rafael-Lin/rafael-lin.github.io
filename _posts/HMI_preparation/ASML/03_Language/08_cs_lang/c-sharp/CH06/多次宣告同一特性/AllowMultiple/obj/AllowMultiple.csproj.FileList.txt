@@ -1,0 +1,5 @@
+bin\Debug\AllowMultiple.exe
+bin\Debug\AllowMultiple.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\AllowMultiple.exe
+obj\Debug\AllowMultiple.pdb

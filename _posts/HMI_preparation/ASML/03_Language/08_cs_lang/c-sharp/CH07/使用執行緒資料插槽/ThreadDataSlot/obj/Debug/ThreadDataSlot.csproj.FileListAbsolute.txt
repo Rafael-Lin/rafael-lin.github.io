@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\使用執行緒資料插槽\ThreadDataSlot\obj\Debug\ThreadDataSlot.exe
+C:\Users\hatelove\Desktop\使用執行緒資料插槽\ThreadDataSlot\obj\Debug\ThreadDataSlot.pdb
+C:\Users\hatelove\Desktop\使用執行緒資料插槽\ThreadDataSlot\bin\Debug\ThreadDataSlot.exe
+C:\Users\hatelove\Desktop\使用執行緒資料插槽\ThreadDataSlot\bin\Debug\ThreadDataSlot.pdb
+C:\Users\hatelove\Desktop\使用執行緒資料插槽\ThreadDataSlot\obj\Debug\ResolveAssemblyReference.cache

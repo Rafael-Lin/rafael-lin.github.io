@@ -1,0 +1,119 @@
+* 慧通：
+什?是預編譯
+何時需要預編譯：
+１、總是使用不經常改動的大型代碼體。
+２、程序由多個模塊組成，所有模塊都使用一組標準的包含文件和相同的編譯選項。在這種情況下，可以將所有包含文件預編譯為一個預編譯頭。
+char * const p;
+char const * p
+const char *p
+
+上述三個有什?區別？
+char * const p; //常量指針，p的值不可以修改
+char const * p；//指向常量的指針，指向的常量值不可以改
+const char *p； //和char const *p
+
+char str1[] = "abc";
+char str2[] = "abc";
+
+const char str3[] = "abc";
+const char str4[] = "abc";
+
+const char *str5 = "abc";
+const char *str6 = "abc";
+
+char *str7 = "abc";
+char *str8 = "abc";
+
+
+cout << ( str1 == str2 ) << endl;
+cout << ( str3 == str4 ) << endl;
+cout << ( str5 == str6 ) << endl;
+cout << ( str7 == str8 ) << endl;
+
+結果是：0 0 1 1
+解答：str1,str2,str3,str4是數組變量，它們有各自的內存空間；
+而str5,str6,str7,str8是指針，它們指向相同的常量區域。
+
+
+12. 以下代碼中的兩個sizeof用法有問題嗎？[C易]
+void UpperCase( char str[] ) // 將 str 中的小寫字母轉換成大寫字母
+{
+    for( size_t i=0; i<sizeof(str)/sizeof(str[0]); ++i )
+        if( 'a'<=str[i] && str[i]<='z' )
+            str[i] -= ('a'-'A' );
+}
+char str[] = "aBcDe";
+cout << "str字符長度為: " << sizeof(str)/sizeof(str[0]) << endl;
+UpperCase( str );
+cout << str << endl;
+
+答：函數內的sizeof有問題。根據語法，sizeof如用於數組，只能測出靜態數組的大小，無
+法檢測動態分配的或外部數組大小。函數外的str是一個靜態定義的數組，因此其大小為6，
+函數內的str實際只是一個指向字符串的指針，沒有任何額外的與數組相關的信息，因此
+sizeof作用於上只將其當指針看，一個指針為4個字節，因此返回4。
+
+一個32位的機器,該機器的指針是多少位
+指針是多少位只要看地址總線的位數就行了。80386以後的機子都是32的數據總線。所以指針的位數就是4個字節了。
+
+
+// hard 
+
+main()
+{
+  int a[5]={1,2,3,4,5};
+   int *ptr=(int *)(&a+1);
+
+   printf("%d,%d",*(a+1),*(ptr-1));
+}
+輸出：2,5
+
+*(a+1）就是a[1]，*(ptr-1)就是a[4],執行結果是2，5
+&a+1不是首地址+1，系統會認為加一個a數組的偏移，是偏移了一個數組的大小（本例是5個int）
+int *ptr=(int *)(&a+1);
+則ptr實際是&(a[5]),也就是a+5
+原因如下：
+&a是數組指針，其類型為 int (*)[5];
+而指針加1要根據指針類型加上一定的值，
+不同類型的指針+1之後增加的大小不同
+a是長度為5的int數組指針，所以要加 5*sizeof(int)
+所以ptr實際是a[5]
+但是prt與(&a+1)類型是不一樣的(這點很重要)
+所以prt-1只會減去sizeof(int*)
+a,&a的地址是一樣的，但意思不一樣，a是數組首地址，也就是a[0]的地址，&a是對象（數組）首地址，a+1是數組下一元素的地址，即a[1],&a+1是下一個對象的地址，即a[5].
+
+
+** 1.請問以下代碼有什?問題 - hard
+int  main()
+{
+char a;
+char *str=&a;
+strcpy(str,"hello");
+printf(str);
+return 0;
+}
+沒有為str分配內存空間，將會發生異常
+問題出在將一個字符串復制進一個字符變量指針所指地址。雖然可以正確輸出結果，但因為越界進行內在讀寫而導致程序崩潰。
+
+char* s="AAA";
+printf("%s",s);
+s[0]='B';
+printf("%s",s);
+有什?錯？
+"AAA"是字符串常量。s是指針，指向這個字符串常量，所以聲明s的時候就有問題。
+cosnt char* s="AAA";
+然後又因為是常量，所以對是s[0]的賦值操作是不合法的。
+
+1、寫一個“標準”宏，這個宏輸入兩個參數並返回較小的一個。
+.#define Min(X, Y) ((X)>(Y)?(Y):(X))//結尾沒有;
+2、嵌入式系統中經常要用到無限循環，你怎?用C編寫死循環。
+while(1){}或者for(;;)
+3、關鍵字static的作用是什?？
+定義靜態變量
+4、關鍵字const有什?含意？
+表示常量不可以修改的變量。
+5、關鍵字volatile有什?含意？並舉出三個不同的例子？
+提示編譯器對象的值可能在編譯器未監測到的情況下改變。
+
+
+int (*s[10])(int) 表示的是什?啊
+int (*s[10])(int) 函數指針數組，每個指針指向一個int func(int param)的函數。

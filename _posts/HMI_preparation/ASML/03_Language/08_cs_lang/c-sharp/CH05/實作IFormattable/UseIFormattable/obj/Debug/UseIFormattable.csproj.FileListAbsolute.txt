@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\實作IFormattable\UseIFormattable\bin\Debug\UseIFormattable.exe
+C:\Users\hatelove\Desktop\實作IFormattable\UseIFormattable\bin\Debug\UseIFormattable.pdb
+C:\Users\hatelove\Desktop\實作IFormattable\UseIFormattable\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\hatelove\Desktop\實作IFormattable\UseIFormattable\obj\Debug\UseIFormattable.exe
+C:\Users\hatelove\Desktop\實作IFormattable\UseIFormattable\obj\Debug\UseIFormattable.pdb

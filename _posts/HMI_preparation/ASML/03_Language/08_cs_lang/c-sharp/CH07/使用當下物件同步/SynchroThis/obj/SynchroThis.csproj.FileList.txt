@@ -1,0 +1,5 @@
+bin\Debug\SynchroThis.exe
+bin\Debug\SynchroThis.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\SynchroThis.exe
+obj\Debug\SynchroThis.pdb

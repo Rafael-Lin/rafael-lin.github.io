@@ -1,0 +1,5 @@
+C:\Users\hatelove\Desktop\多事件類別\MultiEventsClass\obj\Debug\MultiEventsClass.exe
+C:\Users\hatelove\Desktop\多事件類別\MultiEventsClass\obj\Debug\MultiEventsClass.pdb
+C:\Users\hatelove\Desktop\多事件類別\MultiEventsClass\bin\Debug\MultiEventsClass.exe
+C:\Users\hatelove\Desktop\多事件類別\MultiEventsClass\bin\Debug\MultiEventsClass.pdb
+C:\Users\hatelove\Desktop\多事件類別\MultiEventsClass\obj\Debug\ResolveAssemblyReference.cache

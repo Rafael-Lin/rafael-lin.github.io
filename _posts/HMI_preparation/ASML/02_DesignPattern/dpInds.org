@@ -1,0 +1,983 @@
+#+STARTUP: indent `
+#+TAGS: drill(d) review(r)
+* design pattern
+
+** OnStudioOperation : the op done by ds                              :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 22:21]
+   :END:
+ - note : someone launch operation event and let it be affected
+
+*** code 
+ #+BEGIN_SRC org
+         private void SubscribeToEvents()
+         {
+             DsEvents.Instance().OnStudioOperation += InterruptServices_OnStudioOperation;
+         }
+
+         private void InterruptServices_OnStudioOperation(object sender, StudioOperationArgs args)
+         {
+             switch (args.Operation)
+             {
+                 case StudioSpecialOperation.HID_FINGER_MODE:
+                     if (args.State == StudioOperationState.STARTED)
+                     {
+                         enableDisableUIDuringHIDFingerMode(false);
+                     }
+                     else if (args.State == StudioOperationState.FINISHED)
+                     {
+                         enableDisableUIDuringHIDFingerMode(true);
+                     }
+                     break;
+             }
+         }
+
+ #+END_SRC
+
+** if it's called from main stream to update the ui                   :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 22:24]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         private void enableDisableUIDuringHIDFingerMode(bool enable)
+         {
+             if (this.InvokeRequired)
+             {
+                 BeginInvoke(new Action<bool>(enableDisableUIDuringHIDFingerMode), enable);
+                 return;
+             }
+
+             //todo: port when need 
+             //this.splitContainer1.Panel2Collapsed = !enable;
+         }
+
+ #+END_SRC
+
+** get notice from OperationEvent to change the UI status in dashboard :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 22:26]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         private void OnStudioOperation(object sender, StudioOperationArgs args)
+         {
+             if (args.Operation == StudioSpecialOperation.FLASH)
+             {
+                 if (args.State == StudioOperationState.STARTED)
+                 {
+                     EnableMe(false);
+                 }
+                 else if (args.State == StudioOperationState.FINISHED)
+                 {
+                     EnableMe(true);
+                 }
+                 else if (args.State == StudioOperationState.ERROR)
+                 {
+                     EnableMe(true);
+                 }
+             }
+             else if (args.Operation == StudioSpecialOperation.TUNING)
+             {
+                 if ((args.Category == StudioOperationCategory.PENTUNING) && (args.State == StudioOperationState.STARTED))
+                 {
+                     EnableMe(false);
+                 }
+                 else if ((args.Category == StudioOperationCategory.PENTUNING) && (args.State == StudioOperationState.FINISHED))
+                 {
+                     EnableMe(true);
+                 }
+             }
+             else if (args.Operation == StudioSpecialOperation.PREPRODUCTION)
+             {
+                 if (args.State == StudioOperationState.STARTED)
+                 {
+                     EnableMe(false);
+                 }
+                 else if (args.State == StudioOperationState.FINISHED)
+                 {
+                     EnableMe(true);
+                 }
+             }
+         }
+
+ #+END_SRC
+
+** UIEventService                                                     :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 22:44]
+   :END:
+ - note : 
+the para of delegate function must be 
+1. object sender 
+2. ToolEventArgs e
+*** code 
+ #+BEGIN_SRC org
+         public delegate void ToolValueChangedEvent(ToolEventArgs e);
+         public delegate void ToolClickEvent(ToolClickEventArgs e);
+         public delegate void RegisterValueChangedEvent(object sender, RegisterType type);
+
+         public delegate void ReadAllRegistersNeededEvent(object sender);
+         public delegate void DoNotReportNextFwResetEvent(object sender);
+
+         public delegate void SolutionFileSelectionChangedEvent(object sender);
+         public delegate void ActivityWindowSelectionChangedEvent(object sender, bool hasSelection);
+         public delegate void StatusTextUpdateEvent(string msg, Color msgClr);
+         public delegate void ProgressBarEvent(bool start);
+
+ #+END_SRC
+
+** delegate event function                                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 22:47]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public delegate void ToolValueChangedEvent(ToolEventArgs e);
+         public static event ToolValueChangedEvent OnToolValueChanged;
+
+         public static void FireToolValueChanged(ToolEventArgs e)
+         {
+             if (OnToolValueChanged != null)
+             {
+                 OnToolValueChanged(e);
+             }
+         }
+
+ #+END_SRC
+#+BEGIN_SRC csharp
+  // usage
+  // studiomain.cs
+  UIEventsService.FireToolValueChanged(e);
+  // what things it would do?
+  // see what function is +to the delegate function
+  UIEventsService.ToolValueChangedEvent += xxx
+#+END_SRC
+
+** method invoker                                                     :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 22:55]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public static event MethodInvoker OnSolutionOpen;
+
+         public static event MethodInvoker OnSolutionClosing;
+
+         public static event MethodInvoker OnSolutionClosed;
+
+ #+END_SRC
+
+** StudioEventService                                                 :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 22:58]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public static IAsyncResult FireConnectionModeChanged(object sender, StatusEnum state)
+         {
+             ConnectionModeEvent connectionModeDelegate = FireSyncConnectionModeChanged;
+             return connectionModeDelegate.BeginInvoke(sender, state, null, null);
+         }
+
+ #+END_SRC
+
+** get InvocationList                                                 :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:00]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public static void FireSyncConnectionModeChanged(object sender, StatusEnum state)
+         {
+             L12n.UseInvariantCulture();
+
+             ConnectionModeEvent handler = OnConnectionModeChanged;
+             if (handler != null)
+             {
+                 foreach (ConnectionModeEvent f in handler.GetInvocationList())
+                 {
+                     try
+                     {
+                         f(sender, state);
+                     }
+                     catch (Exception ex)
+                     {
+                         DsMessage.FireOnMessage(StudioPackageType.Biz, StudioMessageType.Error,
+                             "FireConnectionModeEvent" + ":" + ex.Message);
+                         Logger.WriteError("FireConnectionModeEvent" + ": " + ex.Message + " : " + ex.StackTrace);
+                     }
+                 }
+             }
+         }
+
+ #+END_SRC
+
+** get resources from resource manager                                :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:03]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                 _resMgr = new ResMan("Synaptics.DSNG.UI.Res", Assembly.GetExecutingAssembly());
+
+ #+END_SRC
+
+** get/set F11Touchpad in solutionFacade                              :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:15]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+// dp : fly weight
+        [XmlElement("Touchpads", typeof(F11TouchpadItem))]
+        public List<F11TouchpadItem> Touchpads { get; set; }
+
+         public F11TouchpadItem GetTouchpad()
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             if (layout.Touchpads.Count() == 0)
+             {
+                 layout.Touchpads.Add(new F11TouchpadItem());
+             }
+             return layout.Touchpads[0];
+         }
+
+         public F11TouchpadItem GetTouchpad(string name)
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             F11TouchpadItem result = layout.Touchpads.FirstOrDefault(item => item.ItemName.Equals(name));
+             if (result == null)
+             {
+                 result = new F11TouchpadItem { ItemName = name };
+                 layout.Touchpads.Add(result);
+             }
+             return result;
+         }
+
+         public void SetTouchpad(F11TouchpadItem item)
+         {
+             DesignLayout layout = StudioSolutionManager.Instance.Experiment.Layout;
+             layout.Touchpads.RemoveAll(x => x.ItemName == item.ItemName);
+             layout.Touchpads.Add(item);
+         }
+
+ #+END_SRC
+
+** gethashcode template                                               :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:19]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public override int GetHashCode()
+         {
+             unchecked
+             {
+                 int result = base.GetHashCode();
+                 result = (result * 397) ^ (XSensorMap != null ? CollectionIdentity.GetHashCode(XSensorMap) : 0);
+                 result = (result * 397) ^ (YSensorMap != null ? CollectionIdentity.GetHashCode(YSensorMap) : 0);
+                 result = (result * 397) ^ (XSensitivities != null ? CollectionIdentity.GetHashCode(XSensitivities) : 0);
+                 result = (result * 397) ^ (YSensitivities != null ? CollectionIdentity.GetHashCode(YSensitivities) : 0);
+                 result = (result * 397) ^ VisualFeedback.GetHashCode();
+                 result = (result * 397) ^ Orientation.GetHashCode();
+                 result = (result * 397) ^ Origin.GetHashCode();
+                 result = (result * 397) ^ FingerDimension.GetHashCode();
+                 result = (result * 397) ^ XScalingFactor.GetHashCode();
+                 result = (result * 397) ^ YScalingFactor.GetHashCode();
+                 result = (result * 397) ^ TouchPadScale.GetHashCode();
+                 result = (result * 397) ^ ActivePenInkingWidth.GetHashCode();
+                 return result;
+             }
+         }
+
+ #+END_SRC
+
+** restore layout from xml file                                       :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:22]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public void RestoreLayout()
+         {
+             try
+             {
+                 if (File.Exists(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+                 {
+                     using (var reader = new StreamReader(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+                     {
+                         var gp = (GroupProperty)new XmlSerializer(typeof(GroupProperty)).Deserialize(reader);
+                         this.ultraExplorerBarDashboard.NavigationMaxGroupHeaders = gp.MaxGroupHeaderValue;
+                         foreach (GroupValue gv in gp.GroupSetting)
+                         {
+                             int grpId = this.ultraExplorerBarDashboard.Groups.IndexOf(gv.Name);
+                             if (0 <= grpId)
+                             {
+                                 UltraExplorerBarGroup g =
+                                     this.ultraExplorerBarDashboard.Groups[gv.Name];
+                                 if (g != null)
+                                 {
+                                     g.Visible = gv.Visible;
+                                 }
+                             }
+                         }
+                         IComparer myComparer = new myReverserClass(gp.GroupSetting);
+                         this.ultraExplorerBarDashboard.Groups.Sort(myComparer);
+                     }
+                 }
+             }
+             catch (Exception ex)
+             {
+                 DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error, "Dashboard: " + ex.Message);
+             }
+         }
+
+ #+END_SRC
+
+** save layout                                                        :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:24]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public void SaveLayout()
+         {
+             try
+             {
+                 using (StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + "DashboardLayout.xml"))
+                 {
+                     GroupProperty gp = new GroupProperty();
+                     gp.MaxGroupHeaderValue = this.ultraExplorerBarDashboard.NavigationMaxGroupHeaders;
+                     foreach (UltraExplorerBarGroup group in this.ultraExplorerBarDashboard.Groups)
+                     {
+                         gp.GroupSetting.Add(new GroupValue(group.Key, group.Index, group.Visible));
+                     }
+                     new XmlSerializer(typeof(GroupProperty)).Serialize(writer, gp);
+                 }
+             }
+             catch
+             {
+                 DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error,
+                     "Can't save the Dashboard layout.");
+             }
+         }
+
+ #+END_SRC
+
+** list firstOrDefault                                                :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:24]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                 xIndex = _GroupValueList.FirstOrDefault(g => g.Name == ((UltraExplorerBarGroup)x).Key).Index;
+                 yIndex = _GroupValueList.FirstOrDefault(g => g.Name == ((UltraExplorerBarGroup)y).Key).Index; ;
+
+ #+END_SRC
+
+** serrialize                                                         :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:26]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+     [Serializable]
+     public class GroupValue
+     {
+         [XmlElement("Name")]
+         public string Name;
+         [XmlElement("Index")]
+         public int Index;
+         [XmlElement("Visible")]
+         public bool Visible;
+
+         public GroupValue()
+         {
+         }
+
+         public GroupValue(string name, int index, bool visible)
+         {
+             Name = name;
+             Index = index;
+             Visible = visible;
+         }
+     }
+
+     [Serializable]
+     [XmlInclude(typeof(GroupValue))]
+     public class GroupProperty
+     {
+         private List<GroupValue> _groupsetting = new List<GroupValue>();
+         public int MaxGroupHeaderValue { get; set; }
+
+         [XmlElement("GroupSetting")]
+         public List<GroupValue> GroupSetting
+         {
+             get { return _groupsetting; }
+             set { _groupsetting = value; }
+         }
+     }
+
+ #+END_SRC
+
+** sort csv by list                                                   :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:28]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         private string SortCsv(string csv)
+         {
+             List<string> items = new List<string>();
+
+             string[] strTokens = csv.Split(new char[] { ',' });
+             foreach (string item in strTokens)
+             {
+                 items.Add(item);
+             }
+             items.Sort();
+
+             string output = string.Empty;
+             foreach (string item in items)
+             {
+                 output += item + ",";
+             }
+
+             if (output != string.Empty)
+             {
+                 // Remove the trailing ","
+                 output = output.Substring(0, output.Length - 1);
+             }
+             return output;
+         }
+
+ #+END_SRC
+
+** get flash identify value in dashboard                              :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:31]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+             ReflashParameters reflashParam = new ReflashParameters(
+                 SolutionDataFacade.Instance.GetDeviceProtocol(),
+                 SolutionDataFacade.Instance.GetHostInfo());
+
+             reflashParam.MPCSerialNumber = serial;
+
+             touchModuleInfo tInfo = null;
+
+             Dictionary<ReflashInfoBase.InfoKey, string> touchModInfo =
+                 FWMamager.Instance().FirmwareInfo(reflashParam);
+
+ #+END_SRC
+
+** throw exception in func                                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:34]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                         if (serialNumber == "")
+                             throw new Exception("Can't find Serial Number of MPC");
+                         else
+                             throw new Exception(string.Format("Can't find MPC of serial number {0}", serialNumber));
+
+ #+END_SRC
+
+** singleton                                                          :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:36]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public static DashBoardController GetInstance()
+         {
+             if (theCtrler == null)
+             {
+                 theCtrler = new DashBoardController();
+             }
+             return theCtrler;
+         }
+
+         private static DashBoardController theCtrler = null;
+
+ #+END_SRC
+
+** read interrupt status                                              :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:38]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public ulong CommandReadInterruptStatus()
+         {
+             try
+             {
+                 var f01Helper = RMIFunctionFacade.Instance._helpersFromDevi.GetF01Helper();
+                 if (f01Helper != null)
+                 {
+                     return f01Helper.GetInterrupt(true);
+                 }
+             }
+             catch (DsException ex)
+             {
+                 DsMessage.FireOnMessage(StudioPackageType.Ui, StudioMessageType.Error, "Dashboard: " + ex.Message);
+             }
+             return ulong.MaxValue;
+         }
+
+ #+END_SRC
+
+** mvc, controller get data from RMIFacade                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:38]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public byte GetSleepMode()
+         {
+             return RMIFunctionFacade.Instance.GetSleepMode();
+         }
+
+ #+END_SRC
+
+** mvc, view : get notice from observer and get value from controller :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:53]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+        private void UpdateControlRegisterValues()
+ #+END_SRC
+
+** launch one UIservice to notify other UI                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-23 Sat 23:55]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         private void ButtonForceUpdateClick(object sender, EventArgs e)
+         {
+             buttonForceUpdate.Enabled = false;
+             _Controller.SetForceUpdate();
+             buttonForceUpdate.Enabled = true;
+             // Bring back input focus, otherwise, the input focus go to the next control in the tab order.
+             buttonForceUpdate.Focus();
+             UIEventsService.FireExecuteDashboardCommandDuringDiagnostic();
+         }
+
+ #+END_SRC
+
+** another way to read resiter by _deviceHelper                       :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 00:01]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                 _DeviceHelper.Read(0x1, RegisterTypeEnum.Data, 0, GetData(0x1));
+                 return _F01.GetInterrupt(false);
+
+ #+END_SRC
+
+** RunTimeState : get status update from OnStudioOperation            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 12:31]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         private void OnStudioOperation(object sender, StudioOperationArgs args)
+
+ #+END_SRC
+
+** RMIFunctionFacade, helper from solution.instance.registermap       :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 12:35]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+             _helpersFromSoln = new HelpersFromSolution();
+             _f01Hlpr = new RMIFunction01Helper(StudioSolutionManager.Instance.RegisterMap);
+
+ #+END_SRC
+
+** RMIFunctionFacade from device                                      :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 12:37]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+             _helpersFromDevi = new HelpersFromDevice();
+             _f21Helper = new RMIFunction21Helper();
+
+ #+END_SRC
+
+** fire Studio Operation example                                      :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 12:40]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                 DsEvents.Instance().FireStudioOperation(this, new StudioOperationArgs(StudioSpecialOperation.RAMUNLOCK, StudioOperationState.STARTED));
+
+ #+END_SRC
+
+** Ilist example                                                      :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 12:46]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public IList<RegisterInfo> FindRegistersByAddr(IList<ushort> addrList)
+         {
+             Debug.Assert(addrList != null);
+             RegisterMap map = GetCurrentRegisterMap();
+             if (map == null)
+             {
+                 return null;
+             }
+             RegisterMapHelper helper = new RegisterMapHelper(map);
+             return addrList.Select(addr => helper.FindByAddress(addr)).ToList();
+         }
+
+         public IList<RegisterInfo> GetAllControlRegisters()
+         {
+             return _RegisterMap.AllRegisters.Where(reg => reg.Type == RegisterTypeEnum.Control).ToList();
+         }
+
+ #+END_SRC
+
+** Ilist example : sortby                                             :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 12:50]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+             List<RegisterInfo> regs = map.AllRegisters.Where(x => x.Type == RegisterTypeEnum.Control).OrderBy(x => x.Address).ToList();
+
+ #+END_SRC
+
+** list find                                                          :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:03]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public SolutionFileInfo Find(string name)
+         {
+             return All.Find(e => e.Name == name);
+         }
+
+         public SolutionFileInfo FindFileName(string name)
+         {
+
+             return All.Find(e => (e.LinkFileInfo != null) && (e.LinkFileInfo.Name == name));
+         }
+
+ #+END_SRC
+
+** ctor                                                               :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:18]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         public StudioSolution(StudioProject project)
+         {
+             Project = project;
+             Files = new SolutionFiles();
+             FwReqDataChanged = false;
+         }
+
+         public StudioSolution() : this(null)
+         {
+         }
+
+ #+END_SRC
+
+** copy ctor : copy one instance into this                            :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:44]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         /// <summary>
+         /// Copy constructor
+         /// </summary>
+         /// <param name="src"></param>
+         public RegisterMap(RegisterMap src)
+             : this(src.Name)
+         {
+             Copy(src);
+         }
+
+         private void Copy(RegisterMap src)
+         {
+             foreach (RegisterInfo registerInfo in src.AllRegisters)
+             {
+                 PacketRegisterInfo packet = registerInfo as PacketRegisterInfo;
+                 if (packet != null)
+                 {
+                     AllRegisters.Add(new PacketRegisterInfo(packet));
+                 }
+                 else
+                 {
+                     AllRegisters.Add(new RegisterInfo(registerInfo));
+                 }
+             }
+             InterruptMasks.Clear();
+             foreach (KeyValuePair<byte, ulong> interruptMask in src.InterruptMasks)
+             {
+                 InterruptMasks.Add(interruptMask.Key, interruptMask.Value);
+             }
+             FunctionRevisions.Clear();
+             foreach (KeyValuePair<byte, byte> functionRevision in src.FunctionRevisions)
+             {
+                 FunctionRevisions.Add(functionRevision.Key, functionRevision.Value);
+             }
+             IsFunctionPublicFlags.Clear();
+             foreach (KeyValuePair<byte, bool> pubflag in src.IsFunctionPublicFlags)
+             {
+                 IsFunctionPublicFlags.Add(pubflag.Key, pubflag.Value);
+             }
+         }
+
+ #+END_SRC
+
+** Clone for RegisterMap                                              :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:45]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         /// <summary>
+         /// Default constructor
+         /// </summary>
+         public RegisterMap()
+             : this("Master")
+         {
+         }
+
+         public RegisterMap Clone()
+         {
+             return new RegisterMap(this);
+         }
+
+ #+END_SRC
+
+** list where and select                                              :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:47]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+         /// <summary>
+         /// All packet registers
+         /// </summary>
+         [XmlIgnore]
+         public List<PacketRegisterInfo> PacketRegisters
+         {
+             get { return AllRegisters.Where(x => x is PacketRegisterInfo).Select(x => (PacketRegisterInfo)x).ToList(); }
+         }
+
+ #+END_SRC
+
+** KeyValuePair                                                       :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:51]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+             foreach (KeyValuePair<byte, ulong> inter in interrupts)
+             {
+                 InterruptMasks.Add(inter.Key, inter.Value);
+             }
+             foreach (KeyValuePair<byte, byte> revision in functionRevision)
+             {
+                 FunctionRevisions.Add(revision.Key, revision.Value);
+             }
+             foreach (KeyValuePair<byte, bool> isPubFlag in functionPublicFlags)
+             {
+                 IsFunctionPublicFlags.Add(isPubFlag.Key, isPubFlag.Value);
+             }
+
+ #+END_SRC
+
+** get Enumerator                                                     :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:53]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                         var e = registersInfo.Values.GetEnumerator();
+                         e.MoveNext();
+                         return e.Current;
+
+ #+END_SRC
+
+** enumerator                                                         :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 13:54]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                     var eNumber = registerCollection.Values.GetEnumerator();
+                     eNumber.MoveNext();
+                     var eSubNumber = eNumber.Current.GetEnumerator();
+                     eSubNumber.MoveNext();
+                     return AllRegisters[eSubNumber.Current.Value];
+
+ #+END_SRC
+
+** dispose example                                                    :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 14:01]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                     var eNumber = registerCollection.Values.GetEnumerator();
+                     eNumber.MoveNext();
+                     var eSubNumber = eNumber.Current.GetEnumerator();
+                     eSubNumber.MoveNext();
+                     return AllRegisters[eSubNumber.Current.Value];
+
+ #+END_SRC
+
+** InterruptService : how to get int from dev                         :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 14:20]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                     var eNumber = registerCollection.Values.GetEnumerator();
+                     eNumber.MoveNext();
+                     var eSubNumber = eNumber.Current.GetEnumerator();
+                     eSubNumber.MoveNext();
+                     return AllRegisters[eSubNumber.Current.Value];
+
+ #+END_SRC
+
+** get data from device.instance                                      :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 14:21]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                     var eNumber = registerCollection.Values.GetEnumerator();
+                     eNumber.MoveNext();
+                     var eSubNumber = eNumber.Current.GetEnumerator();
+                     eSubNumber.MoveNext();
+                     return AllRegisters[eSubNumber.Current.Value];
+
+ #+END_SRC
+
+** read interrupt by _deviceHelper                                    :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 14:28]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                     var eNumber = registerCollection.Values.GetEnumerator();
+                     eNumber.MoveNext();
+                     var eSubNumber = eNumber.Current.GetEnumerator();
+                     eSubNumber.MoveNext();
+                     return AllRegisters[eSubNumber.Current.Value];
+
+ #+END_SRC
+
+** open external log                                                  :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 14:30]
+   :END:
+ - note : 
+*** code 
+ #+BEGIN_SRC org
+                     var eNumber = registerCollection.Values.GetEnumerator();
+                     eNumber.MoveNext();
+                     var eSubNumber = eNumber.Current.GetEnumerator();
+                     eSubNumber.MoveNext();
+                     return AllRegisters[eSubNumber.Current.Value];
+
+ #+END_SRC
+
+** instance lock                                                      :drill:
+   :PROPERTIES:
+   :DATE:     [2017-09-24 Sun 14:35]
+   :END:
+ - note :
+ - https://dotblogs.com.tw/yc421206/2011/01/07/20624
+*** code 
+ #+BEGIN_SRC org
+                     var eNumber = registerCollection.Values.GetEnumerator();
+                     eNumber.MoveNext();
+                     var eSubNumber = eNumber.Current.GetEnumerator();
+                     eSubNumber.MoveNext();
+                     return AllRegisters[eSubNumber.Current.Value];
+
+ #+END_SRC
+
+** method invoker                                                    :drill:
+:PROPERTIES:
+:DATE: [2017-09-26 Tue 14:32]
+:END:
+- note : 
+*** code 
+#+BEGIN_SRC org
+        internal void ChangeStartStop()
+        {
+            MethodInvoker f;
+            if (IsRunning)
+            {
+                f = Stop;
+            }
+            else
+            {
+                PreProcessForStart();
+                f = () => Start(false);
+            }
+            f.BeginInvoke(null, null);
+        }
+
+#+END_SRC
+
